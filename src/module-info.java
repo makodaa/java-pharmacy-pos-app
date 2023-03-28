@@ -6,4 +6,5 @@
  *
  */
 module AndysPharmacy {
+  requires java.desktop;
 }
