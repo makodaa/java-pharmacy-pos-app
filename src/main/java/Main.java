@@ -10,16 +10,33 @@ import javax.swing.border.*;
 public class Main {
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
     private static final ImageIcon originalIcon = new ImageIcon("./assets/logo.png");
+    private static final String[] categories = {
+            "One", "Two", "Three", "Four", "Five", "Six", "Seven",
+            "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",
+    };
 
     public static void main(String[] args) {
         setLookAndFeel();
         openGreeting();
     }
 
+    /**
+     * Interface for lambdas. Basically, anything that accepts `PanelBuilder`
+     * should have an anonymous function with types f :: JFrame -> JPanel
+     */
     private static interface PanelBuilder {
         JPanel run(JFrame frame);
     }
 
+    /**
+     * This creates a panel if it is new, or reveals a previously created one.
+     *
+     * @param panelCode Unique identifier that allows the system to identify the
+     *                  created panel.
+     * @param panelName The title shown on the panel.
+     * @param builder   An anonymous function that creates a JPanel instance when
+     *                  called.
+     */
     public static void spawnPanel(String panelCode, String panelName, PanelBuilder builder) {
         /// If we have created a `panelCode` before,
         /// then we should just reveal that.
@@ -44,6 +61,7 @@ public class Main {
                 openedFrame.setVisible(false);
             }
 
+            /// Create a new frame and panel.
             JFrame frame = new JFrame(panelName);
             JPanel panel = builder.run(frame);
 
@@ -57,20 +75,29 @@ public class Main {
         }
     }
 
+    /**
+     * Opens the greeting panel.
+     */
     public static void openGreeting() {
         final String panelCode = "GREETING_PANEL";
         final String panelName = "Greeting Panel";
 
-        spawnPanel(panelCode, panelName, GreetingPanel::create);
+        spawnPanel(panelCode, panelName, (frame) -> new GreetingPanel(frame));
     }
 
+    /**
+     * Opens the main panel (should be the main window.)
+     */
     public static void openMainPanel() {
         final String panelCode = "MAIN_PANEL";
         final String panelName = "Main Panel";
 
-        spawnPanel(panelCode, panelName, MainPanel::create);
+        spawnPanel(panelCode, panelName, (frame) -> new MainPanel(frame));
     }
 
+    /**
+     * Sets the theme of the program to match the current operating system.
+     */
     public static void setLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -81,10 +108,6 @@ public class Main {
 
     private static class GreetingPanel extends JPanel {
         private JFrame frame;
-
-        public static GreetingPanel create(JFrame frame) {
-            return new GreetingPanel(frame);
-        }
 
         private static JLabel createLogoLabel() {
             Image unscaledImage = originalIcon.getImage();
@@ -118,8 +141,6 @@ public class Main {
         }
 
         private static Component createEntryButton(JFrame frame) {
-            JPanel panel = new JPanel();
-
             JButton button = new JButton("Make a Purchase");
             button.setMargin(new Insets(12, 0, 12, 0));
             button.setPreferredSize(new Dimension(192, 48));
@@ -127,25 +148,18 @@ public class Main {
                 openMainPanel();
             });
 
-            panel.add(button);
-
-            return panel;
-
-            // return button;
+            return button;
         }
 
         private static Component createExitButton(JFrame frame) {
-            JPanel panel = new JPanel();
-
             JButton button = new JButton("Exit");
             button.setMargin(new Insets(12, 0, 12, 0));
             button.setPreferredSize(new Dimension(192, 48));
             button.addActionListener(e -> {
                 frame.dispose();
             });
-            panel.add(button);
 
-            return panel;
+            return button;
         }
 
         private GreetingPanel(JFrame frame) {
@@ -182,10 +196,6 @@ public class Main {
     private static class MainPanel extends JPanel {
         private JFrame frame;
 
-        public static MainPanel create(JFrame frame) {
-            return new MainPanel(frame);
-        }
-
         @Override
         public Insets getInsets() {
             return new Insets(12, 12, 12, 12);
@@ -195,20 +205,25 @@ public class Main {
             this.frame = frame;
 
             this.setLayout(new GridBagLayout());
-            this.setBackground(new Color(255, 0, 0));
+            // this.setBackground(new Color(255, 0, 0));
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = 0;
             constraints.anchor = GridBagConstraints.NORTHWEST;
-            constraints.weighty = 1.0;
             constraints.weightx = 1.0;
 
             this.add(createTopBar(), constraints);
 
             constraints.gridy += 1;
+            constraints.fill = GridBagConstraints.HORIZONTAL;
 
             this.add(createCategoryArea(), constraints);
+
+            constraints.weighty = 1.0;
+            constraints.gridy += 1;
+            /// We add an empty label so that we can force the elements upward.
+            this.add(new JLabel(""), constraints);
         }
 
         private static Component createTopBar() {
@@ -243,18 +258,49 @@ public class Main {
             return jlabel;
         }
 
-        private static Component createCategoryArea() {
+        private static Component categoryButton(int idx, String title) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
-            panel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
-            panel.setBackground(new Color(225, 225, 225));
+            panel.setPreferredSize(new Dimension(52, 52));
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = 0;
-            constraints.fill = GridBagConstraints.BOTH;
 
-            panel.add(new JLabel("Hello world!"), constraints);
+            JLabel label = new JLabel(title + "(" + idx + ")");
+            panel.add(label, constraints);
+
+            return panel;
+        }
+
+        private static Component createCategoryArea() {
+            final int rowCount = 2;
+            final int columnCount = categories.length / rowCount;
+
+            JPanel panel = new JPanel();
+            panel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
+            panel.setLayout(new GridBagLayout());
+            panel.setBackground(new Color(230, 230, 230));
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.ipadx = 4;
+            constraints.ipady = 4;
+            constraints.weightx = 1.0;
+            constraints.weighty = 1.0;
+            constraints.insets = new Insets(8, 8, 8, 8);
+
+            for (int y = 0; y < rowCount; ++y) {
+                for (int x = 0; x < columnCount; ++x) {
+                    int i = y * columnCount + x;
+
+                    panel.add(categoryButton(i + 1, categories[i]), constraints);
+                    ++constraints.gridx;
+                }
+                constraints.gridx = 0;
+                ++constraints.gridy;
+            }
 
             return panel;
         }
