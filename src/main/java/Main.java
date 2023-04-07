@@ -223,7 +223,6 @@ public class Main {
             this.frame = frame;
 
             this.setLayout(new GridBagLayout());
-            // this.setBackground(new Color(255, 0, 0));
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
@@ -238,10 +237,17 @@ public class Main {
 
             this.add(createCategoryArea(), constraints);
 
-            constraints.weighty = 1.0;
             constraints.gridy += 1;
-            /// We add an empty label so that we can force the elements upward.
-            this.add(new JLabel(""), constraints);
+            constraints.gridheight = GridBagConstraints.REMAINDER;
+
+            this.add(createEntrySubmenu(), constraints);
+
+            // constraints.insets = new Insets(0, 0, 0, 0);
+
+            // constraints.weighty = 1.0;
+            // constraints.gridy += 1;
+            // /// We add an empty label so that we can force the elements upward.
+            // this.add(new JLabel(""), constraints);
         }
 
         private static Component createTopBar() {
@@ -332,6 +338,56 @@ public class Main {
                 constraints.gridx = 0;
                 ++constraints.gridy;
             }
+
+            return panel;
+        }
+
+        private static Component createRightSubmenu() {
+            JPanel panel = new JPanel();
+            panel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
+            panel.setLayout(new GridBagLayout());
+            panel.setBackground(new Color(230, 230, 230));
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            constraints.weightx = 1;
+
+            panel.add(new JButton("First"), constraints);
+            constraints.gridy += 1;
+
+            panel.add(new JButton("Second"), constraints);
+            constraints.gridy += 1;
+
+            panel.add(new JButton("Third"), constraints);
+            constraints.gridy += 1;
+
+            panel.add(new JButton("Fourth"), constraints);
+            constraints.gridy += 1;
+
+            return panel;
+        }
+
+        private static Component createEntrySubmenu() {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridBagLayout());
+            panel.setBackground(new Color(255, 0, 0));
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.weightx = 1;
+            constraints.weighty = 1;
+            constraints.fill = GridBagConstraints.BOTH;
+
+            panel.add(createCategoryArea(), constraints);
+
+            constraints.insets = new Insets(0, 8, 0, 0);
+            constraints.gridx += 1;
+            panel.add(createRightSubmenu(), constraints);
+
+            constraints.insets = new Insets(0, 0, 0, 0);
 
             return panel;
         }
