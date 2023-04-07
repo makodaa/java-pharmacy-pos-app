@@ -9,15 +9,18 @@ import javax.swing.border.*;
 
 public class Main {
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
+    private static final HashMap<String, ImageIcon> cachedIcons = new HashMap<>();
     private static final ImageIcon originalIcon = new ImageIcon("./assets/logo.png");
     private static final String[] categories = {
-            "One", "Two", "Three", "Four", "Five", "Six", "Seven",
-            "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",
+            "One", "Two", "Three", "Four\nEight", "Five", "Six", "Seven\nTwelve",
+            "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+            "Fourteen\nOf deez",
     };
 
     public static void main(String[] args) {
         setLookAndFeel();
-        openGreeting();
+        // openGreeting();
+        openMainPanel();
     }
 
     /**
@@ -106,13 +109,25 @@ public class Main {
         }
     }
 
+    private static ImageIcon getScaledIcon(int width, int height) {
+        String key = "" + width + ";" + height;
+        if (cachedIcons.containsKey(key)) {
+            return cachedIcons.get(key);
+        }
+
+        Image image = originalIcon.getImage();
+        Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(scaledImage);
+        cachedIcons.put(key, icon);
+
+        return icon;
+    }
+
     private static class GreetingPanel extends JPanel {
         private JFrame frame;
 
         private static JLabel createLogoLabel() {
-            Image unscaledImage = originalIcon.getImage();
-            Image newImage = unscaledImage.getScaledInstance(256, 256, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(newImage);
+            ImageIcon scaledIcon = getScaledIcon(256, 256);
             JLabel picLabel = new JLabel(scaledIcon);
 
             return picLabel;
@@ -131,9 +146,12 @@ public class Main {
                       """;
 
             for (String line : label.split("\n")) {
-                JLabel jlabel = new JLabel(line);
-                jlabel.setFont(new Font(jlabel.getName(), Font.BOLD, 20));
-                panel.add(jlabel, constraints);
+                JLabel jLabel = new JLabel(line);
+                Font boldFont = new Font(jLabel.getName(), Font.BOLD, 20);
+
+                jLabel.setFont(boldFont);
+                panel.add(jLabel, constraints);
+
                 constraints.gridy += 1;
             }
 
@@ -261,14 +279,26 @@ public class Main {
         private static Component categoryButton(int idx, String title) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
-            panel.setPreferredSize(new Dimension(52, 52));
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = 0;
+            constraints.insets = new Insets(0, 0, 0, 0);
 
-            JLabel label = new JLabel(title + "(" + idx + ")");
-            panel.add(label, constraints);
+            ImageIcon icon = getScaledIcon(42, 42);
+            JButton button = new JButton(icon);
+            button.setPreferredSize(new Dimension(52, 52));
+
+            panel.add(button, constraints);
+
+            ++constraints.gridy;
+
+            for (String line : title.split("\n")) {
+                JLabel jLabel = new JLabel(line);
+                panel.add(jLabel, constraints);
+
+                constraints.gridy += 1;
+            }
 
             return panel;
         }
@@ -290,6 +320,7 @@ public class Main {
             constraints.weightx = 1.0;
             constraints.weighty = 1.0;
             constraints.insets = new Insets(8, 8, 8, 8);
+            constraints.anchor = GridBagConstraints.NORTH;
 
             for (int y = 0; y < rowCount; ++y) {
                 for (int x = 0; x < columnCount; ++x) {
