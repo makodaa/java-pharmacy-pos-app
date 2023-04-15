@@ -249,6 +249,13 @@ public class Main {
     }
 
     private static class MainPanel extends JPanel {
+        private final EntrySubmenuPanel submenuPanel;
+        private static String[][] data = {
+                { "H.Index", "H.Item", "H.Price", "H.Count", "H.Total" },
+                { "Index", "Item", "Price", "Count", "Total" },
+                { "Index", "Item", "Price", "Count", "Total" },
+        };
+
         @Override
         public Insets getInsets() {
             return new Insets(12, 12, 12, 12);
@@ -278,7 +285,7 @@ public class Main {
             constraints.gridy += 1;
             constraints.gridheight = GridBagConstraints.REMAINDER;
 
-            this.add(createEntrySubmenu(), constraints);
+            this.add(submenuPanel = new EntrySubmenuPanel(), constraints);
         }
 
         private static Component createTopBar() {
@@ -373,96 +380,116 @@ public class Main {
             return panel;
         }
 
-        private static Component createRightSubmenu() {
-            JPanel panel = new JPanel();
-            panel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
-            panel.setLayout(new GridBagLayout());
-            panel.setBackground(new Color(230, 230, 230));
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
-            constraints.gridwidth = GridBagConstraints.REMAINDER;
-            constraints.fill = GridBagConstraints.HORIZONTAL;
-            constraints.weightx = 1;
+        private static class EntrySubmenuPanel extends JPanel {
+            private DefaultTableModel model;
+            private JTable table;
 
-            panel.add(new JButton("First"), constraints);
-            constraints.gridy += 1;
+            private EntrySubmenuPanel() {
+                this.setLayout(new GridBagLayout());
+                this.setBackground(new Color(255, 0, 0));
 
-            panel.add(new JButton("Second"), constraints);
-            constraints.gridy += 1;
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.gridx = 0;
+                constraints.gridy = 0;
+                constraints.weightx = 1;
+                constraints.weighty = 1;
+                constraints.fill = GridBagConstraints.BOTH;
 
-            panel.add(new JButton("Third"), constraints);
-            constraints.gridy += 1;
+                this.add(createSummaryArea(), constraints);
 
-            panel.add(new JButton("Fourth"), constraints);
-            constraints.gridy += 1;
+                constraints.insets = new Insets(0, 8, 0, 0);
+                constraints.gridx += 1;
+                this.add(createRightSubmenu(), constraints);
 
-            return panel;
-        }
-
-        private static Component createSummaryArea() {
-            JPanel panel = new JPanel();
-            panel.setBorder(new CompoundBorder(new TitledBorder("Summary of Purchases"), new EmptyBorder(8, 0, 0, 0)));
-            panel.setLayout(new GridBagLayout());
-            panel.setBackground(new Color(230,230,230));
-
-            
-            String[][] data = {
-                {"H.Index","H.Item","H.Price","H.Count","H.Total"},
-                {"Index","Item","Price","Count","Total"},
-                {"Index","Item","Price","Count","Total"},
-            };
-
-            String[] columnNames = {"Index","Item","Price","Quantity","Total"};
-
-
-            JTable table = new JTable(data,columnNames);
-            table.setEnabled(false);
-            table.setBorder(new LineBorder(Color.LIGHT_GRAY,1));
-
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-            for (int i = 0; i < columnNames.length; i++) {
-                table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                constraints.insets = new Insets(0, 0, 0, 0);
             }
 
+            private void addRowToTable(int index,
+                    String name,
+                    int price,
+                    int quantity,
+                    int total) {
+                String[] newRow = {
+                        "Index (" + index + ")",
+                        name,
+                        Integer.toString(price),
+                        Integer.toString(quantity),
+                        Integer.toString(total),
+                };
+                model.addRow(newRow);
+            }
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
-            constraints.gridwidth = GridBagConstraints.REMAINDER;
-            constraints.fill = GridBagConstraints.BOTH;
-            constraints.weightx = 1;
-            constraints.weighty = 1;
+            private Component createRightSubmenu() {
+                JPanel panel = new JPanel();
+                panel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
+                panel.setLayout(new GridBagLayout());
+                panel.setBackground(new Color(230, 230, 230));
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.gridx = 0;
+                constraints.gridy = 0;
+                constraints.gridwidth = GridBagConstraints.REMAINDER;
+                constraints.fill = GridBagConstraints.HORIZONTAL;
+                constraints.weightx = 1;
 
-            panel.add(table,constraints);
+                panel.add(new JButton("First"), constraints);
+                constraints.gridy += 1;
 
+                panel.add(new JButton("Second"), constraints);
+                constraints.gridy += 1;
 
-            return panel;
-        }
+                panel.add(new JButton("Third"), constraints);
+                constraints.gridy += 1;
 
-        private static Component createEntrySubmenu() {
-            JPanel panel = new JPanel();
-            panel.setLayout(new GridBagLayout());
-            panel.setBackground(new Color(255, 0, 0));
+                JButton last = new JButton("Add dummy row");
+                last.addActionListener(e -> {
+                    /// Add item to table
+                    addRowToTable(model.getRowCount(), "Name", 0, 1, 0);
+                });
+                panel.add(last, constraints);
+                constraints.gridy += 1;
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
-            constraints.weightx = 1;
-            constraints.weighty = 1;
-            constraints.fill = GridBagConstraints.BOTH;
+                return panel;
+            }
 
-            panel.add(createSummaryArea(), constraints);
+            private Component createSummaryArea() {
+                JPanel panel = new JPanel();
+                panel.setBorder(new CompoundBorder(
+                        new TitledBorder("Summary of Purchases"),
+                        new EmptyBorder(8, 0, 0, 0)));
+                panel.setLayout(new GridBagLayout());
+                panel.setBackground(new Color(230, 230, 230));
 
-            constraints.insets = new Insets(0, 8, 0, 0);
-            constraints.gridx += 1;
-            panel.add(createRightSubmenu(), constraints);
+                String[] columnNames = { "Index", "Item", "Price", "Quantity", "Total" };
 
-            constraints.insets = new Insets(0, 0, 0, 0);
+                model = new DefaultTableModel(columnNames, 0);
+                for (String[] row : data) {
+                    model.addRow(row);
+                }
+                model.addTableModelListener(e -> table.revalidate());
 
-            return panel;
+                table = new JTable(model);
+                table.setEnabled(false);
+                table.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+                for (int i = 0; i < columnNames.length; i++) {
+                    table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                }
+
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.gridx = 0;
+                constraints.gridy = 0;
+                constraints.gridwidth = GridBagConstraints.REMAINDER;
+                constraints.fill = GridBagConstraints.BOTH;
+                constraints.weightx = 1;
+                constraints.weighty = 1;
+
+                panel.add(table, constraints);
+
+                return panel;
+            }
         }
     }
 }
