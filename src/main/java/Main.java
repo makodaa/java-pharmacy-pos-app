@@ -109,8 +109,18 @@ public class Main {
         }
     }
 
+    /**
+     * A function that returns a cached version of the scaled icon.
+     * If the icon is called with a new `width` and `height`, then a new
+     * `ImageIcon` is created, else it is returned from the cache.
+     *
+     * @param width  The width of the scaled icon
+     * @param height The height of the scaled icon
+     * @return The cached/new `ImageIcon`
+     */
     private static ImageIcon getScaledIcon(int width, int height) {
-        String key = "" + width + ";" + height;
+        /// Key to be used in the cache.
+        String key = Integer.toString(width) + ";" + Integer.toString(height);
         if (cachedIcons.containsKey(key)) {
             return cachedIcons.get(key);
         }
@@ -118,14 +128,19 @@ public class Main {
         Image image = originalIcon.getImage();
         Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(scaledImage);
+
+        /// After creating the new instance, put it in the cache.
         cachedIcons.put(key, icon);
 
         return icon;
     }
 
     private static class GreetingPanel extends JPanel {
-        private JFrame frame;
-
+        /**
+         * Creates a cached `JLabel` with the logo.
+         *
+         * @return Logo JLabel
+         */
         private static JLabel createLogoLabel() {
             ImageIcon scaledIcon = getScaledIcon(256, 256);
             JLabel picLabel = new JLabel(scaledIcon);
@@ -133,20 +148,31 @@ public class Main {
             return picLabel;
         }
 
+        /**
+         * Creates the multilined welcome label below the logo.
+         *
+         * @return Welcome Label
+         */
         private static JPanel createWelcomeLabel() {
+            /// PANEL SETUP
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
+
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = 0;
 
+            /// This is hard coded.
             String label = """
                     Welcome to
                     Uncle Andy's Pharmacy
                       """;
+            String[] lines = label.split("\n");
 
-            for (String line : label.split("\n")) {
+            for (String line : lines) {
                 JLabel jLabel = new JLabel(line);
+
+                /// Create a copy of the font with the set font style and font size.
                 Font boldFont = new Font(jLabel.getName(), Font.BOLD, 20);
 
                 jLabel.setFont(boldFont);
@@ -158,7 +184,12 @@ public class Main {
             return panel;
         }
 
-        private static Component createEntryButton(JFrame frame) {
+        /**
+         * Creates the button that opens the next window.
+         *
+         * @return Button
+         */
+        private static Component createEntryButton() {
             JButton button = new JButton("Make a Purchase");
             button.setMargin(new Insets(12, 0, 12, 0));
             button.setPreferredSize(new Dimension(192, 48));
@@ -169,6 +200,12 @@ public class Main {
             return button;
         }
 
+        /**
+         * Creates the button that opens the exits the entire program.
+         *
+         * @param frame Reference to the frame that holds the entire program.
+         * @return Button
+         */
         private static Component createExitButton(JFrame frame) {
             JButton button = new JButton("Exit");
             button.setMargin(new Insets(12, 0, 12, 0));
@@ -181,8 +218,6 @@ public class Main {
         }
 
         private GreetingPanel(JFrame frame) {
-            this.frame = frame;
-
             this.setLayout(new GridBagLayout());
 
             GridBagConstraints constraints = new GridBagConstraints();
@@ -201,7 +236,7 @@ public class Main {
 
             constraints.gridy += 1;
 
-            this.add(createEntryButton(frame), constraints);
+            this.add(createEntryButton(), constraints);
 
             constraints.gridy += 1;
 
@@ -212,16 +247,12 @@ public class Main {
     }
 
     private static class MainPanel extends JPanel {
-        private JFrame frame;
-
         @Override
         public Insets getInsets() {
             return new Insets(12, 12, 12, 12);
         }
 
         private MainPanel(JFrame frame) {
-            this.frame = frame;
-
             this.setLayout(new GridBagLayout());
 
             GridBagConstraints constraints = new GridBagConstraints();
@@ -237,17 +268,15 @@ public class Main {
 
             this.add(createCategoryArea(), constraints);
 
+            constraints.weighty = 1.0;
+            this.add(new JLabel(""), constraints);
+            constraints.gridy += 1;
+            constraints.weighty = 0.0;
+
             constraints.gridy += 1;
             constraints.gridheight = GridBagConstraints.REMAINDER;
 
             this.add(createEntrySubmenu(), constraints);
-
-            // constraints.insets = new Insets(0, 0, 0, 0);
-
-            // constraints.weighty = 1.0;
-            // constraints.gridy += 1;
-            // /// We add an empty label so that we can force the elements upward.
-            // this.add(new JLabel(""), constraints);
         }
 
         private static Component createTopBar() {
