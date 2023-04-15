@@ -6,6 +6,8 @@ import java.util.Map.Entry;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class Main {
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
@@ -398,6 +400,48 @@ public class Main {
             return panel;
         }
 
+        private static Component createSummaryArea() {
+            JPanel panel = new JPanel();
+            panel.setBorder(new CompoundBorder(new TitledBorder("Summary of Purchases"), new EmptyBorder(8, 0, 0, 0)));
+            panel.setLayout(new GridBagLayout());
+            panel.setBackground(new Color(230,230,230));
+
+            
+            String[][] data = {
+                {"H.Index","H.Item","H.Price","H.Count","H.Total"},
+                {"Index","Item","Price","Count","Total"},
+                {"Index","Item","Price","Count","Total"},
+            };
+
+            String[] columnNames = {"Index","Item","Price","Quantity","Total"};
+
+
+            JTable table = new JTable(data,columnNames);
+            table.setEnabled(false);
+            table.setBorder(new LineBorder(Color.LIGHT_GRAY,1));
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+            for (int i = 0; i < columnNames.length; i++) {
+                table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 1;
+            constraints.weighty = 1;
+
+            panel.add(table,constraints);
+
+
+            return panel;
+        }
+
         private static Component createEntrySubmenu() {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
@@ -410,7 +454,7 @@ public class Main {
             constraints.weighty = 1;
             constraints.fill = GridBagConstraints.BOTH;
 
-            panel.add(createCategoryArea(), constraints);
+            panel.add(createSummaryArea(), constraints);
 
             constraints.insets = new Insets(0, 8, 0, 0);
             constraints.gridx += 1;
