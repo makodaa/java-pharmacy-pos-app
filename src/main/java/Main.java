@@ -9,14 +9,18 @@ import javax.swing.border.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+
 public class Main {
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
     private static final HashMap<String, ImageIcon> cachedIcons = new HashMap<>();
     private static final ImageIcon originalIcon = new ImageIcon("./assets/logo.png");
+    
+
+    
     private static final String[] categories = {
-            "One", "Two", "Three", "Four\nEight", "Five", "Six", "Seven\nTwelve",
-            "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
-            "Fourteen\nOf deez",
+        "Pain\nRelievers", "Antibiotics\n ", "Anti\nAllergy", "Respiratory\nMedicine", "Fever\nMedicine", "Vitamins\n ", "Dietary\nSupp.", "Mineral\nSupp.", "Bandages\n ",
+        "Cotton\nItems", "Antiseptics\n ", "Personal\nHygiene", "Surgical\nEquipment",
+        "Assistive\n Devices",
     };
 
     public static void main(String[] args) {
@@ -99,6 +103,16 @@ public class Main {
 
         spawnPanel(panelCode, panelName, (frame) -> new MainPanel(frame));
     }
+
+    /**
+     * Opens the product navigation panel 
+    */
+    // public static void openNavigationPanel() {
+    //     final String panelCode = "PRODUCT_NAVIGATION_PANEL";
+    //     final String panelName = "Product Navigation Panel";
+        
+    //     spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(frame));
+    // }
 
     /**
      * Sets the theme of the program to match the current operating system.
@@ -492,4 +506,51 @@ public class Main {
             }
         }
     }
+
+
+    private static class NavigationPanel extends JPanel {
+        @Override
+        public Insets getInsets(){
+            return new Insets(12, 12, 12, 12);
+        }
+
+        private NavigationPanel(JFrame frame) {
+            this.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.anchor = GridBagConstraints.NORTHWEST;
+            constraints.weightx = 1.0;
+        }
+
+        private static Component createCategoryTitle(){
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 1;
+            constraints.weightx = 1;
+
+            return panel;
+        }
+
+        private static Component createNavigationInstructions(){
+            JPanel panel = new JPanel();
+            return panel;
+        }
+
+        private static Component createProductList(){
+            JPanel panel = new JPanel();
+            return panel;
+        }
+
+        private static Component createNavigationButtons(){
+            JPanel panel = new JPanel();
+            return panel;
+        }
+
+
+}
+
 }
