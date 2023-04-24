@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.*;
+import javax.swing.SpringLayout.Constraints;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +28,7 @@ public class Main {
         setLookAndFeel();
         // openGreeting();
         openMainPanel();
+        openNavigationPanel();
     }
 
     /**
@@ -107,12 +109,12 @@ public class Main {
     /**
      * Opens the product navigation panel 
     */
-    // public static void openNavigationPanel() {
-    //     final String panelCode = "PRODUCT_NAVIGATION_PANEL";
-    //     final String panelName = "Product Navigation Panel";
+    public static void openNavigationPanel() {
+        final String panelCode = "PRODUCT_NAVIGATION_PANEL";
+        final String panelName = "Product Navigation Panel";
         
-    //     spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(frame));
-    // }
+        spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(frame));
+    }
 
     /**
      * Sets the theme of the program to match the current operating system.
@@ -483,6 +485,7 @@ public class Main {
 
                 table = new JTable(model);
                 table.setEnabled(false);
+                table.getTableHeader().setReorderingAllowed(false);
                 table.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
 
                 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -500,7 +503,8 @@ public class Main {
                 constraints.weightx = 1;
                 constraints.weighty = 1;
 
-                panel.add(table, constraints);
+                JScrollPane scrollPane = new JScrollPane(table);
+                panel.add(scrollPane, constraints);
 
                 return panel;
             }
@@ -513,6 +517,7 @@ public class Main {
         public Insets getInsets(){
             return new Insets(12, 12, 12, 12);
         }
+        private static String instructions = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquet massa sed odio rutrum vestibulum. Nulla facilisi. Praesent vel suscipit est. Fusce ullamcorper at mi ac pellentesque. Suspendisse quis imperdiet velit. Donec accumsan augue et ornare vulputate. Vestibulum id tellus egestas, aliquet odio eu, condimentum sem. Aenean facilisis cursus augue a placerat.";
 
         private NavigationPanel(JFrame frame) {
             this.setLayout(new GridBagLayout());
@@ -521,22 +526,55 @@ public class Main {
             constraints.gridx = 0;
             constraints.gridy = 0;
             constraints.anchor = GridBagConstraints.NORTHWEST;
-            constraints.weightx = 1.0;
+            constraints.weighty = 1.0;
+
+            this.add(createCategoryTitle(), constraints);
+
+            constraints.gridy += 1;
+            
+            this.add(createNavigationInstructions(),constraints);
+
+            constraints.gridy +=1;
+            //for-loop for products
+            this.add(createProductList());
+
+            constraints.gridy += 1;
+            this.add(createNavigationButtons());
+
         }
 
         private static Component createCategoryTitle(){
             JPanel panel = new JPanel();
+            panel.setBackground(Color.LIGHT_GRAY);
             panel.setLayout(new GridBagLayout());
-
             GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 1;
+            constraints.gridx = 0;
+            constraints.gridy = 0;
             constraints.weightx = 1;
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+
+            
+            JLabel label = new JLabel("Insert Category Name Here");
+            label.setFont(new Font(label.getName(), Font.BOLD, 20));
+            
+            panel.add(label);
 
             return panel;
         }
 
         private static Component createNavigationInstructions(){
             JPanel panel = new JPanel();
+            panel.setBackground(Color.orange);
+            panel.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.weightx = 1;
+
+            JLabel label = new JLabel(instructions);
+            panel.add(label, constraints);
+
             return panel;
         }
 
