@@ -10,18 +10,16 @@ import javax.swing.border.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Main {
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
     private static final HashMap<String, ImageIcon> cachedIcons = new HashMap<>();
     private static final ImageIcon originalIcon = new ImageIcon("./assets/logo.png");
-    
 
-    
     private static final String[] categories = {
-        "Pain\nRelievers", "Antibiotics\n ", "Anti\nAllergy", "Respiratory\nMedicine", "Fever\nMedicine", "Vitamins\n ", "Dietary\nSupp.", "Mineral\nSupp.", "Bandages\n ",
-        "Cotton\nItems", "Antiseptics\n ", "Personal\nHygiene", "Surgical\nEquipment",
-        "Assistive\n Devices",
+            "Pain\nRelievers", "Antibiotics\n ", "Anti\nAllergy", "Respiratory\nMedicine", "Fever\nMedicine",
+            "Vitamins\n ", "Dietary\nSupp.", "Mineral\nSupp.", "Bandages\n ",
+            "Cotton\nItems", "Antiseptics\n ", "Personal\nHygiene", "Surgical\nEquipment",
+            "Assistive\n Devices",
     };
 
     public static void main(String[] args) {
@@ -107,12 +105,12 @@ public class Main {
     }
 
     /**
-     * Opens the product navigation panel 
-    */
+     * Opens the product navigation panel
+     */
     public static void openNavigationPanel() {
         final String panelCode = "PRODUCT_NAVIGATION_PANEL";
         final String panelName = "Product Navigation Panel";
-        
+
         spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(frame));
     }
 
@@ -511,12 +509,12 @@ public class Main {
         }
     }
 
-
     private static class NavigationPanel extends JPanel {
         @Override
-        public Insets getInsets(){
+        public Insets getInsets() {
             return new Insets(12, 12, 12, 12);
         }
+
         private static String instructions = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquet massa sed odio rutrum vestibulum. Nulla facilisi. Praesent vel suscipit est. Fusce ullamcorper at mi ac pellentesque. Suspendisse quis imperdiet velit. Donec accumsan augue et ornare vulputate. Vestibulum id tellus egestas, aliquet odio eu, condimentum sem. Aenean facilisis cursus augue a placerat.";
 
         private NavigationPanel(JFrame frame) {
@@ -525,25 +523,30 @@ public class Main {
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = 0;
-            constraints.anchor = GridBagConstraints.NORTHWEST;
+            constraints.weightx = 0.0;
             constraints.weighty = 1.0;
+            constraints.anchor = GridBagConstraints.NORTH;
+            constraints.fill = GridBagConstraints.VERTICAL;
 
             this.add(createCategoryTitle(), constraints);
 
             constraints.gridy += 1;
-            
-            this.add(createNavigationInstructions(),constraints);
 
-            constraints.gridy +=1;
-            //for-loop for products
-            this.add(createProductList());
+
+            this.add(createNavigationInstructions(), constraints);
 
             constraints.gridy += 1;
-            this.add(createNavigationButtons());
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            this.add(createProductList(),constraints);
+
+            constraints.gridy += 2;
+            constraints.anchor = GridBagConstraints.SOUTH;
+            constraints.fill = GridBagConstraints.REMAINDER;
+            this.add(createNavigationButtons(),constraints);
 
         }
 
-        private static Component createCategoryTitle(){
+        private static Component createCategoryTitle() {
             JPanel panel = new JPanel();
             panel.setBackground(Color.LIGHT_GRAY);
             panel.setLayout(new GridBagLayout());
@@ -553,19 +556,19 @@ public class Main {
             constraints.weightx = 1;
             constraints.gridwidth = GridBagConstraints.REMAINDER;
 
-            
             JLabel label = new JLabel("Insert Category Name Here");
             label.setFont(new Font(label.getName(), Font.BOLD, 20));
-            
+
             panel.add(label);
 
             return panel;
         }
 
-        private static Component createNavigationInstructions(){
+        private static Component createNavigationInstructions() {
             JPanel panel = new JPanel();
             panel.setBackground(Color.orange);
             panel.setLayout(new GridBagLayout());
+            panel.setBorder(new CompoundBorder(new TitledBorder("Instructions"), new EmptyBorder(8, 0, 0, 0)));
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
@@ -578,17 +581,69 @@ public class Main {
             return panel;
         }
 
-        private static Component createProductList(){
+        private static Component createProductList() {
             JPanel panel = new JPanel();
+            panel.setBackground(Color.BLUE);
+            panel.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.anchor = GridBagConstraints.CENTER;
+
+            for (int i = 0; i <= 2; i++) {
+                JButton button = new JButton("Product " + i);
+                constraints.gridy = 0;
+                constraints.weightx = 1.0;
+                constraints.weighty = 1.0;
+                constraints.ipadx = 200;
+                constraints.ipady = 200;
+                panel.add(button, constraints);
+
+                constraints.gridy++;
+
+                constraints.ipadx = 0;
+                constraints.ipady = 0;
+                JLabel name = new JLabel("Product " + i + " Name");
+                panel.add(name, constraints);
+
+                constraints.gridy++;
+                JLabel price = new JLabel("Price");
+                panel.add(price, constraints);
+
+                constraints.gridx++;
+            }
+
             return panel;
         }
 
-        private static Component createNavigationButtons(){
+        private static Component createNavigationButtons() {
             JPanel panel = new JPanel();
+            panel.setBackground(Color.RED);
+            GridBagConstraints constraints = new GridBagConstraints();
+            panel.setLayout(new GridBagLayout());
+
+            JButton continueButton = new JButton("Continue");
+            JButton exitButton = new JButton("Exit");
+
+            
+
+            constraints.insets = new Insets(0, 50, 0, 50);
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.weightx = 1.0;
+            constraints.ipadx = 100;
+            constraints.ipady = 50;
+            panel.add(continueButton, constraints);
+
+            constraints.gridx += 2;
+
+            panel.add(exitButton, constraints);
+
+
             return panel;
         }
 
-
-}
+    }
 
 }
