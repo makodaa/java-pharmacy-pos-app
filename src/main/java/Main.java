@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.*;
-import javax.swing.SpringLayout.Constraints;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -15,11 +14,51 @@ public class Main {
     private static final HashMap<String, ImageIcon> cachedIcons = new HashMap<>();
     private static final ImageIcon originalIcon = new ImageIcon("./assets/logo.png");
 
-    private static final String[] categories = {
-            "Pain\nRelievers", "Antibiotics\n ", "Anti\nAllergy", "Respiratory\nMedicine", "Fever\nMedicine",
-            "Vitamins\n ", "Dietary\nSupp.", "Mineral\nSupp.", "Bandages\n ",
-            "Cotton\nItems", "Antiseptics\n ", "Personal\nHygiene", "Surgical\nEquipment",
-            "Assistive\n Devices",
+    private static final Category[] categories = new Category[] {
+            new Category(
+                    "Pain\nRelievers",
+                    null,
+                    new Product[] {}),
+            new Category("Antibiotics",
+                    null,
+                    new Product[] {}),
+            new Category("Anti\nAllergy",
+                    null,
+                    new Product[] {}),
+            new Category("Respiratory\nMedicine",
+                    null,
+                    new Product[] {}),
+            new Category("Fever\nMedicine",
+                    null,
+                    new Product[] {}),
+            new Category("Vitamins",
+                    null,
+                    new Product[] {}),
+            new Category(
+                    "Dietary\nSupp.",
+                    null,
+                    new Product[] {}),
+            new Category("Mineral\nSupp.",
+                    null,
+                    new Product[] {}),
+            new Category("Bandages",
+                    null,
+                    new Product[] {}),
+            new Category("Cotton\nItems",
+                    null,
+                    new Product[] {}),
+            new Category("Antiseptics",
+                    null,
+                    new Product[] {}),
+            new Category("Personal\nHygiene",
+                    null,
+                    new Product[] {}),
+            new Category("Surgical\nEquipment",
+                    null,
+                    new Product[] {}),
+            new Category("Assistive\n Devices",
+                    null,
+                    new Product[] {}),
     };
 
     public static void main(String[] args) {
@@ -334,7 +373,7 @@ public class Main {
             return jlabel;
         }
 
-        private static Component categoryButton(int idx, String title) {
+        private static Component categoryButton(int idx, Category category) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
 
@@ -351,7 +390,7 @@ public class Main {
 
             ++constraints.gridy;
 
-            for (String line : title.split("\n")) {
+            for (String line : category.title.split("\n")) {
                 JLabel jLabel = new JLabel(line);
                 panel.add(jLabel, constraints);
 
@@ -383,8 +422,9 @@ public class Main {
             for (int y = 0; y < rowCount; ++y) {
                 for (int x = 0; x < columnCount; ++x) {
                     int i = y * columnCount + x;
+                    Category category = categories[i];
 
-                    panel.add(categoryButton(i + 1, categories[i]), constraints);
+                    panel.add(categoryButton(i + 1, category), constraints);
                     ++constraints.gridx;
                 }
                 constraints.gridx = 0;
@@ -532,17 +572,16 @@ public class Main {
 
             constraints.gridy += 1;
 
-
             this.add(createNavigationInstructions(), constraints);
 
             constraints.gridy += 1;
             constraints.fill = GridBagConstraints.HORIZONTAL;
-            this.add(createProductList(),constraints);
+            this.add(createProductList(), constraints);
 
             constraints.gridy += 2;
             constraints.anchor = GridBagConstraints.SOUTH;
             constraints.fill = GridBagConstraints.REMAINDER;
-            this.add(createNavigationButtons(),constraints);
+            this.add(createNavigationButtons(), constraints);
 
         }
 
@@ -626,8 +665,6 @@ public class Main {
             JButton continueButton = new JButton("Continue");
             JButton exitButton = new JButton("Exit");
 
-            
-
             constraints.insets = new Insets(0, 50, 0, 50);
             constraints.gridx = 0;
             constraints.gridy = 0;
@@ -640,10 +677,60 @@ public class Main {
 
             panel.add(exitButton, constraints);
 
-
             return panel;
         }
 
     }
 
+    public static class Category {
+        private String title;
+
+        public String getTitle() {
+            return title;
+        }
+
+        private String iconPath;
+
+        public String getIconPath() {
+            return iconPath;
+        }
+
+        private Product[] products;
+
+        public Product[] getProducts() {
+            return products;
+        }
+
+        public Category(String title, String iconPath, Product[] products) {
+            this.title = title;
+            this.iconPath = iconPath;
+            this.products = products;
+        }
+    }
+
+    public static class Product {
+        private final String title;
+
+        public String getTitle() {
+            return title;
+        }
+
+        private final String iconPath;
+
+        public String getIconPath() {
+            return iconPath;
+        }
+
+        private final String description;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public Product(String title, String iconPath, String description, int price) {
+            this.title = title;
+            this.iconPath = iconPath;
+            this.description = description;
+        }
+    }
 }
