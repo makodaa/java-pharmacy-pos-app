@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class Main {
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
@@ -18,57 +19,75 @@ public class Main {
             new Category(
                     "Pain\nRelievers",
                     null,
-                    new Product[] {}),
+                    null,
+                    new Product[] {
+                            new Product("Product A", null, null, 100),
+                            new Product("Product B", null, null, 150),
+                            new Product("Product C", null, null, 250),
+                    }),
             new Category(
                     "Antibiotics",
+                    null,
                     null,
                     new Product[] {}),
             new Category(
                     "Anti\nAllergy",
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Respiratory\nMedicine",
+                    null,
                     null,
                     new Product[] {}),
             new Category(
                     "Fever\nMedicine",
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Vitamins",
+                    null,
                     null,
                     new Product[] {}),
             new Category(
                     "Dietary\nSupp.",
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Mineral\nSupp.",
+                    null,
                     null,
                     new Product[] {}),
             new Category(
                     "Bandages",
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Cotton\nItems",
+                    null,
                     null,
                     new Product[] {}),
             new Category(
                     "Antiseptics",
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Personal\nHygiene",
+                    null,
                     null,
                     new Product[] {}),
             new Category(
                     "Surgical\nEquipment",
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Assistive\n Devices",
+                    null,
                     null,
                     new Product[] {}),
     };
@@ -77,7 +96,6 @@ public class Main {
         setLookAndFeel();
         // openGreeting();
         openMainPanel();
-        // openNavigationPanel();
     }
 
     /**
@@ -129,6 +147,7 @@ public class Main {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(panel);
             frame.setVisible(true);
+            frame.setResizable(false);
 
             frame.pack();
             openedFrames.put(panelCode, frame);
@@ -158,16 +177,12 @@ public class Main {
     /**
      * Opens the product navigation panel
      */
-    public static void openNavigationPanel() {
-        final String panelCode = "PRODUCT_NAVIGATION_PANEL";
-        final String panelName = "Product Navigation Panel";
+    public static void openNavigationPanel(Category category) {
+        final String panelCode = "PRODUCT_NAVIGATION_PANEL;" + category.title;
+        final String panelName = "Product Navigation Panel - " + category.title;
 
-        spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(frame));
+        spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(category, frame));
     }
-
-    /**
-     * Opens the category navigation panel
-     */
 
     /**
      * Sets the theme of the program to match the current operating system.
@@ -181,7 +196,7 @@ public class Main {
     }
 
     /**
-     * A function that returns a cached version of the scaled icon.
+     * A function that returns a cached version of the scaled icon (logo).
      * If the icon is called with a new `width` and `height`, then a new
      * `ImageIcon` is created, else it is returned from the cache.
      *
@@ -192,18 +207,22 @@ public class Main {
     private static ImageIcon getScaledIcon(int width, int height) {
         /// Key to be used in the cache.
         String key = Integer.toString(width) + ";" + Integer.toString(height);
+
+        /// If the key is in the cache (aka it has been called before)
+        /// Then just return the saved one.
         if (cachedIcons.containsKey(key)) {
             return cachedIcons.get(key);
+        } else {
+            /// Otherwise, scale the icon.
+            Image image = originalIcon.getImage();
+            Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(scaledImage);
+
+            /// After creating the scaled icon instance, put it in the cache.
+            cachedIcons.put(key, icon);
+
+            return icon;
         }
-
-        Image image = originalIcon.getImage();
-        Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        ImageIcon icon = new ImageIcon(scaledImage);
-
-        /// After creating the new instance, put it in the cache.
-        cachedIcons.put(key, icon);
-
-        return icon;
     }
 
     private static class GreetingPanel extends JPanel {
@@ -229,9 +248,7 @@ public class Main {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
 
             /// This is hard coded.
             String label = """
@@ -291,10 +308,7 @@ public class Main {
         private GreetingPanel(JFrame frame) {
             this.setLayout(new GridBagLayout());
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
-
+            GridBagConstraints constraints = generateConstraints();
             constraints.insets = new Insets(0, 0, -24, 0);
 
             this.add(createLogoLabel(), constraints);
@@ -320,9 +334,8 @@ public class Main {
     private static class MainPanel extends JPanel {
         private final EntrySubmenuPanel submenuPanel;
         private static String[][] data = {
-                { "H.Index", "H.Item", "H.Price", "H.Count", "H.Total" },
-                { "Index", "Item", "Price", "Count", "Total" },
-                { "Index", "Item", "Price", "Count", "Total" },
+                { "H.Code", "H.Item", "H.Price", "H.Count", "H.Total" },
+                { "Code", "Item", "Price", "Count", "Total" },
         };
 
         @Override
@@ -333,9 +346,7 @@ public class Main {
         private MainPanel(JFrame frame) {
             this.setLayout(new GridBagLayout());
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
             constraints.anchor = GridBagConstraints.NORTHWEST;
             constraints.weightx = 1.0;
 
@@ -348,6 +359,7 @@ public class Main {
 
             constraints.weighty = 1.0;
             this.add(new JLabel(""), constraints);
+
             constraints.gridy += 1;
             constraints.weighty = 0.0;
 
@@ -360,9 +372,7 @@ public class Main {
         private static Component createTopBar() {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
 
             panel.add(createSmallLogo(), constraints);
             constraints.gridx += 1;
@@ -393,14 +403,15 @@ public class Main {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
             constraints.insets = new Insets(0, 0, 0, 0);
 
             ImageIcon icon = getScaledIcon(42, 42);
             JButton button = new JButton(icon);
             button.setPreferredSize(new Dimension(52, 52));
+            button.addActionListener(e -> {
+                openNavigationPanel(category);
+            });
 
             panel.add(button, constraints);
 
@@ -424,9 +435,7 @@ public class Main {
             gridPanel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
             gridPanel.setLayout(new GridBagLayout());
 
-            GridBagConstraints rowConstraints = new GridBagConstraints();
-            rowConstraints.gridx = 0;
-            rowConstraints.gridy = 0;
+            GridBagConstraints rowConstraints = generateConstraints();
             rowConstraints.ipadx = 4;
             rowConstraints.ipady = 4;
             rowConstraints.weightx = 1.0;
@@ -439,9 +448,7 @@ public class Main {
                 JPanel rowPanel = new JPanel();
                 rowPanel.setLayout(new GridBagLayout());
 
-                GridBagConstraints columnConstraints = new GridBagConstraints();
-                columnConstraints.gridx = 0;
-                columnConstraints.gridy = 0;
+                GridBagConstraints columnConstraints = generateConstraints();
                 columnConstraints.weightx = 1.0;
                 columnConstraints.weighty = 1.0;
                 columnConstraints.anchor = GridBagConstraints.NORTH;
@@ -475,16 +482,14 @@ public class Main {
                 this.setLayout(new GridBagLayout());
                 this.setBackground(new Color(255, 0, 0));
 
-                GridBagConstraints constraints = new GridBagConstraints();
-                constraints.gridx = 0;
-                constraints.gridy = 0;
+                GridBagConstraints constraints = generateConstraints();
                 constraints.weightx = 1;
                 constraints.weighty = 1;
                 constraints.fill = GridBagConstraints.BOTH;
 
                 this.add(createSummaryArea(), constraints);
 
-                constraints.insets = new Insets(0, 8, 0, 0);
+                constraints.insets = new Insets(0, 8, 0, 8);
                 constraints.gridx += 1;
                 this.add(createRightSubmenu(), constraints);
 
@@ -508,23 +513,28 @@ public class Main {
 
             private Component createRightSubmenu() {
                 JPanel panel = new JPanel();
-                panel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
+                panel.setBorder(new CompoundBorder(new TitledBorder(""), new EmptyBorder(8, 0, 0, 0)));
                 panel.setLayout(new GridBagLayout());
                 panel.setBackground(new Color(230, 230, 230));
-                GridBagConstraints constraints = new GridBagConstraints();
-                constraints.gridx = 0;
-                constraints.gridy = 0;
+
+                GridBagConstraints constraints = generateConstraints();
                 constraints.gridwidth = GridBagConstraints.REMAINDER;
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.weightx = 1;
 
-                panel.add(new JButton("First"), constraints);
+                panel.add(new JButton("Search Product"), constraints);
                 constraints.gridy += 1;
 
-                panel.add(new JButton("Second"), constraints);
+                panel.add(new JButton("Confirm Purchases"), constraints);
                 constraints.gridy += 1;
 
-                panel.add(new JButton("Third"), constraints);
+                panel.add(new JButton("Void Item"), constraints);
+                constraints.gridy += 1;
+
+                panel.add(new JButton("Clear Cart"), constraints);
+                constraints.gridy += 1;
+
+                panel.add(new JButton("Exit"), constraints);
                 constraints.gridy += 1;
 
                 JButton last = new JButton("Add dummy row");
@@ -538,37 +548,44 @@ public class Main {
                 return panel;
             }
 
-            private Component createSummaryArea() {
-                JPanel panel = new JPanel();
-                panel.setBorder(new CompoundBorder(
-                        new TitledBorder("Summary of Purchases"),
-                        new EmptyBorder(8, 0, 0, 0)));
-                panel.setLayout(new GridBagLayout());
-                panel.setBackground(new Color(230, 230, 230));
-
-                String[] columnNames = { "Index", "Item", "Price", "Quantity", "Total" };
-
+            private void setupTableModels() {
+                final String[] columnNames = { "Code", "Item", "Price", "Quantity", "Total" };
                 model = new DefaultTableModel(columnNames, 0);
                 for (String[] row : data) {
                     model.addRow(row);
                 }
                 model.addTableModelListener(e -> table.revalidate());
+            }
+
+            private Component createSummaryArea() {
+                JPanel panel = new JPanel();
+                panel.setBorder(
+                        new CompoundBorder(
+                                new TitledBorder("Summary of Purchases"),
+                                new EmptyBorder(8, 0, 0, 0)));
+                panel.setLayout(new GridBagLayout());
+                panel.setBackground(new Color(230, 230, 230));
+
+                setupTableModels();
 
                 table = new JTable(model);
                 table.setEnabled(false);
                 table.getTableHeader().setReorderingAllowed(false);
                 table.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+                table.setFont(new Font("Segoe UI", Font.BOLD, 12));
+                table.setRowHeight((int) Math.floor(table.getFont().getSize() * 2.5));
+
+                TableColumnModel tcm = table.getColumnModel();
+                tcm.removeColumn(tcm.getColumn(0));
 
                 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
                 centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
-                for (int i = 0; i < columnNames.length; i++) {
-                    table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                for (int i = 0; i < tcm.getColumnCount(); i++) {
+                    tcm.getColumn(i).setCellRenderer(centerRenderer);
                 }
 
-                GridBagConstraints constraints = new GridBagConstraints();
-                constraints.gridx = 0;
-                constraints.gridy = 0;
+                GridBagConstraints constraints = generateConstraints();
                 constraints.gridwidth = GridBagConstraints.REMAINDER;
                 constraints.fill = GridBagConstraints.BOTH;
                 constraints.weightx = 1;
@@ -582,20 +599,31 @@ public class Main {
         }
     }
 
+    /// This is shown when a category button has been pressed.
     private static class NavigationPanel extends JPanel {
         @Override
         public Insets getInsets() {
             return new Insets(12, 12, 12, 12);
         }
 
-        private static String instructions = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquet massa sed odio rutrum vestibulum. Nulla facilisi. Praesent vel suscipit est. Fusce ullamcorper at mi ac pellentesque. Suspendisse quis imperdiet velit. Donec accumsan augue et ornare vulputate. Vestibulum id tellus egestas, aliquet odio eu, condimentum sem. Aenean facilisis cursus augue a placerat.";
+        private Category category;
 
-        private NavigationPanel(JFrame frame) {
+        public String getInstructions() {
+            String instructions = category.getInstructions();
+
+            if (instructions == null) {
+                return "Lorem ipsum";
+            } else {
+                return instructions;
+            }
+        }
+
+        private NavigationPanel(Category category, JFrame frame) {
+            this.category = category;
+
             this.setLayout(new GridBagLayout());
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
             constraints.weightx = 0.0;
             constraints.weighty = 1.0;
             constraints.anchor = GridBagConstraints.NORTH;
@@ -618,13 +646,11 @@ public class Main {
 
         }
 
-        private static Component createCategoryTitle() {
+        private Component createCategoryTitle() {
             JPanel panel = new JPanel();
             panel.setBackground(Color.LIGHT_GRAY);
             panel.setLayout(new GridBagLayout());
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
             constraints.weightx = 1;
             constraints.gridwidth = GridBagConstraints.REMAINDER;
 
@@ -636,51 +662,48 @@ public class Main {
             return panel;
         }
 
-        private static Component createNavigationInstructions() {
+        private Component createNavigationInstructions() {
             JPanel panel = new JPanel();
             panel.setBackground(Color.orange);
             panel.setLayout(new GridBagLayout());
             panel.setBorder(new CompoundBorder(new TitledBorder("Instructions"), new EmptyBorder(8, 0, 0, 0)));
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
             constraints.weightx = 1;
 
-            JLabel label = new JLabel(instructions);
+            JLabel label = new JLabel(getInstructions());
             panel.add(label, constraints);
 
             return panel;
         }
 
-        private static Component createProductList() {
+        private Component createProductList() {
             JPanel panel = new JPanel();
             panel.setBackground(Color.BLUE);
             panel.setLayout(new GridBagLayout());
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
+            GridBagConstraints constraints = generateConstraints();
             constraints.anchor = GridBagConstraints.CENTER;
 
-            for (int i = 0; i <= 2; i++) {
-                JButton button = new JButton("Product " + i);
+            for (int i = 0; i < category.getProducts().length; i++) {
+                Product product = category.products[i];
+                JButton button = new JButton("Product " + (i + 1));
                 constraints.gridy = 0;
                 constraints.weightx = 1.0;
                 constraints.weighty = 1.0;
-                constraints.ipadx = 200;
-                constraints.ipady = 200;
+                // constraints.ipadx = 200;
+                // constraints.ipady = 200;
                 panel.add(button, constraints);
 
                 constraints.gridy++;
 
                 constraints.ipadx = 0;
                 constraints.ipady = 0;
-                JLabel name = new JLabel("Product " + i + " Name");
+                JLabel name = new JLabel(product.getTitle());
                 panel.add(name, constraints);
 
                 constraints.gridy++;
-                JLabel price = new JLabel("Price");
+                JLabel price = new JLabel(Double.toString(product.getPrice()));
                 panel.add(price, constraints);
 
                 constraints.gridx++;
@@ -689,7 +712,7 @@ public class Main {
             return panel;
         }
 
-        private static Component createNavigationButtons() {
+        private Component createNavigationButtons() {
             JPanel panel = new JPanel();
             panel.setBackground(Color.RED);
             GridBagConstraints constraints = new GridBagConstraints();
@@ -715,28 +738,37 @@ public class Main {
 
     }
 
+    /// Data classes
+
     public static class Category {
-        private String title;
+        private final String title;
 
         public String getTitle() {
             return title;
         }
 
-        private String iconPath;
+        private final String iconPath;
 
         public String getIconPath() {
             return iconPath;
         }
 
-        private Product[] products;
+        private final String instructions;
+
+        public String getInstructions() {
+            return instructions;
+        }
+
+        private final Product[] products;
 
         public Product[] getProducts() {
             return products;
         }
 
-        public Category(String title, String iconPath, Product[] products) {
+        public Category(String title, String iconPath, String instructions, Product[] products) {
             this.title = title;
             this.iconPath = iconPath;
+            this.instructions = instructions;
             this.products = products;
         }
     }
@@ -760,10 +792,33 @@ public class Main {
             return description;
         }
 
+        private final int price;
+
+        public int getPrice() {
+            return price;
+        }
+
         public Product(String title, String iconPath, String description, int price) {
             this.title = title;
             this.iconPath = iconPath;
             this.description = description;
+            this.price = price;
         }
+    }
+
+    /// Helper methods
+
+    /**
+     * Helper method that returns a [GridBagConstraints] with `gridx` and `gridy`
+     * already set to 0.
+     *
+     * @return GridBagConstraints
+     */
+    private static GridBagConstraints generateConstraints() {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+
+        return constraints;
     }
 }
