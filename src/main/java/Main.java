@@ -19,44 +19,56 @@ public class Main {
                     "Pain\nRelievers",
                     null,
                     new Product[] {}),
-            new Category("Antibiotics",
+            new Category(
+                    "Antibiotics",
                     null,
                     new Product[] {}),
-            new Category("Anti\nAllergy",
+            new Category(
+                    "Anti\nAllergy",
                     null,
                     new Product[] {}),
-            new Category("Respiratory\nMedicine",
+            new Category(
+                    "Respiratory\nMedicine",
                     null,
                     new Product[] {}),
-            new Category("Fever\nMedicine",
+            new Category(
+                    "Fever\nMedicine",
                     null,
                     new Product[] {}),
-            new Category("Vitamins",
+            new Category(
+                    "Vitamins",
                     null,
                     new Product[] {}),
             new Category(
                     "Dietary\nSupp.",
                     null,
                     new Product[] {}),
-            new Category("Mineral\nSupp.",
+            new Category(
+                    "Mineral\nSupp.",
                     null,
                     new Product[] {}),
-            new Category("Bandages",
+            new Category(
+                    "Bandages",
                     null,
                     new Product[] {}),
-            new Category("Cotton\nItems",
+            new Category(
+                    "Cotton\nItems",
                     null,
                     new Product[] {}),
-            new Category("Antiseptics",
+            new Category(
+                    "Antiseptics",
                     null,
                     new Product[] {}),
-            new Category("Personal\nHygiene",
+            new Category(
+                    "Personal\nHygiene",
                     null,
                     new Product[] {}),
-            new Category("Surgical\nEquipment",
+            new Category(
+                    "Surgical\nEquipment",
                     null,
                     new Product[] {}),
-            new Category("Assistive\n Devices",
+            new Category(
+                    "Assistive\n Devices",
                     null,
                     new Product[] {}),
     };
@@ -65,7 +77,7 @@ public class Main {
         setLookAndFeel();
         // openGreeting();
         openMainPanel();
-        openNavigationPanel();
+        // openNavigationPanel();
     }
 
     /**
@@ -152,6 +164,10 @@ public class Main {
 
         spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(frame));
     }
+
+    /**
+     * Opens the category navigation panel
+     */
 
     /**
      * Sets the theme of the program to match the current operating system.
@@ -402,36 +418,53 @@ public class Main {
 
         private static Component createCategoryArea() {
             final int rowCount = 2;
-            final int columnCount = categories.length / rowCount;
+            final int columnCount = Math.ceilDiv(categories.length, rowCount);
 
-            JPanel panel = new JPanel();
-            panel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
-            panel.setLayout(new GridBagLayout());
-            panel.setBackground(new Color(230, 230, 230));
+            JPanel gridPanel = new JPanel();
+            gridPanel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
+            gridPanel.setLayout(new GridBagLayout());
 
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
-            constraints.ipadx = 4;
-            constraints.ipady = 4;
-            constraints.weightx = 1.0;
-            constraints.weighty = 1.0;
-            constraints.insets = new Insets(8, 8, 8, 8);
-            constraints.anchor = GridBagConstraints.NORTH;
+            GridBagConstraints rowConstraints = new GridBagConstraints();
+            rowConstraints.gridx = 0;
+            rowConstraints.gridy = 0;
+            rowConstraints.ipadx = 4;
+            rowConstraints.ipady = 4;
+            rowConstraints.weightx = 1.0;
+            rowConstraints.weighty = 1.0;
+            rowConstraints.insets = new Insets(8, 8, 8, 8);
+            rowConstraints.anchor = GridBagConstraints.NORTH;
+            rowConstraints.fill = GridBagConstraints.HORIZONTAL;
 
             for (int y = 0; y < rowCount; ++y) {
+                JPanel rowPanel = new JPanel();
+                rowPanel.setLayout(new GridBagLayout());
+
+                GridBagConstraints columnConstraints = new GridBagConstraints();
+                columnConstraints.gridx = 0;
+                columnConstraints.gridy = 0;
+                columnConstraints.weightx = 1.0;
+                columnConstraints.weighty = 1.0;
+                columnConstraints.anchor = GridBagConstraints.NORTH;
+
                 for (int x = 0; x < columnCount; ++x) {
                     int i = y * columnCount + x;
-                    Category category = categories[i];
 
-                    panel.add(categoryButton(i + 1, category), constraints);
-                    ++constraints.gridx;
+                    if (i >= categories.length) {
+                        break;
+                    }
+
+                    Category category = categories[i];
+                    Component button = categoryButton(i + 1, category);
+
+                    rowPanel.add(button, columnConstraints);
+                    ++columnConstraints.gridx;
                 }
-                constraints.gridx = 0;
-                ++constraints.gridy;
+
+                gridPanel.add(rowPanel, rowConstraints);
+                ++rowConstraints.gridy;
             }
 
-            return panel;
+            return gridPanel;
         }
 
         private static class EntrySubmenuPanel extends JPanel {
