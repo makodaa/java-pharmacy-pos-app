@@ -1,3 +1,22 @@
+/**
+ * Search Product
+ *  1. Click
+ *  2. Text Field tas pwedes mag search
+ *  3. text field na may table tapos pinapakita lang saan category
+ *
+ * Confirm Purchases
+ *  1. Open summary of purchase
+ *
+ * Void Item
+ * 1. window na pwede mag select ng shit na tapos may delete button aanhd bavkc hthoanubno
+ * 
+ * Clear Cart
+ * 1. clear cart2
+ *
+ * exit
+ * 1. papatyin
+ */
+
 package main.java;
 
 import java.awt.*;
@@ -20,13 +39,14 @@ public class Main {
     private static final Category[] categories = new Category[] {
             new Category(
                     "Pain\nRelievers",
-                    null,
+                    "Pain Relievers",
                     null,
                     null,
                     new Product[] {
                             new Product("Product A", null, null, 100),
                             new Product("Product B", null, null, 150),
                             new Product("Product C", null, null, 250),
+                            new Product("Product D6", null, null, 250),
                     }),
             new Category(
                     "Antibiotics",
@@ -412,7 +432,7 @@ public class Main {
             return jlabel;
         }
 
-        private static Component categoryButton(int idx, Category category) {
+        private static Component createCategoryButton(int idx, Category category) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
 
@@ -474,7 +494,7 @@ public class Main {
                     }
 
                     Category category = categories[i];
-                    Component button = categoryButton(i + 1, category);
+                    Component button = createCategoryButton(i + 1, category);
 
                     rowPanel.add(button, columnConstraints);
                     ++columnConstraints.gridx;
@@ -666,7 +686,9 @@ public class Main {
 
             ++constraints.gridy;
 
+            constraints.fill = GridBagConstraints.BOTH;
             this.add(createNavigationInstructions(), constraints);
+            constraints.fill = GridBagConstraints.VERTICAL;
 
             ++constraints.gridy;
             constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -681,14 +703,15 @@ public class Main {
 
         private Component createCategoryTitle() {
             JPanel panel = new JPanel();
-            panel.setBackground(Color.LIGHT_GRAY);
             panel.setLayout(new GridBagLayout());
+
             GridBagConstraints constraints = generateConstraints();
             constraints.weightx = 1;
             constraints.gridwidth = GridBagConstraints.REMAINDER;
 
-            JLabel label = new JLabel(category.getTitle());
-            label.setFont(new Font(label.getName(), Font.BOLD, 20));
+            JLabel label = new JLabel(category.getName());
+            Font boldFont = new Font(label.getFont().getName(), Font.BOLD, 20);
+            label.setFont(boldFont);
 
             panel.add(label);
 
@@ -697,7 +720,6 @@ public class Main {
 
         private Component createNavigationInstructions() {
             JPanel panel = new JPanel();
-            panel.setBackground(Color.orange);
             panel.setLayout(new GridBagLayout());
             panel.setBorder(new CompoundBorder(new TitledBorder("Instructions"), new EmptyBorder(8, 0, 0, 0)));
 
@@ -712,7 +734,6 @@ public class Main {
 
         private Component createProductList() {
             JPanel panel = new JPanel();
-            panel.setBackground(Color.BLUE);
             panel.setLayout(new GridBagLayout());
 
             GridBagConstraints constraints = generateConstraints();
