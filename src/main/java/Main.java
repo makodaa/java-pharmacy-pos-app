@@ -32,21 +32,48 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 public class Main {
+
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
     private static final HashMap<String, ImageIcon> cachedIcons = new HashMap<>();
-    private static final ImageIcon originalIcon = new ImageIcon("./assets/logo.png");
+    private static final ImageIcon originalIcon = new ImageIcon(ImagePath.icon);
+
+    private static class ImagePath {
+        private static final String icon = "./assets/logo.png";
+        private static final String painRelievers = "./assets/pain-relievers.png";
+
+        private static final String[] paths = {
+                icon, painRelievers,
+        };
+    }
 
     private static final Category[] categories = new Category[] {
             new Category(
                     "Pain\nRelievers",
                     "Pain Relievers",
-                    null,
-                    null,
+                    ImagePath.painRelievers,
+                    ""
+                            + "To select a product and place an order, simply click on the desired item \n"
+                            + "to be directed to its details page. Here, you can choose the quantity of pain\n"
+                            + "reliever you desire. Once you have made your selection, click the \"Add to Cart\"\n"
+                            + "button to add the item to your shopping cart. If you wish to purchase additional\n"
+                            + "pain reliever products, repeat these steps for each item. We hope you enjoy \n"
+                            + "your shopping experience!",
                     new Product[] {
-                            new Product("Product A", null, null, 100),
-                            new Product("Product B", null, null, 150),
-                            new Product("Product C", null, null, 250),
-                            new Product("Product D6", null, null, 250),
+                            new Product(
+                                    "Alaxan Tablet (325mg)",
+                                    null,
+                                    "Faster relief of mild to moderately severe pain of musculoskeletal origin eg muscle pain, arthritis, rheumatism, sprain, strain, bursitis, tendonitis, backache, stiff neck, tension headache, dysmenorrhea, toothache, pain after tooth extraction & minor surgical operations. Reduction of fever.",
+                                    850),
+                            new Product(
+                                    "Tylenol ER Tablet (650mg)",
+                                    null,
+                                    "Temporary relief of pain & discomfort from headache, fever, cold or flu, minor muscular aches, overexertion, menstrual cramps, toothache, minor arthritic pain.",
+                                    925),
+                            new Product(
+                                    "Naproxen sodium Tablet (275 mg)",
+                                    null,
+                                    "Used in the relief of inflammation, swelling, stiffness, and pain due to musculoskeletal and joint disorders such as arthritis and gout. Also used for mild to moderate pain caused by dysmenorrhea (menstrual pain), migraine, and after dental or other surgical procedures.",
+                                    1150),
                     }),
             new Category(
                     "Antibiotics",
@@ -240,9 +267,16 @@ public class Main {
      * @param height The height of the scaled icon
      * @return The cached/new `ImageIcon`
      */
-    private static ImageIcon getScaledIcon(int width, int height) {
+    private static ImageIcon getScaledImage(String path, int width, int height) {
+        if (path == null) {
+            path = ImagePath.icon;
+        }
+
         /// Key to be used in the cache.
-        String key = Integer.toString(width) + ";" + Integer.toString(height);
+        String key = path + ";" + Integer.toString(width) + ";" +
+                Integer.toString(height);
+
+        System.out.println(key);
 
         /// If the key is in the cache (aka it has been called before)
         /// Then just return the saved one.
@@ -250,7 +284,7 @@ public class Main {
             return cachedIcons.get(key);
         } else {
             /// Otherwise, scale the icon.
-            Image image = originalIcon.getImage();
+            Image image = new ImageIcon(path).getImage();
             Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon icon = new ImageIcon(scaledImage);
 
@@ -268,7 +302,7 @@ public class Main {
          * @return Logo JLabel
          */
         private static JLabel createLogoLabel() {
-            ImageIcon scaledIcon = getScaledIcon(256, 256);
+            ImageIcon scaledIcon = getScaledImage(ImagePath.icon, 256, 256);
             JLabel picLabel = new JLabel(scaledIcon);
 
             return picLabel;
@@ -378,7 +412,6 @@ public class Main {
 
         private MainPanel(JFrame frame) {
             this.setLayout(new GridBagLayout());
-            this.setBackground(new Color(255, 0, 0));
 
             GridBagConstraints constraints = generateConstraints();
             constraints.anchor = GridBagConstraints.NORTHWEST;
@@ -441,9 +474,10 @@ public class Main {
             GridBagConstraints constraints = generateConstraints();
             constraints.insets = new Insets(0, 0, 0, 0);
 
-            ImageIcon icon = getScaledIcon(42, 42);
+            ImageIcon icon = getScaledImage(category.iconPath, 42, 42);
             JButton button = new JButton(icon);
-            button.setBackground(new Color(0, 0, 255, 0));
+            button.setBorderPainted(false);
+            button.setBackground(Color.red);
             button.setPreferredSize(new Dimension(52, 52));
             button.addActionListener(e -> {
                 openNavigationPanel(category);
@@ -731,8 +765,10 @@ public class Main {
             GridBagConstraints constraints = generateConstraints();
             constraints.weightx = 1;
 
-            JLabel label = new JLabel(getInstructions());
-            panel.add(label, constraints);
+            for (String line : getInstructions().split("\n")) {
+                panel.add(new JLabel(line), constraints);
+                ++constraints.gridy;
+            }
 
             return panel;
         }
