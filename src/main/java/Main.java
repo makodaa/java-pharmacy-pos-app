@@ -1,6 +1,7 @@
 package main.java;
 
 import java.awt.*;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 public class Main {
@@ -20,6 +22,7 @@ public class Main {
                     "Pain\nRelievers",
                     null,
                     null,
+                    null,
                     new Product[] {
                             new Product("Product A", null, null, 100),
                             new Product("Product B", null, null, 150),
@@ -29,9 +32,11 @@ public class Main {
                     "Antibiotics",
                     null,
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Anti\nAllergy",
+                    null,
                     null,
                     null,
                     new Product[] {}),
@@ -39,9 +44,11 @@ public class Main {
                     "Respiratory\nMedicine",
                     null,
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Fever\nMedicine",
+                    null,
                     null,
                     null,
                     new Product[] {}),
@@ -49,9 +56,11 @@ public class Main {
                     "Vitamins",
                     null,
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Dietary\nSupp.",
+                    null,
                     null,
                     null,
                     new Product[] {}),
@@ -59,9 +68,11 @@ public class Main {
                     "Mineral\nSupp.",
                     null,
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Bandages",
+                    null,
                     null,
                     null,
                     new Product[] {}),
@@ -69,9 +80,11 @@ public class Main {
                     "Cotton\nItems",
                     null,
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Antiseptics",
+                    null,
                     null,
                     null,
                     new Product[] {}),
@@ -79,9 +92,11 @@ public class Main {
                     "Personal\nHygiene",
                     null,
                     null,
+                    null,
                     new Product[] {}),
             new Category(
                     "Surgical\nEquipment",
+                    null,
                     null,
                     null,
                     new Product[] {}),
@@ -89,13 +104,14 @@ public class Main {
                     "Assistive\n Devices",
                     null,
                     null,
+                    null,
                     new Product[] {}),
     };
 
     public static void main(String[] args) {
         setLookAndFeel();
-        // openGreeting();
-        openMainPanel();
+        openGreeting();
+        // openMainPanel();
     }
 
     /**
@@ -251,22 +267,17 @@ public class Main {
             GridBagConstraints constraints = generateConstraints();
 
             /// This is hard coded.
-            String label = """
-                    Welcome to
-                    Uncle Andy's Pharmacy
-                      """;
-            String[] lines = label.split("\n");
-
-            for (String line : lines) {
+            String label = "Welcome to\nUncle Andy's Pharmacy";
+            for (String line : label.split("\n")) {
                 JLabel jLabel = new JLabel(line);
 
                 /// Create a copy of the font with the set font style and font size.
-                Font boldFont = new Font(jLabel.getName(), Font.BOLD, 20);
+                Font boldFont = new Font("Segoe UI", Font.BOLD, 20);
 
                 jLabel.setFont(boldFont);
                 panel.add(jLabel, constraints);
 
-                constraints.gridy += 1;
+                ++constraints.gridy;
             }
 
             return panel;
@@ -279,6 +290,7 @@ public class Main {
          */
         private static Component createEntryButton() {
             JButton button = new JButton("Make a Purchase");
+            button.setFocusPainted(false);
             button.setMargin(new Insets(12, 0, 12, 0));
             button.setPreferredSize(new Dimension(192, 48));
             button.addActionListener(e -> {
@@ -296,6 +308,7 @@ public class Main {
          */
         private static Component createExitButton(JFrame frame) {
             JButton button = new JButton("Exit");
+            button.setFocusPainted(false);
             button.setMargin(new Insets(12, 0, 12, 0));
             button.setPreferredSize(new Dimension(192, 48));
             button.addActionListener(e -> {
@@ -313,17 +326,17 @@ public class Main {
 
             this.add(createLogoLabel(), constraints);
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
 
             constraints.insets = new Insets(0, 0, 12, 0);
 
             this.add(createWelcomeLabel(), constraints);
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
 
             this.add(createEntryButton(), constraints);
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
 
             this.add(createExitButton(frame), constraints);
 
@@ -352,7 +365,7 @@ public class Main {
 
             this.add(createTopBar(), constraints);
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
             constraints.fill = GridBagConstraints.HORIZONTAL;
 
             this.add(createCategoryArea(), constraints);
@@ -360,13 +373,13 @@ public class Main {
             constraints.weighty = 1.0;
             this.add(new JLabel(""), constraints);
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
             constraints.weighty = 0.0;
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
             constraints.gridheight = GridBagConstraints.REMAINDER;
 
-            this.add(submenuPanel = new EntrySubmenuPanel(), constraints);
+            this.add(submenuPanel = new EntrySubmenuPanel(frame), constraints);
         }
 
         private static Component createTopBar() {
@@ -375,8 +388,8 @@ public class Main {
             GridBagConstraints constraints = generateConstraints();
 
             panel.add(createSmallLogo(), constraints);
-            constraints.gridx += 1;
             constraints.weightx = 1;
+            ++constraints.gridx;
 
             panel.add(createTitle(), constraints);
 
@@ -421,7 +434,7 @@ public class Main {
                 JLabel jLabel = new JLabel(line);
                 panel.add(jLabel, constraints);
 
-                constraints.gridy += 1;
+                ++constraints.gridy;
             }
 
             return panel;
@@ -476,9 +489,11 @@ public class Main {
 
         private static class EntrySubmenuPanel extends JPanel {
             private DefaultTableModel model;
+            private JFrame frame;
             private JTable table;
 
-            private EntrySubmenuPanel() {
+            private EntrySubmenuPanel(JFrame frame) {
+                this.frame = frame;
                 this.setLayout(new GridBagLayout());
                 this.setBackground(new Color(255, 0, 0));
 
@@ -490,7 +505,7 @@ public class Main {
                 this.add(createSummaryArea(), constraints);
 
                 constraints.insets = new Insets(0, 8, 0, 8);
-                constraints.gridx += 1;
+                ++constraints.gridx;
                 this.add(createRightSubmenu(), constraints);
 
                 constraints.insets = new Insets(0, 0, 0, 0);
@@ -511,6 +526,15 @@ public class Main {
                 model.addRow(newRow);
             }
 
+            private JButton createExitButton() {
+                JButton button = new JButton("Exit");
+                button.addActionListener(e -> {
+                    frame.dispose();
+                });
+
+                return button;
+            }
+
             private Component createRightSubmenu() {
                 JPanel panel = new JPanel();
                 panel.setBorder(new CompoundBorder(new TitledBorder(""), new EmptyBorder(8, 0, 0, 0)));
@@ -522,20 +546,26 @@ public class Main {
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.weightx = 1;
 
-                panel.add(new JButton("Search Product"), constraints);
-                constraints.gridy += 1;
+                JButton search = new JButton("Search Product");
+                JButton confirm = new JButton("Confirm Purchases");
+                JButton voidItem = new JButton("Void Item");
+                JButton clear = new JButton("Clear Cart");
+                JButton exit = createExitButton();
 
-                panel.add(new JButton("Confirm Purchases"), constraints);
-                constraints.gridy += 1;
+                panel.add(search, constraints);
+                ++constraints.gridy;
 
-                panel.add(new JButton("Void Item"), constraints);
-                constraints.gridy += 1;
+                panel.add(confirm, constraints);
+                ++constraints.gridy;
 
-                panel.add(new JButton("Clear Cart"), constraints);
-                constraints.gridy += 1;
+                panel.add(voidItem, constraints);
+                ++constraints.gridy;
 
-                panel.add(new JButton("Exit"), constraints);
-                constraints.gridy += 1;
+                panel.add(clear, constraints);
+                ++constraints.gridy;
+
+                panel.add(exit, constraints);
+                ++constraints.gridy;
 
                 JButton last = new JButton("Add dummy row");
                 last.addActionListener(e -> {
@@ -543,7 +573,7 @@ public class Main {
                     addRowToTable(model.getRowCount(), "Name", 0, 1, 0);
                 });
                 panel.add(last, constraints);
-                constraints.gridy += 1;
+                ++constraints.gridy;
 
                 return panel;
             }
@@ -581,8 +611,9 @@ public class Main {
                 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
                 centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
-                for (int i = 0; i < tcm.getColumnCount(); i++) {
-                    tcm.getColumn(i).setCellRenderer(centerRenderer);
+                Enumeration<TableColumn> enumeration = tcm.getColumns();
+                while (enumeration.hasMoreElements()) {
+                    enumeration.nextElement().setCellRenderer(centerRenderer);
                 }
 
                 GridBagConstraints constraints = generateConstraints();
@@ -631,11 +662,11 @@ public class Main {
 
             this.add(createCategoryTitle(), constraints);
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
 
             this.add(createNavigationInstructions(), constraints);
 
-            constraints.gridy += 1;
+            ++constraints.gridy;
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.add(createProductList(), constraints);
 
@@ -654,7 +685,7 @@ public class Main {
             constraints.weightx = 1;
             constraints.gridwidth = GridBagConstraints.REMAINDER;
 
-            JLabel label = new JLabel("Insert Category Name Here");
+            JLabel label = new JLabel(category.getTitle());
             label.setFont(new Font(label.getName(), Font.BOLD, 20));
 
             panel.add(label);
@@ -712,14 +743,20 @@ public class Main {
             return panel;
         }
 
+        private Component createExitButton() {
+            JButton exitButton = new JButton("Exit");
+            exitButton.addActionListener(e -> {
+            });
+
+            return exitButton;
+        }
+
         private Component createNavigationButtons() {
             JPanel panel = new JPanel();
-            panel.setBackground(Color.RED);
             GridBagConstraints constraints = new GridBagConstraints();
             panel.setLayout(new GridBagLayout());
 
             JButton continueButton = new JButton("Continue");
-            JButton exitButton = new JButton("Exit");
 
             constraints.insets = new Insets(0, 50, 0, 50);
             constraints.gridx = 0;
@@ -731,7 +768,7 @@ public class Main {
 
             constraints.gridx += 2;
 
-            panel.add(exitButton, constraints);
+            panel.add(createExitButton(), constraints);
 
             return panel;
         }
@@ -745,6 +782,12 @@ public class Main {
 
         public String getTitle() {
             return title;
+        }
+
+        private final String name;
+
+        public String getName() {
+            return name;
         }
 
         private final String iconPath;
@@ -765,8 +808,9 @@ public class Main {
             return products;
         }
 
-        public Category(String title, String iconPath, String instructions, Product[] products) {
+        public Category(String title, String name, String iconPath, String instructions, Product[] products) {
             this.title = title;
+            this.name = name;
             this.iconPath = iconPath;
             this.instructions = instructions;
             this.products = products;
@@ -821,4 +865,5 @@ public class Main {
 
         return constraints;
     }
+
 }
