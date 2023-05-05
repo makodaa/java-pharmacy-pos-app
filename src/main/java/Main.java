@@ -37,6 +37,11 @@ public class Main {
     private static final HashMap<String, ImageIcon> cachedIcons = new HashMap<>();
     private static final ImageIcon originalIcon = new ImageIcon(ImagePath.icon);
 
+    private static class Colors {
+        private static final Color background = new Color(230, 230, 230);
+        private static final Color transparent = new Color(0, 0, 0, 0);
+    }
+
     private static class ImagePath {
         private static final String icon = "./assets/logo.png";
         private static final String painRelievers = "./assets/pain-relievers.png";
@@ -159,6 +164,7 @@ public class Main {
         setLookAndFeel();
         openGreeting();
         // openMainPanel();
+        System.out.println(levenshtein("hisssllo", "hello"));
     }
 
     /**
@@ -469,7 +475,7 @@ public class Main {
         private static Component createCategoryButton(int idx, Category category) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
-            panel.setBackground(new Color(0, 0, 0, 0));
+            panel.setBackground(Colors.transparent);
 
             GridBagConstraints constraints = generateConstraints();
             constraints.insets = new Insets(0, 0, 0, 0);
@@ -477,7 +483,6 @@ public class Main {
             ImageIcon icon = getScaledImage(category.iconPath, 42, 42);
             JButton button = new JButton(icon);
             button.setBorderPainted(false);
-            button.setBackground(Color.red);
             button.setPreferredSize(new Dimension(52, 52));
             button.addActionListener(e -> {
                 openNavigationPanel(category);
@@ -504,7 +509,7 @@ public class Main {
             JPanel gridPanel = new JPanel();
             gridPanel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
             gridPanel.setLayout(new GridBagLayout());
-            gridPanel.setBackground(new Color(0, 0, 0, 0));
+            gridPanel.setBackground(Colors.transparent);
 
             GridBagConstraints rowConstraints = generateConstraints();
             rowConstraints.ipadx = 4;
@@ -518,7 +523,7 @@ public class Main {
             for (int y = 0; y < rowCount; ++y) {
                 JPanel rowPanel = new JPanel();
                 rowPanel.setLayout(new GridBagLayout());
-                rowPanel.setBackground(new Color(0, 0, 0, 0));
+                rowPanel.setBackground(Colors.transparent);
 
                 GridBagConstraints columnConstraints = generateConstraints();
                 columnConstraints.weightx = 1.0;
@@ -554,7 +559,6 @@ public class Main {
             private EntrySubmenuPanel(JFrame frame) {
                 this.frame = frame;
                 this.setLayout(new GridBagLayout());
-                this.setBackground(new Color(255, 0, 0));
 
                 GridBagConstraints constraints = generateConstraints();
                 constraints.weightx = 1;
@@ -598,7 +602,7 @@ public class Main {
                 JPanel panel = new JPanel();
                 panel.setBorder(new CompoundBorder(new TitledBorder(""), new EmptyBorder(8, 0, 0, 0)));
                 panel.setLayout(new GridBagLayout());
-                panel.setBackground(new Color(230, 230, 230));
+                panel.setBackground(Colors.background);
 
                 GridBagConstraints constraints = generateConstraints();
                 constraints.gridwidth = GridBagConstraints.REMAINDER;
@@ -653,7 +657,7 @@ public class Main {
                                 new TitledBorder("Summary of Purchases"),
                                 new EmptyBorder(8, 0, 0, 0)));
                 panel.setLayout(new GridBagLayout());
-                panel.setBackground(new Color(230, 230, 230));
+                panel.setBackground(Colors.background);
 
                 setupTableModels();
 
@@ -938,4 +942,60 @@ public class Main {
         return constraints;
     }
 
+    public static int levenshtein(String source, String target) {
+        int sourceLength = source.length();
+        int targetLength = target.length();
+        int[][] distanceMatrix = new int[sourceLength + 1][targetLength + 1];
+
+        // Initialize the distance matrix. At the start of the algorithm, the distance
+        // between any prefix of the source string and any prefix of the target string
+        // is unknown, so we set all values in the distance matrix to zero.
+        for (int i = 0; i <= sourceLength; i++) {
+            for (int j = 0; j <= targetLength; j++) {
+                distanceMatrix[i][j] = 0;
+            }
+        }
+
+        // Initialize the first column of the matrix. The distance between any prefix
+        // of the source string and the empty string can be found by deleting all
+        // characters in the prefix, so we set the values in the first column of the
+        // distance matrix accordingly.
+        for (int i = 1; i <= sourceLength; i++) {
+            distanceMatrix[i][0] = i;
+        }
+
+        // Initialize the first row of the matrix. The distance between the empty
+        // string and any prefix of the target string can be found by inserting all
+        // characters in the prefix, so we set the values in the first row of the
+        // distance matrix accordingly.
+        for (int j = 1; j <= targetLength; j++) {
+            distanceMatrix[0][j] = j;
+        }
+
+        // Fill in the rest of the matrix. We can compute the distance between any
+        // prefix of the source string and any prefix of the target string by examining
+        // the last character of each prefix. If the last characters are the same,
+        // then the distance is the same as the distance between the prefixes that
+        // don't include those last characters. If the last characters are different,
+        // then the distance is one more than the minimum of the distances between the
+        // prefixes that don't include the last character of the source string, the
+        // prefixes that don't include the last character of the target string, and the
+        // prefixes that don't include either last character. We can use the distance
+        // values that we've already computed to fill in the rest of the distance
+        // matrix.
+        for (int j = 1; j <= targetLength; j++) {
+            for (int i = 1; i <= sourceLength; i++) {
+                int substitutionCost = source.charAt(i - 1) == target.charAt(j - 1) ? 0 : 1;
+                distanceMatrix[i][j] = Math.min(
+                        Math.min(
+                                distanceMatrix[i - 1][j] + 1,
+                                distanceMatrix[i][j - 1] + 1),
+                        distanceMatrix[i - 1][j - 1] + substitutionCost);
+            }
+        }
+
+        // The value in the bottom right corner of the distance matrix is the distance
+        // between the entire source string and the entire target string.
+        return distanceMatrix[sourceLength][targetLength];
+    }
 }
