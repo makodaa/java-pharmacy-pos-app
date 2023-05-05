@@ -638,6 +638,7 @@ public class Main {
         }
 
         private Category category;
+        private JFrame frame;
 
         public String getInstructions() {
             String instructions = category.getInstructions();
@@ -651,6 +652,7 @@ public class Main {
 
         private NavigationPanel(Category category, JFrame frame) {
             this.category = category;
+            this.frame = frame;
 
             this.setLayout(new GridBagLayout());
 
@@ -743,9 +745,18 @@ public class Main {
             return panel;
         }
 
+        private Component createContinueButton() {
+            JButton button = new JButton("Continue");
+            button.addActionListener(e -> {
+                openMainPanel();
+            });
+            return button;
+        }
+
         private Component createExitButton() {
             JButton exitButton = new JButton("Exit");
             exitButton.addActionListener(e -> {
+                frame.dispose();
             });
 
             return exitButton;
@@ -756,8 +767,7 @@ public class Main {
             GridBagConstraints constraints = new GridBagConstraints();
             panel.setLayout(new GridBagLayout());
 
-            JButton continueButton = new JButton("Continue");
-
+            Component continueButton = createContinueButton();
             constraints.insets = new Insets(0, 50, 0, 50);
             constraints.gridx = 0;
             constraints.gridy = 0;
