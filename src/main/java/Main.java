@@ -20,12 +20,16 @@
 package main.java;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -162,9 +166,9 @@ public class Main {
 
     public static void main(String[] args) {
         setLookAndFeel();
-        openGreeting();
+        // openGreeting();
         // openMainPanel();
-        System.out.println(levenshtein("hisssllo", "hello"));
+        openSearchPanel();
     }
 
     /**
@@ -228,7 +232,7 @@ public class Main {
      */
     public static void openGreeting() {
         final String panelCode = "GREETING_PANEL";
-        final String panelName = "Greeting Panel";
+        final String panelName = "Greeting";
 
         spawnPanel(panelCode, panelName, (frame) -> new GreetingPanel(frame));
     }
@@ -238,7 +242,7 @@ public class Main {
      */
     public static void openMainPanel() {
         final String panelCode = "MAIN_PANEL";
-        final String panelName = "Main Panel";
+        final String panelName = "Main";
 
         spawnPanel(panelCode, panelName, (frame) -> new MainPanel(frame));
     }
@@ -248,9 +252,16 @@ public class Main {
      */
     public static void openNavigationPanel(Category category) {
         final String panelCode = "PRODUCT_NAVIGATION_PANEL;" + category.title;
-        final String panelName = "Product Navigation Panel - " + category.title;
+        final String panelName = "Product Navigation - " + category.title;
 
         spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(category, frame));
+    }
+
+    public static void openSearchPanel() {
+        final String panelCode = "PRODUCT_SEARCH_PANEL";
+        final String panelName = "Product Search ";
+
+        spawnPanel(panelCode, panelName, (frame) -> new SearchPanel(frame));
     }
 
     /**
@@ -405,7 +416,6 @@ public class Main {
     }
 
     private static class MainPanel extends JPanel {
-        private final EntrySubmenuPanel submenuPanel;
         private static String[][] data = {
                 { "H.Code", "H.Item", "H.Price", "H.Count", "H.Total" },
                 { "Code", "Item", "Price", "Count", "Total" },
@@ -439,7 +449,7 @@ public class Main {
             ++constraints.gridy;
             constraints.gridheight = GridBagConstraints.REMAINDER;
 
-            this.add(submenuPanel = new EntrySubmenuPanel(frame), constraints);
+            this.add(new EntrySubmenuPanel(frame), constraints);
         }
 
         private static Component createTopBar() {
@@ -690,6 +700,127 @@ public class Main {
 
                 return panel;
             }
+        }
+    }
+
+    private static class SearchPanel extends JPanel {
+        private static final String[] columnNames = { "Name", "Category" };
+
+        private final DefaultTableModel model;
+        private final JFrame frame;
+
+        private SearchPanel(JFrame frame) {
+            this.frame = frame;
+            this.model = new DefaultTableModel(columnNames, 0);
+
+            this.setBackground(Color.RED);
+            this.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.weightx = 1;
+            constraints.weighty = 1;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 1.0;
+
+            this.add(createDisplayTable(), constraints);
+            ++constraints.gridy;
+
+            this.add(createSearchBar(), constraints);
+        }
+
+        private Component createDisplayTable() {
+            JTable table = new JTable(model);
+
+            for (Category category : categories) {
+                for (Product product : category.getProducts()) {
+                    String[] row = { product.getTitle(), category.getName() };
+                    model.addRow(row);
+                }
+            }
+            model.addTableModelListener(e -> {
+                table.revalidate();
+            });
+
+            table.setEnabled(false);
+            table.getTableHeader().setReorderingAllowed(false);
+            table.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+            table.setFont(new Font("Segoe UI", Font.BOLD, 12));
+            table.setRowHeight((int) Math.floor(table.getFont().getSize() * 2.5));
+
+            DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+            leftRenderer.setHorizontalAlignment(JLabel.LEFT);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+            TableColumnModel tcm = table.getColumnModel();
+            Enumeration<TableColumn> enumeration = tcm.getColumns();
+            while (enumeration.hasMoreElements()) {
+                enumeration.nextElement().setCellRenderer(centerRenderer);
+            }
+            tcm.getColumn(0).setCellRenderer(leftRenderer);
+
+            return table;
+        }
+
+        private Component createSearchBar() {
+            JTextField textField = new JTextField();
+            textField.getDocument().addDocumentListener(new DocumentListener() {
+                private String previous = "";
+                private String now = "";
+
+                public void changedUpdate(DocumentEvent e) {
+                    common();
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    common();
+                }
+
+                public void insertUpdate(DocumentEvent e) {
+                    common();
+                }
+
+                public void common() {
+                    String captured = textField.getText().trim();
+
+                    this.previous = now;
+                    this.now = captured;
+                    if (previous.equals(now)) {
+                        System.out.println("It didn't change.");
+                    } else {
+                        String[][] sorted = getRows();
+                        Arrays.sort(sorted,
+                                Comparator.comparingInt(r -> levenshtein(
+                                        r[0].toLowerCase(),
+                                        captured.toLowerCase())));
+
+                        for (int y = model.getRowCount() - 1; y >= 0; --y) {
+                            model.removeRow(y);
+                        }
+                        for (String[] row : sorted) {
+                            model.addRow(row);
+                        }
+                        System.out.println("You wrote: " + captured);
+                    }
+                }
+            });
+
+            return textField;
+        }
+
+        private String[][] getRows() {
+            int height = model.getRowCount();
+            int width = model.getColumnCount();
+
+            String[][] result = new String[height][width];
+            for (int y = 0; y < height; ++y) {
+                for (int x = 0; x < width; ++x) {
+                    result[y][x] = (String) model.getValueAt(y, x);
+                }
+            }
+
+            return result;
         }
     }
 
@@ -985,7 +1116,7 @@ public class Main {
         // matrix.
         for (int j = 1; j <= targetLength; j++) {
             for (int i = 1; i <= sourceLength; i++) {
-                int substitutionCost = source.charAt(i - 1) == target.charAt(j - 1) ? 0 : 1;
+                int substitutionCost = source.charAt(i - 1) == target.charAt(j - 1) ? 0 : 1000;
                 distanceMatrix[i][j] = Math.min(
                         Math.min(
                                 distanceMatrix[i - 1][j] + 1,
