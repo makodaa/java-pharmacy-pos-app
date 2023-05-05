@@ -378,6 +378,7 @@ public class Main {
 
         private MainPanel(JFrame frame) {
             this.setLayout(new GridBagLayout());
+            this.setBackground(new Color(255, 0, 0));
 
             GridBagConstraints constraints = generateConstraints();
             constraints.anchor = GridBagConstraints.NORTHWEST;
@@ -435,12 +436,14 @@ public class Main {
         private static Component createCategoryButton(int idx, Category category) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
+            panel.setBackground(new Color(0, 0, 0, 0));
 
             GridBagConstraints constraints = generateConstraints();
             constraints.insets = new Insets(0, 0, 0, 0);
 
             ImageIcon icon = getScaledIcon(42, 42);
             JButton button = new JButton(icon);
+            button.setBackground(new Color(0, 0, 255, 0));
             button.setPreferredSize(new Dimension(52, 52));
             button.addActionListener(e -> {
                 openNavigationPanel(category);
@@ -467,6 +470,7 @@ public class Main {
             JPanel gridPanel = new JPanel();
             gridPanel.setBorder(new CompoundBorder(new TitledBorder("System Database"), new EmptyBorder(8, 0, 0, 0)));
             gridPanel.setLayout(new GridBagLayout());
+            gridPanel.setBackground(new Color(0, 0, 0, 0));
 
             GridBagConstraints rowConstraints = generateConstraints();
             rowConstraints.ipadx = 4;
@@ -480,6 +484,7 @@ public class Main {
             for (int y = 0; y < rowCount; ++y) {
                 JPanel rowPanel = new JPanel();
                 rowPanel.setLayout(new GridBagLayout());
+                rowPanel.setBackground(new Color(0, 0, 0, 0));
 
                 GridBagConstraints columnConstraints = generateConstraints();
                 columnConstraints.weightx = 1.0;
