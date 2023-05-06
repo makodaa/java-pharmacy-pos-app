@@ -422,7 +422,7 @@ public class Main {
             JFrame frame = new JFrame(panelName);
             JPanel panel = builder.run(frame);
 
-            frame.setMinimumSize(new Dimension(750, 600));
+            frame.setMinimumSize(new Dimension(640, 500));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(panel);
             frame.setVisible(true);
@@ -456,11 +456,11 @@ public class Main {
     /**
      * Opens the product navigation panel
      */
-    public static void openNavigationPanel(Category category) {
+    public static void openNavigationPanel(MainPanel mainPanel, Category category) {
         final String panelCode = "PRODUCT_NAVIGATION_PANEL;" + category.title;
         final String panelName = "Product Navigation - " + category.title;
 
-        spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(category, frame));
+        spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(mainPanel, category, frame));
     }
 
     public static void openSearchPanel() {
@@ -622,8 +622,8 @@ public class Main {
     }
 
     private static class MainPanel extends JPanel {
-        private static String[][] data = {
-        };
+        private static String[][] data = {};
+        private EntrySubmenuPanel entrySubmenuPanel;
 
         @Override
         public Insets getInsets() {
@@ -653,10 +653,10 @@ public class Main {
             ++constraints.gridy;
             constraints.gridheight = GridBagConstraints.REMAINDER;
 
-            this.add(new EntrySubmenuPanel(frame), constraints);
+            this.add(entrySubmenuPanel = new EntrySubmenuPanel(frame), constraints);
         }
 
-        private static Component createTopBar() {
+        private Component createTopBar() {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
             GridBagConstraints constraints = generateConstraints();
@@ -670,7 +670,7 @@ public class Main {
             return panel;
         }
 
-        private static Component createSmallLogo() {
+        private Component createSmallLogo() {
             Image unscaledImage = originalIcon.getImage();
             Image newImage = unscaledImage.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(newImage);
@@ -679,14 +679,14 @@ public class Main {
             return picLabel;
         }
 
-        private static Component createTitle() {
+        private Component createTitle() {
             JLabel jlabel = new JLabel("Uncle Andy's Pharmacy");
             jlabel.setFont(new Font(jlabel.getName(), Font.BOLD, 20));
 
             return jlabel;
         }
 
-        private static Component createCategoryButton(int idx, Category category) {
+        private Component createCategoryButton(int idx, Category category) {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
             panel.setBackground(Colors.transparent);
@@ -699,7 +699,7 @@ public class Main {
             button.setBorderPainted(false);
             button.setPreferredSize(new Dimension(52, 52));
             button.addActionListener(e -> {
-                openNavigationPanel(category);
+                openNavigationPanel(this, category);
             });
 
             panel.add(button, constraints);
@@ -716,7 +716,7 @@ public class Main {
             return panel;
         }
 
-        private static Component createCategoryArea() {
+        private Component createCategoryArea() {
             final int rowCount = 2;
             final int columnCount = Math.ceilDiv(categories.length, rowCount);
 
@@ -791,15 +791,15 @@ public class Main {
 
             private void addRowToTable(int index,
                     String name,
-                    int price,
+                    double price,
                     int quantity,
-                    int total) {
+                    double total) {
                 String[] newRow = {
                         "Index (" + index + ")",
                         name,
-                        Integer.toString(price),
+                        Double.toString(price),
                         Integer.toString(quantity),
-                        Integer.toString(total),
+                        Double.toString(total),
                 };
                 model.addRow(newRow);
             }
@@ -946,6 +946,17 @@ public class Main {
 
                 return panel;
             }
+        }
+
+        private void addProduct(Product product, int count) {
+            double totalPrice = product.getPrice() * count;
+
+            entrySubmenuPanel.addRowToTable(
+                    entrySubmenuPanel.model.getRowCount(),
+                    product.getTitle(),
+                    product.getPrice(),
+                    count,
+                    totalPrice);
         }
     }
 
@@ -1113,17 +1124,22 @@ public class Main {
             return new Insets(12, 12, 12, 12);
         }
 
+        private MainPanel mainPanel;
         private Category category;
         private JFrame frame;
-        private final static String navigationInstructions = "Select the wanted item by clicking on it. In the pop-up window, descriptions and proper use of the item will be shown.\nOnce correct, indicate the desired quantity in the specified text field and click proceed, otherwise return";
+        private final static String navigationInstructions = "Select the wanted item by clicking on it. In the pop-up window, descriptions and proper use of the item will be shown.\nOnce correct, indicate the desired quantity in the specified text field and click proceed, otherwise return.";
 
         public String getInstructions() {
-            String instructions = navigationInstructions + " " + category.getInstructions();
+            String categoryInstructions = category.getInstructions();
+
+            String instructions = navigationInstructions + " "
+                    + (categoryInstructions == null ? "" : categoryInstructions);
 
             return instructions;
         }
 
-        private NavigationPanel(Category category, JFrame frame) {
+        private NavigationPanel(MainPanel mainPanel, Category category, JFrame frame) {
+            this.mainPanel = mainPanel;
             this.category = category;
             this.frame = frame;
 
@@ -1197,6 +1213,24 @@ public class Main {
             for (int i = 0; i < category.getProducts().length; i++) {
                 Product product = category.products[i];
                 JButton button = new JButton("Product " + (i + 1));
+                button.addActionListener(e -> {
+                    int chosen = -1;
+                    do {
+                        try {
+                            int input = Integer.parseInt(JOptionPane.showInputDialog(null, "Quantity: "));
+                            if (input <= 0) {
+                                continue;
+                            }
+                            chosen = input;
+                            break;
+                        } catch (NumberFormatException exception) {
+                            continue;
+                        }
+                    } while (chosen == -1);
+
+                    mainPanel.addProduct(product, chosen);
+                });
+
                 constraints.gridy = 0;
                 constraints.weightx = 1.0;
                 constraints.weighty = 1.0;
