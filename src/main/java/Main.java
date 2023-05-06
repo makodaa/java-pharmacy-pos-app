@@ -828,7 +828,11 @@ public class Main {
                             "Are you sure you want to clear the selected products?");
                     switch (answer) {
                         case JOptionPane.YES_OPTION:
+                            int itemCount = model.getRowCount();
+
                             clearCart();
+
+                            JOptionPane.showMessageDialog(null, "Cleared " + itemCount + " items.");
                             return;
                         case JOptionPane.NO_OPTION:
                         default:
@@ -914,6 +918,7 @@ public class Main {
 
                 table = new JTable(model);
                 table.setEnabled(false);
+                table.getTableHeader().setResizingAllowed(false);
                 table.getTableHeader().setReorderingAllowed(false);
                 table.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
                 table.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -983,6 +988,7 @@ public class Main {
             });
 
             table.setEnabled(false);
+            table.getTableHeader().setResizingAllowed(false);
             table.getTableHeader().setReorderingAllowed(false);
             table.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
             table.setFont(new Font("Segoe UI", Font.BOLD, 12));
