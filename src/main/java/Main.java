@@ -53,6 +53,28 @@ public class Main {
     private static class ImagePath {
         private static final String icon = "./assets/logo.png";
         private static final String painRelievers = "./assets/pain-relievers.png";
+        private static final String antibiotics = "./assets/antibiotics.png";
+        private static final String antiAllergy = "./assets/antiAllergy.png";
+        private static final String respiratoryMedicine = "./assets/respiratoryMedicine.png";
+        private static final String feverMedicine = "./assets/feverMedicine.png";
+        private static final String vitamins = "./assets/vitamins.png";
+        private static final String dietarySupplements = "./assets/dietarySupplements.png";
+        private static final String mineralSupplements = "./assets/mineralSupplements.png";
+        private static final String bandages = "./assets/bandages.png";
+        private static final String cottonItems = "./assets/cottonItems.png";
+        private static final String antiseptics = "./assets/antiseptics.png";
+        private static final String personalHygiene = "./assets/personalHygiene.png";
+        private static final String surgicalEquipment = "./assets/surgicalEquipment.png";
+        private static final String assistiveDevices = "./assets/assistiveDevices.png";
+
+        private static final String ibuprofen = "./assets/products/PAIN_RELIEVERS_IBUPROFEN.png";
+        private static final String acetaminophen = "./assets/products/PAIN_RELIEVERS_ACETAMINOPHEN.png";
+        private static final String naproxenSodium = "./assets/products/PAIN_RELIEVERS_NAPROXEN_SODIUM.png";
+        
+        private static final String cephalexin = "./assets/products/ANTIBIOTICS_CEPHALEXIN.png";
+        private static final String amoxicillin = "./assets/products/ANTIBIOTICS_AMOXICILLIN.png";
+        private static final String azithromycin = "./assets/products/ANTIBIOTICS_AZITHROMYCIN.png";
+
 
         private static final String[] paths = {
                 icon, painRelievers,
@@ -64,309 +86,309 @@ public class Main {
                     "Pain\nRelievers",
                     "Pain Relievers",
                     ImagePath.painRelievers,
-                    "",
+                    "Analgesics, also called painkillers are medications that relieve different types of pain — from headaches to injuries to arthritis. Anti-inflammatory analgesics reduce inflammation, and opioid analgesics change the way the brain perceives pain. Some analgesics can be bought over the counter, others require a prescription.",
                     new Product[] {
                             new Product(
                                     "Ibuprofen+Paracetamol (325mg)",
-                                    null,
+                                    ImagePath.ibuprofen,
                                     "Faster relief of mild to moderately severe pain of musculoskeletal origin eg muscle pain, arthritis, rheumatism, sprain, strain, bursitis, tendonitis, backache, stiff neck, tension headache, dysmenorrhea, toothache, pain after tooth extraction & minor surgical operations. Reduction of fever.",
                                     8.50),
                             new Product(
-                                    "Paracetamol+Tylenol (650mg)",
-                                    null,
+                                    "Acetaminophen (650mg)",
+                                    ImagePath.acetaminophen,
                                     "Temporary relief of pain & discomfort from headache, fever, cold or flu, minor muscular aches, overexertion, menstrual cramps, toothache, minor arthritic pain.",
                                     9.25),
                             new Product(
                                     "Naproxen Sodium Tablet (275 mg)",
-                                    null,
+                                    ImagePath.naproxenSodium,
                                     "Used in the relief of inflammation, swelling, stiffness, and pain due to musculoskeletal and joint disorders such as arthritis and gout. Also used for mild to moderate pain caused by dysmenorrhea (menstrual pain), migraine, and after dental or other surgical procedures.",
                                     11.50),
                     }),
             new Category(
                     "Antibiotics",
                     "Antibiotics",
-                    null,
-                    null,
+                    ImagePath.antibiotics,
+                    "Antibiotics are medicines that fight infections caused by bacteria in humans and animals by either killing the bacteria or making it difficult for the bacteria to grow and multiply.",
                     new Product[] {
                             new Product(
                                     "Cephalexin",
-                                    null,
-                                    "",
-                                    1),
+                                    ImagePath.cephalexin,
+                                    "Cephalexin Medication is commonly used to treat infections of the respiratory tract, skin, ear, urinary tract, and bone.",
+                                    250.00),
                             new Product(
                                     "Amoxicillin",
-                                    null,
-                                    "",
-                                    1),
+                                    ImagePath.amoxicillin,
+                                    "Amoxicillin is commonly used to treat infections such as pneumonia, bronchitis, ear infections, urinary tract infections, and strep throat.",
+                                    18.75),
                             new Product(
                                     "Azithromycin",
-                                    null,
+                                    ImagePath.azithromycin,
                                     "Used to treat certain bacterial infections, such as bronchitis; pneumonia; sexually transmitted diseases (STD); and infections of the ears, lungs, sinuses, skin, throat, and reproductive organs",
-                                    1)
+                                    88.75)
                     }),
             new Category(
                     "Anti\nAllergy",
                     "Anti Allergy",
-                    null,
+                    ImagePath.antiAllergy,
                     "A category of medicine that is most commonly used by people who have allergic reactions to pollen and other allergens. \nThese medicines help ease a runny nose, itchy or watery eyes, hives, swelling, and other signs or symptoms of allergies.",
                     new Product[] {
                             new Product(
                                     "Loratadine",
                                     null,
-                                    "",
-                                    1),
+                                    "Provides a non-drowsy and fast-acting relief from symptoms associated with allergic rhinitis such as sneezing, runny or itchy nose, and itchy, red, watery eyes. Relief of allergic symptoms of urticaria such as itching, redness, and rash.",
+                                    34.97),
                             new Product(
                                     "Certizine Dihydrochloride",
                                     null,
-                                    "",
-                                    1),
+                                    "Treatment of allergic rhinitis, pinkeye, itch & Chronic hives (red, itchy skin welts that last more than six weeks.",
+                                    16.00),
                             new Product(
-                                    "Diphenhydramine",
+                                    " ",
                                     null,
-                                    "",
+                                    " ",
                                     1)
                     }),
             new Category(
                     "Respiratory\nMedicine",
                     "Respiratory Medicine",
-                    null,
-                    null,
+                    ImagePath.respiratoryMedicine,
+                    "Respiratory agents is a term used to describe a wide variety of medicines used to relieve, treat, or prevent respiratory diseases such as asthma, chronic bronchitis, chronic obstructive pulmonary disease (COPD), or pneumonia. Respiratory agents are available in many different forms, such as oral tablets, oral liquids, injections or inhalations.",
                     new Product[] {
                             new Product(
                                     "Pirbuterol",
                                     null,
-                                    "",
-                                    1),
+                                    "Maxair is a prescription medicine used to treat Asthma, Bronchitis, and Emphysema. Maxair may be used alone or with other medications.  It works by relaxing the muscles in the airways and widening the air passages to make breathing easier.",
+                                    174.79),
                             new Product(
                                     "Albuterol",
                                     null,
-                                    "",
-                                    1),
+                                    "Inhaler is a medical device used to deliver medication directly to the lungs. It is commonly used for the treatment of respiratory conditions such as asthma and chronic obstructive pulmonary disease (COPD).",
+                                    475.75),
                             new Product(
                                     "Corticosteroids",
                                     null,
-                                    "",
-                                    1)
+                                    "Corticosteroids are a type of medication that is used to reduce inflammation in the body. They are commonly used to treat a variety of respiratory conditions, including asthma and chronic obstructive pulmonary disease",
+                                     8.50),
                     }),
             new Category(
                     "Fever\nMedicine",
                     "Fever Medicine",
-                    null,
-                    null,
+                    ImagePath.feverMedicine,
+                    "Fever medicines are a group of medications taken individually or in combination as a treatment for the symptoms of the common cold and similar conditions of the upper respiratory tract.",
                     new Product[] {
                             new Product(
                                     "Paracetamol",
                                     null,
-                                    "",
-                                    1),
+                                    "Paracetamol medication that is typically used to relieve mild to moderate pain such as headache, backache, menstrual cramps, muscular strain, minor arthritis pain, toothache, and reduce fevers caused by illnesses such as the common cold and flu.",
+                                    45.00),
                             new Product(
                                     "Phenylephrine, Chlorophenamine Maleate, Paracetamol",
                                     null,
-                                    "",
-                                    1),
+                                    " Treatment of colds and related symptoms. Phenylephrine HCl, Chlorphenamine Maleate and Paracetamol makes breathing easier, relieves allergies and related symptoms, and reduces fever.",
+                                    110.00),
                             new Product(
                                     "Dextromethorphan, Phenylpropanolamine, Paracetamol",
                                     null,
-                                    "",
-                                    1)
+                                    "Completed with Dextromethorphan, Phenylpropanolamine, and Paracetamo to stop coughs, clear obstructed air passages and nasal sinuses, and reduce fever and body pain.",
+                                    210.00)
                     }),
             new Category(
                     "Vitamins",
                     "Vitamins",
-                    null,
-                    null,
+                    ImagePath.vitamins,
+                    "Vitamins have different jobs to help keep the body working properly. Some vitamins help resist infections and keep nerves healthy, while others may help the body get energy from food or also help blood clot properly.",
                     new Product[] {
                             new Product(
                                     "Multivitamin Effervescent Tablets",
                                     null,
-                                    "",
-                                    1),
+                                    "The formula of magnesium, zinc, calcium, vitamin C and eight B vitamins helps release energy from your food, reduces tiredness and fatigue and also supports physical and mental stamina",
+                                    285.00),
                             new Product(
                                     "Vitamin C",
                                     null,
-                                    "",
-                                    1),
+                                    "Contains ASCORBIC ACID 500Mg. This medicine is used in the treatment and prevention of Vitamin C deficiency.",
+                                    2.25),
                             new Product(
                                     "Vitamin B-Complex",
                                     null,
-                                    "",
-                                    1)
+                                    "Treat Vitamin B deficiency and illnesses along with it such as muscle pain, loss of reflexes in the hands, knees, ankles, calves and feet and abnormal touch sensation (burning and pricking).",
+                                    14.25)
                     }),
             new Category(
                     "Dietary\nSupp.",
                     "Dietary Supplements",
-                    null,
-                    null,
+                    ImagePath.dietarySupplements,
+                    "Dietary supplements are intended to add to or supplement nutrients that might be missing from a person's diet.",
                     new Product[] {
                             new Product(
                                     "Astaxanthin, Lycopene, and Vitamin E",
                                     null,
-                                    "",
-                                    1),
+                                    "Astaxanthin, lycopene, and vitamin E supplement serves as a powerful antioxidant that helps remove harmful free radicals and promote cell and tissue renewal of the skin, lungs, muscles, and liver. It also helps maintain and improve stamina",
+                                    195.00),
                             new Product(
-                                    "",
+                                    "Arthrospira platensis",
                                     null,
-                                    "",
+                                    "Contains high amounts of amino acids, carbohydrates, fats, vitamins, minerals and trace elements, phyto-nutrients and dietary fibers that addresses nutritional diseases resulting in anemia, poor weight gain and other nutrition-related health conditions",
                                     1),
                             new Product(
                                     "Garcinia Mangostana L. Food Supplement",
                                     null,
-                                    "",
+                                    "Contains natural Pure Xanthone, with antioxidant and anti-inflammatory properties that may help protect against free radicals causing diseases",
                                     1)
                     }),
             new Category(
                     "Mineral\nSupp.",
                     "Mineral Supplements",
-                    null,
+                    ImagePath.mineralSupplements,
                     " Mineral Supplements are a category of medicine that provides essential minerals to the body, \nsuch as iron, calcium, and zinc. They are commonly used to support bone health, improve immune function, \nand prevent mineral deficiencies.",
                     new Product[] {
                             new Product(
                                     "Cholecalciferol + Minerals",
                                     null,
-                                    "",
-                                    1),
+                                    "Calcium and Vitamin D and other musculoskeletal strengthening nutrients, which keeps the physical body strong and healthy.",
+                                    230.00),
                             new Product(
                                     "Calcium Carbonate",
                                     null,
-                                    "",
-                                    1),
+                                    "Mineral-calcium supplements help prevent and treat osteoporosis, calcium malabsorption, and deficiency conditions",
+                                    14.00),
                             new Product(
                                     "Ferrous Gluconate, Multivitamins and Minerals",
                                     null,
-                                    "",
-                                    1)
+                                    "Replenishes Iron stores and increases hemoglobin levels in the body. Supports optimum blood health",
+                                    545.00)
                     }),
             new Category(
                     "Bandages",
                     "Bandages",
-                    null,
+                    ImagePath.bandages,
                     "Bandages are a type of medical product that is used to protect and cover wounds or injuries. \nThey should be used in situations where there is a cut, scrape, or other type of injury that \nneeds to be covered and protected to prevent further harm or infection.",
                     new Product[] {
                             new Product(
                                     "Gauze Bandage",
                                     null,
-                                    "",
-                                    1),
+                                    "Gauze Bandage is used to hold a dressing in place on a wound, maintain pressure over a bulky pad to control bleeding, support an injured limb or joint, and apply pressure to a limb.",
+                                    110.00),
                             new Product(
                                     "Roller Bandage",
                                     null,
-                                    "",
-                                    1),
+                                    "Roller Bandage is used to treat muscle sprains and strains by reducing the flow of blood to a particular area by the application of even stable pressure which can restrict swelling at the place of injury.",
+                                    149.00),
                             new Product(
                                     "Tubular Bandage",
                                     null,
-                                    "",
-                                    1)
+                                    "Tubular elastic bandages are used to provide 360 degree uniform compression and support, and are commonly used to help treat lymphedema, prevent edema, and reduce post-burn scarring.",
+                                    568.00)
                     }),
             new Category(
                     "Cotton\nItems",
                     "Cotton Items",
-                    null,
+                    ImagePath.cottonItems,
                     "Cotton Items is a category of medical supplies that are used for various purposes such as cleaning wounds, \n applying ointments or creams, and absorbing bodily fluids. They can be used in treating a wide range of \nconditions, including cuts, bruises, burns, and other injuries that require gentle care.",
                     new Product[] {
                             new Product(
                                     "Cotton Swabs",
                                     null,
-                                    "Used to clean the ear canal by removing earwax and other dirt patches. Cotton swabs are also used for disinfection of patients' skin, treatment of wounds, and application of medical liquids.",
-                                    1),
+                                    "Cotton Swabs are used to clean the ear canal by removing earwax and other dirt patches. Cotton swabs are also used for disinfection of patients' skin, treatment of wounds, and application of medical liquids.",
+                                    195.00),
                             new Product(
                                     "Cotton balls",
                                     null,
                                     "Cotton balls have multiple uses including cleaning out larger wounds with hydrogen peroxide or iodine, applying antiseptics or topical ointments, cleaning minor cuts and skin irritations, and stopping blood after an injection is given or blood withdrawn.",
-                                    1),
+                                    80.00),
                             new Product(
                                     "Cotton Pads",
                                     null,
                                     "Cotton pads are particularly useful in stopping or preventing bleeding from minor punctures, such as injections or venipuncture. Cotton pads are also often used for cleaning and disinfecting wounds, as well as applying medication or topical treatments.",
-                                    1)
+                                    128.00)
                     }),
             new Category(
                     "Antiseptics",
                     "Antiseptics",
-                    null,
+                    ImagePath.antiseptics,
                     "Antiseptics are a type of medicine used to prevent infections by killing germs and bacteria on the skin or \n inside the body. They are typically used to clean wounds or prepare the skin before surgery to reduce the \n risk of infection. Antiseptics can also be used for everyday cuts and scrapes to prevent infection and \n promote healing.",
                     new Product[] {
                             new Product(
                                     "Povidone Iodine  15Ml",
                                     null,
                                     "Microbicide for topical use in minor wounds, cuts, abrasions, burns & post-op wounds. Eliminates all 5 major classes of harmful organisms: bacteria, fungi, virus, protozoa and spores, to stop infection and for faster wound healing",
-                                    1),
+                                    65.00),
                             new Product(
                                     "Hexetidine 60ml",
                                     null,
                                     "Hexetidine eliminates sore throat causing viruses and other oral transmitted bacteria to avoid coughs, colds or a flu. It is used for minor infections of mucous membranes.",
-                                    1),
+                                    114.00),
                             new Product(
                                     "Hydrogen Peroxide 120ml",
                                     null,
                                     "Hydrogen peroxide is used for the treatment and cleansing of wounds. It can also be used as a bleaching agent. Its strong oxidizing properties make it a powerful disinfectant and cleaning solution",
-                                    1)
+                                    80.00)
                     }),
             new Category(
                     "Personal\nHygiene",
                     "Personal Hygiene",
-                    null,
+                    ImagePath.personalHygiene,
                     " Personal hygiene is a category of products that are used to maintain cleanliness and promote good health. They are typically used to prevent the spread of germs, bacteria, and viruses, as well as to keep the body clean and fresh. Personal hygiene products can help prevent ailments such as infections, skin irritations, and bad odors. They are an essential part of a healthy lifestyle and should be used regularly to maintain good hygiene.",
                     new Product[] {
                             new Product(
                                     "Hand Soap",
                                     null,
-                                    "Hand soap cleans skin to wash away bacteria, providing essential cleansing to care for your family and prevent the spread of bacteria.",
-                                    1),
+                                    "Hand bar soap cleans skin to wash away bacteria, providing essential cleansing to care for your family and prevent the spread of bacteria.",
+                                    405.00),
                             new Product(
                                     "Shampoo",
                                     null,
                                     "Nourishes scalp and roots to repair the appearance of damaged hair and to remove dirt and oil from the surface of the hair fibers and the scalp.",
-                                    1),
+                                    510.00),
                             new Product(
                                     "Toothpaste",
                                     null,
                                     "Prevent cavities, plaque build-up, tartar formation, gingivitis and sensitivity. It gives you fresh breath , protects your enamel, and removes stains, giving you a healthier, whiter smile.",
-                                    1)
+                                    383.00)
                     }),
             new Category(
                     "Surgical\nEquipment",
                     "Surgical Equipment",
-                    null,
+                    ImagePath.surgicalEquipment,
                     " Surgical equipment is a type of medical equipment that is used by doctors during surgical procedures to help \n them operate on patients. This equipment is used in a variety of medical conditions that require surgery,such as broken bones, organ transplants, and tumor removal. It plays an essential role in helping medical \n professionals perform surgeries safely and effectively.",
                     new Product[] {
                             new Product(
                                     "Medical Gloves",
                                     null,
                                     "Disposable gloves are a type of protective handwear that are typically used once and then discarded. It provides a barrier between the skin of the healthcare worker and the patient, reducing the risk of transmitting infectious agents during medical procedures or examinations.",
-                                    1),
+                                    158),
                             new Product(
                                     "Syringe and Needle",
                                     null,
                                     "Syringe with Needle is used to administer medication or withdraw fluids from the body. They allow the fluids to be siphoned carefully and properly through veins. ",
-                                    1),
+                                    440.00),
                             new Product(
                                     "Medical Scissor",
                                     null,
                                     "Surgical scissors are used to cut soft tissue in order to perform various procedures, such as skin grafting, dental surgery, and other delicate surgical procedures. It has the ability to cut through soft tissues without causing excessive trauma or bleeding.",
-                                    1)
+                                    174.00),
                     }),
             new Category(
                     "Assistive\n Devices",
                     "Assistive Devices",
-                    null,
+                    ImagePath.assistiveDevices,
                     "Assistive devices are tools or equipment that are designed to help individuals with physical or cognitive \n impairments to perform daily tasks and activities with greater ease and independence. They are used to \nassist people who have difficulty with mobility, vision, hearing, communication, or other areas of physical \n or cognitive functioning.",
                     new Product[] {
                             new Product(
                                     "Assistive cane",
                                     null,
                                     "Assistive cane, used as a crutch or mobility aid. A cane can help redistribute weight from a lower leg that is weak or painful, improve stability by increasing the base of support, and provide tactile information about the ground to improve balance.",
-                                    1),
+                                    998.00),
                             new Product(
                                     "Walker",
                                     null,
                                     "A walker is a type of mobility aid used to help people who are still able to walk but need assistance. It is a four-legged frame that allows a person to lean on it for balance, support, and rest.",
-                                    1),
+                                    2100.00),
                             new Product(
                                     "Wheel Chair",
                                     null,
                                     "Wheelchair is a device used for people who cannot walk or have difficulty walking. It is a chair mounted on wheels that can be moved by the user or by an attendant. It is ideal for people who have difficulty standing or walking for long periods of time.",
-                                    1)
+                                    2597.00)
                     }),
     };
 
@@ -1115,7 +1137,7 @@ public class Main {
 
         private Category category;
         private JFrame frame;
-        private final static String navigationInstructions = "Select the wanted item by clicking on it. In the pop-up window, descriptions and proper use of the item will be shown.\nOnce correct, indicate the desired quantity in the specified text field and click proceed, otherwise return";
+        private final static String navigationInstructions = "Select the wanted item by clicking on it. In the pop-up window, descriptions and proper use of the item will be shown.\nOnce correct, indicate the desired quantity in the specified text field and click proceed, otherwise return.\n";
 
         public String getInstructions() {
             String instructions = navigationInstructions + " " + category.getInstructions();
@@ -1468,7 +1490,7 @@ public class Main {
 
         /**
          * Convenience method to change the alpha value of the current foreground
-         * Color to the specifice value.
+         * Color to the specific value.
          *
          * @param alpha value in the range of 0 - 255.
          */
