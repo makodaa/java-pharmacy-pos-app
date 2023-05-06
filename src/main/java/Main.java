@@ -60,115 +60,317 @@ public class Main {
                     "Pain\nRelievers",
                     "Pain Relievers",
                     ImagePath.painRelievers,
-                    ""
-                            + "To select a product and place an order, simply click on the desired item \n"
-                            + "to be directed to its details page. Here, you can choose the quantity of pain\n"
-                            + "reliever you desire. Once you have made your selection, click the \"Add to Cart\"\n"
-                            + "button to add the item to your shopping cart. If you wish to purchase additional\n"
-                            + "pain reliever products, repeat these steps for each item. We hope you enjoy \n"
-                            + "your shopping experience!",
+                    "",
                     new Product[] {
                             new Product(
-                                    "Alaxan Tablet (325mg)",
+                                    "Ibuprofen+Paracetamol (325mg)",
                                     null,
                                     "Faster relief of mild to moderately severe pain of musculoskeletal origin eg muscle pain, arthritis, rheumatism, sprain, strain, bursitis, tendonitis, backache, stiff neck, tension headache, dysmenorrhea, toothache, pain after tooth extraction & minor surgical operations. Reduction of fever.",
-                                    850),
+                                    8.50),
                             new Product(
-                                    "Tylenol ER Tablet (650mg)",
+                                    "Paracetamol+Tylenol (650mg)",
                                     null,
                                     "Temporary relief of pain & discomfort from headache, fever, cold or flu, minor muscular aches, overexertion, menstrual cramps, toothache, minor arthritic pain.",
-                                    925),
+                                    9.25),
                             new Product(
-                                    "Naproxen sodium Tablet (275 mg)",
+                                    "Naproxen Sodium Tablet (275 mg)",
                                     null,
                                     "Used in the relief of inflammation, swelling, stiffness, and pain due to musculoskeletal and joint disorders such as arthritis and gout. Also used for mild to moderate pain caused by dysmenorrhea (menstrual pain), migraine, and after dental or other surgical procedures.",
-                                    1150),
+                                    11.50),
                     }),
             new Category(
                     "Antibiotics",
+                    "Antibiotics",
                     null,
                     null,
-                    null,
-                    new Product[] {}),
+                    new Product[] {
+                            new Product(
+                                    "Cephalexin",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Amoxicillin",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Azithromycin",
+                                    null,
+                                    "Used to treat certain bacterial infections, such as bronchitis; pneumonia; sexually transmitted diseases (STD); and infections of the ears, lungs, sinuses, skin, throat, and reproductive organs",
+                                    1)
+                    }),
             new Category(
                     "Anti\nAllergy",
+                    "Anti Allergy",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    "A category of medicine that is most commonly used by people who have allergic reactions to pollen and other allergens. \nThese medicines help ease a runny nose, itchy or watery eyes, hives, swelling, and other signs or symptoms of allergies.",
+                    new Product[] {
+                            new Product(
+                                    "Loratadine",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Certizine Dihydrochloride",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Diphenhydramine",
+                                    null,
+                                    "",
+                                    1)
+                    }),
             new Category(
                     "Respiratory\nMedicine",
+                    "Respiratory Medicine",
                     null,
                     null,
-                    null,
-                    new Product[] {}),
+                    new Product[] {
+                            new Product(
+                                    "Pirbuterol",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Albuterol",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Corticosteroids",
+                                    null,
+                                    "",
+                                    1)
+                    }),
             new Category(
                     "Fever\nMedicine",
+                    "Fever Medicine",
                     null,
                     null,
-                    null,
-                    new Product[] {}),
+                    new Product[] {
+                            new Product(
+                                    "Paracetamol",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Phenylephrine, Chlorophenamine Maleate, Paracetamol",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Dextromethorphan, Phenylpropanolamine, Paracetamol",
+                                    null,
+                                    "",
+                                    1)
+                    }),
             new Category(
+                    "Vitamins",
                     "Vitamins",
                     null,
                     null,
-                    null,
-                    new Product[] {}),
+                    new Product[] {
+                            new Product(
+                                    "Multivitamin Effervescent Tablets",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Vitamin C",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Vitamin B-Complex",
+                                    null,
+                                    "",
+                                    1)
+                    }),
             new Category(
                     "Dietary\nSupp.",
+                    "Dietary Supplements",
                     null,
                     null,
-                    null,
-                    new Product[] {}),
+                    new Product[] {
+                            new Product(
+                                    "Astaxanthin, Lycopene, and Vitamin E",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Garcinia Mangostana L. Food Supplement",
+                                    null,
+                                    "",
+                                    1)
+                    }),
             new Category(
                     "Mineral\nSupp.",
+                    "Mineral Supplements",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    " Mineral Supplements are a category of medicine that provides essential minerals to the body, \nsuch as iron, calcium, and zinc. They are commonly used to support bone health, improve immune function, \nand prevent mineral deficiencies.",
+                    new Product[] {
+                            new Product(
+                                    "Cholecalciferol + Minerals",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Calcium Carbonate",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Ferrous Gluconate, Multivitamins and Minerals",
+                                    null,
+                                    "",
+                                    1)
+                    }),
             new Category(
                     "Bandages",
+                    "Bandages",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    "Bandages are a type of medical product that is used to protect and cover wounds or injuries. \nThey should be used in situations where there is a cut, scrape, or other type of injury that \nneeds to be covered and protected to prevent further harm or infection.",
+                    new Product[] {
+                            new Product(
+                                    "Gauze Bandage",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Roller Bandage",
+                                    null,
+                                    "",
+                                    1),
+                            new Product(
+                                    "Tubular Bandage",
+                                    null,
+                                    "",
+                                    1)
+                    }),
             new Category(
                     "Cotton\nItems",
+                    "Cotton Items",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    "Cotton Items is a category of medical supplies that are used for various purposes such as cleaning wounds, \n applying ointments or creams, and absorbing bodily fluids. They can be used in treating a wide range of \nconditions, including cuts, bruises, burns, and other injuries that require gentle care.",
+                    new Product[] {
+                            new Product(
+                                    "Cotton Swabs",
+                                    null,
+                                    "Used to clean the ear canal by removing earwax and other dirt patches. Cotton swabs are also used for disinfection of patients' skin, treatment of wounds, and application of medical liquids.",
+                                    1),
+                            new Product(
+                                    "Cotton balls",
+                                    null,
+                                    "Cotton balls have multiple uses including cleaning out larger wounds with hydrogen peroxide or iodine, applying antiseptics or topical ointments, cleaning minor cuts and skin irritations, and stopping blood after an injection is given or blood withdrawn.",
+                                    1),
+                            new Product(
+                                    "Cotton Pads",
+                                    null,
+                                    "Cotton pads are particularly useful in stopping or preventing bleeding from minor punctures, such as injections or venipuncture. Cotton pads are also often used for cleaning and disinfecting wounds, as well as applying medication or topical treatments.",
+                                    1)
+                    }),
             new Category(
                     "Antiseptics",
+                    "Antiseptics",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    "Antiseptics are a type of medicine used to prevent infections by killing germs and bacteria on the skin or \n inside the body. They are typically used to clean wounds or prepare the skin before surgery to reduce the \n risk of infection. Antiseptics can also be used for everyday cuts and scrapes to prevent infection and \n promote healing.",
+                    new Product[] {
+                            new Product(
+                                    "Povidone Iodine  15Ml",
+                                    null,
+                                    "Microbicide for topical use in minor wounds, cuts, abrasions, burns & post-op wounds. Eliminates all 5 major classes of harmful organisms: bacteria, fungi, virus, protozoa and spores, to stop infection and for faster wound healing",
+                                    1),
+                            new Product(
+                                    "Hexetidine 60ml",
+                                    null,
+                                    "Hexetidine eliminates sore throat causing viruses and other oral transmitted bacteria to avoid coughs, colds or a flu. It is used for minor infections of mucous membranes.",
+                                    1),
+                            new Product(
+                                    "Hydrogen Peroxide 120ml",
+                                    null,
+                                    "Hydrogen peroxide is used for the treatment and cleansing of wounds. It can also be used as a bleaching agent. Its strong oxidizing properties make it a powerful disinfectant and cleaning solution",
+                                    1)
+                    }),
             new Category(
                     "Personal\nHygiene",
+                    "Personal Hygiene",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    " Personal hygiene is a category of products that are used to maintain cleanliness and promote good health. They are typically used to prevent the spread of germs, bacteria, and viruses, as well as to keep the body clean and fresh. Personal hygiene products can help prevent ailments such as infections, skin irritations, and bad odors. They are an essential part of a healthy lifestyle and should be used regularly to maintain good hygiene.",
+                    new Product[] {
+                            new Product(
+                                    "Hand Soap",
+                                    null,
+                                    "Hand soap cleans skin to wash away bacteria, providing essential cleansing to care for your family and prevent the spread of bacteria.",
+                                    1),
+                            new Product(
+                                    "Shampoo",
+                                    null,
+                                    "Nourishes scalp and roots to repair the appearance of damaged hair and to remove dirt and oil from the surface of the hair fibers and the scalp.",
+                                    1),
+                            new Product(
+                                    "Toothpaste",
+                                    null,
+                                    "Prevent cavities, plaque build-up, tartar formation, gingivitis and sensitivity. It gives you fresh breath , protects your enamel, and removes stains, giving you a healthier, whiter smile.",
+                                    1)
+                    }),
             new Category(
                     "Surgical\nEquipment",
+                    "Surgical Equipment",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    " Surgical equipment is a type of medical equipment that is used by doctors during surgical procedures to help \n them operate on patients. This equipment is used in a variety of medical conditions that require surgery,such as broken bones, organ transplants, and tumor removal. It plays an essential role in helping medical \n professionals perform surgeries safely and effectively.",
+                    new Product[] {
+                            new Product(
+                                    "Medical Gloves",
+                                    null,
+                                    "Disposable gloves are a type of protective handwear that are typically used once and then discarded. It provides a barrier between the skin of the healthcare worker and the patient, reducing the risk of transmitting infectious agents during medical procedures or examinations.",
+                                    1),
+                            new Product(
+                                    "Syringe and Needle",
+                                    null,
+                                    "Syringe with Needle is used to administer medication or withdraw fluids from the body. They allow the fluids to be siphoned carefully and properly through veins. ",
+                                    1),
+                            new Product(
+                                    "Medical Scissor",
+                                    null,
+                                    "Surgical scissors are used to cut soft tissue in order to perform various procedures, such as skin grafting, dental surgery, and other delicate surgical procedures. It has the ability to cut through soft tissues without causing excessive trauma or bleeding.",
+                                    1)
+                    }),
             new Category(
                     "Assistive\n Devices",
+                    "Assistive Devices",
                     null,
-                    null,
-                    null,
-                    new Product[] {}),
+                    "Assistive devices are tools or equipment that are designed to help individuals with physical or cognitive \n impairments to perform daily tasks and activities with greater ease and independence. They are used to \nassist people who have difficulty with mobility, vision, hearing, communication, or other areas of physical \n or cognitive functioning.",
+                    new Product[] {
+                            new Product(
+                                    "Assistive cane",
+                                    null,
+                                    "Assistive cane, used as a crutch or mobility aid. A cane can help redistribute weight from a lower leg that is weak or painful, improve stability by increasing the base of support, and provide tactile information about the ground to improve balance.",
+                                    1),
+                            new Product(
+                                    "Walker",
+                                    null,
+                                    "A walker is a type of mobility aid used to help people who are still able to walk but need assistance. It is a four-legged frame that allows a person to lean on it for balance, support, and rest.",
+                                    1),
+                            new Product(
+                                    "Wheel Chair",
+                                    null,
+                                    "Wheelchair is a device used for people who cannot walk or have difficulty walking. It is a chair mounted on wheels that can be moved by the user or by an attendant. It is ideal for people who have difficulty standing or walking for long periods of time.",
+                                    1)
+                    }),
     };
 
     public static void main(String[] args) {
         setLookAndFeel();
-        // openGreeting();
-        // openMainPanel();
-        openSearchPanel();
+        openGreeting();
+        openMainPanel();
+        // openSearchPanel();
     }
 
     /**
@@ -833,15 +1035,12 @@ public class Main {
 
         private Category category;
         private JFrame frame;
+        private final static String navigationInstructions = "Select the wanted item by clicking on it. In the pop-up window, descriptions and proper use of the item will be shown.\nOnce correct, indicate the desired quantity in the specified text field and click proceed, otherwise return";
 
         public String getInstructions() {
-            String instructions = category.getInstructions();
+            String instructions = navigationInstructions + " " + category.getInstructions();
 
-            if (instructions == null) {
-                return "Lorem ipsum";
-            } else {
-                return instructions;
-            }
+            return instructions;
         }
 
         private NavigationPanel(Category category, JFrame frame) {
@@ -1043,13 +1242,13 @@ public class Main {
             return description;
         }
 
-        private final int price;
+        private final double price;
 
-        public int getPrice() {
+        public double getPrice() {
             return price;
         }
 
-        public Product(String title, String iconPath, String description, int price) {
+        public Product(String title, String iconPath, String description, double price) {
             this.title = title;
             this.iconPath = iconPath;
             this.description = description;
