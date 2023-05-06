@@ -1,25 +1,27 @@
 /**
- * Search Product
+ * Search Product [x]
  *  1. Click
  *  2. Text Field tas pwedes mag search
  *  3. text field na may table tapos pinapakita lang saan category
  *
- * Confirm Purchases
+ * Confirm Purchases [ ]
  *  1. Open summary of purchase
  *
- * Void Item
+ * Void Item [ ]
  * 1. window na pwede mag select ng shit na tapos may delete button aanhd bavkc hthoanubno
- * 
- * Clear Cart
+ *
+ * Clear Cart [ ]
  * 1. clear cart2
  *
- * exit
+ * exit [x]
  * 1. papatyin
  */
 
 package main.java;
 
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -34,6 +36,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
 
 public class Main {
 
@@ -619,8 +623,6 @@ public class Main {
 
     private static class MainPanel extends JPanel {
         private static String[][] data = {
-                { "H.Code", "H.Item", "H.Price", "H.Count", "H.Total" },
-                { "Code", "Item", "Price", "Count", "Total" },
         };
 
         @Override
@@ -771,6 +773,7 @@ public class Main {
             private EntrySubmenuPanel(JFrame frame) {
                 this.frame = frame;
                 this.setLayout(new GridBagLayout());
+                this.setBackground(Color.RED);
 
                 GridBagConstraints constraints = generateConstraints();
                 constraints.weightx = 1;
@@ -801,6 +804,42 @@ public class Main {
                 model.addRow(newRow);
             }
 
+            private void clearCart() {
+                for (int y = model.getRowCount() - 1; y >= 0; --y) {
+                    model.removeRow(y);
+                }
+            }
+
+            private JButton createSearchButton() {
+                JButton button = new JButton("Search Product");
+                button.addActionListener(e -> {
+                    openSearchPanel();
+                });
+
+                return button;
+            }
+
+            private JButton createClearCartButton() {
+                JButton button = new JButton("Clear Cart");
+                button.addActionListener(e -> {
+                    /// Ask for confirmation.
+                    int answer = JOptionPane.showConfirmDialog(
+                            null,
+                            "Are you sure you want to clear the selected products?");
+                    switch (answer) {
+                        case JOptionPane.YES_OPTION:
+                            clearCart();
+                            return;
+                        case JOptionPane.NO_OPTION:
+                        default:
+                            /// Since they have not selected yes, then we do nothing.
+                            return;
+                    }
+                });
+
+                return button;
+            }
+
             private JButton createExitButton() {
                 JButton button = new JButton("Exit");
                 button.addActionListener(e -> {
@@ -821,10 +860,10 @@ public class Main {
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.weightx = 1;
 
-                JButton search = new JButton("Search Product");
+                JButton search = createSearchButton();
                 JButton confirm = new JButton("Confirm Purchases");
                 JButton voidItem = new JButton("Void Item");
-                JButton clear = new JButton("Clear Cart");
+                JButton clear = createClearCartButton();
                 JButton exit = createExitButton();
 
                 panel.add(search, constraints);
@@ -962,11 +1001,22 @@ public class Main {
             }
             tcm.getColumn(0).setCellRenderer(leftRenderer);
 
-            return table;
+            JScrollPane scrollPane = new JScrollPane(table);
+
+            return scrollPane;
         }
 
         private Component createSearchBar() {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+
             JTextField textField = new JTextField();
+            TextPrompt textPrompt = new TextPrompt("Enter a keyword (`Amoxicillin`)", textField);
+            textPrompt.changeAlpha(0.5f);
+
             textField.getDocument().addDocumentListener(new DocumentListener() {
                 private String previous = "";
                 private String now = "";
@@ -993,9 +1043,21 @@ public class Main {
                     } else {
                         String[][] sorted = getRows();
                         Arrays.sort(sorted,
-                                Comparator.comparingInt(r -> levenshtein(
-                                        r[0].toLowerCase(),
-                                        captured.toLowerCase())));
+                                Comparator.comparingInt(row -> {
+                                    String name = row[0].toLowerCase();
+                                    String pattern = captured.toLowerCase();
+
+                                    int lowest = levenshtein(name, pattern);
+                                    for (String target : name.split(" ")) {
+                                        for (String keyword : pattern.split(" ")) {
+                                            int distance = levenshtein(target.trim(), keyword.trim());
+                                            if (distance < lowest) {
+                                                lowest = distance;
+                                            }
+                                        }
+                                    }
+                                    return lowest;
+                                }));
 
                         for (int y = model.getRowCount() - 1; y >= 0; --y) {
                             model.removeRow(y);
@@ -1008,7 +1070,19 @@ public class Main {
                 }
             });
 
-            return textField;
+            constraints.weightx = 1.0;
+            panel.add(textField, constraints);
+            ++constraints.gridx;
+            constraints.weightx = 0.0;
+
+            JButton backButton = new JButton("Back");
+            backButton.addActionListener(e -> {
+                openMainPanel();
+            });
+
+            panel.add(backButton, constraints);
+
+            return panel;
         }
 
         private String[][] getRows() {
@@ -1327,5 +1401,198 @@ public class Main {
         // The value in the bottom right corner of the distance matrix is the distance
         // between the entire source string and the entire target string.
         return distanceMatrix[sourceLength][targetLength];
+    }
+
+    /// External Code
+    /**
+     * The TextPrompt class will display a prompt over top of a text component when
+     * the Document of the text field is empty. The Show property is used to
+     * determine the visibility of the prompt.
+     *
+     * The Font and foreground Color of the prompt will default to those properties
+     * of the parent text component. You are free to change the properties after
+     * class construction.
+     */
+    public static class TextPrompt extends JLabel implements FocusListener, DocumentListener {
+        public enum Show {
+            ALWAYS,
+            FOCUS_GAINED,
+            FOCUS_LOST;
+        }
+
+        private JTextComponent component;
+        private Document document;
+
+        private Show show;
+        private boolean showPromptOnce;
+        private int focusLost;
+
+        public TextPrompt(String text, JTextComponent component) {
+            this(text, component, Show.ALWAYS);
+        }
+
+        public TextPrompt(String text, JTextComponent component, Show show) {
+            this.component = component;
+            setShow(show);
+            document = component.getDocument();
+
+            setText(text);
+            setFont(component.getFont());
+            setForeground(component.getForeground());
+            setBorder(new EmptyBorder(component.getInsets()));
+            setHorizontalAlignment(JLabel.LEADING);
+
+            component.addFocusListener(this);
+            document.addDocumentListener(this);
+
+            component.setLayout(new BorderLayout());
+            component.add(this);
+            checkForPrompt();
+        }
+
+        /**
+         * Convenience method to change the alpha value of the current foreground
+         * Color to the specifice value.
+         *
+         * @param alpha value in the range of 0 - 1.0.
+         */
+        public void changeAlpha(float alpha) {
+            changeAlpha((int) (alpha * 255));
+        }
+
+        /**
+         * Convenience method to change the alpha value of the current foreground
+         * Color to the specifice value.
+         *
+         * @param alpha value in the range of 0 - 255.
+         */
+        public void changeAlpha(int alpha) {
+            alpha = alpha > 255 ? 255 : alpha < 0 ? 0 : alpha;
+
+            Color foreground = getForeground();
+            int red = foreground.getRed();
+            int green = foreground.getGreen();
+            int blue = foreground.getBlue();
+
+            Color withAlpha = new Color(red, green, blue, alpha);
+            super.setForeground(withAlpha);
+        }
+
+        /**
+         * Convenience method to change the style of the current Font. The style
+         * values are found in the Font class. Common values might be:
+         * Font.BOLD, Font.ITALIC and Font.BOLD + Font.ITALIC.
+         *
+         * @param style value representing the the new style of the Font.
+         */
+        public void changeStyle(int style) {
+            setFont(getFont().deriveFont(style));
+        }
+
+        /**
+         * Get the Show property
+         *
+         * @return the Show property.
+         */
+        public Show getShow() {
+            return show;
+        }
+
+        /**
+         * Set the prompt Show property to control when the promt is shown.
+         * Valid values are:
+         *
+         * Show.AWLAYS (default) - always show the prompt
+         * Show.Focus_GAINED - show the prompt when the component gains focus
+         * (and hide the prompt when focus is lost)
+         * Show.Focus_LOST - show the prompt when the component loses focus
+         * (and hide the prompt when focus is gained)
+         *
+         * @param show a valid Show enum
+         */
+        public void setShow(Show show) {
+            this.show = show;
+        }
+
+        /**
+         * Get the showPromptOnce property
+         *
+         * @return the showPromptOnce property.
+         */
+        public boolean getShowPromptOnce() {
+            return showPromptOnce;
+        }
+
+        /**
+         * Show the prompt once. Once the component has gained/lost focus
+         * once, the prompt will not be shown again.
+         *
+         * @param showPromptOnce when true the prompt will only be shown once,
+         *                       otherwise it will be shown repeatedly.
+         */
+        public void setShowPromptOnce(boolean showPromptOnce) {
+            this.showPromptOnce = showPromptOnce;
+        }
+
+        /**
+         * Check whether the prompt should be visible or not. The visibility
+         * will change on updates to the Document and on focus changes.
+         */
+        private void checkForPrompt() {
+            // Text has been entered, remove the prompt
+
+            if (document.getLength() > 0) {
+                setVisible(false);
+                return;
+            }
+
+            // Prompt has already been shown once, remove it
+
+            if (showPromptOnce && focusLost > 0) {
+                setVisible(false);
+                return;
+            }
+
+            // Check the Show property and component focus to determine if the
+            // prompt should be displayed.
+
+            if (component.hasFocus()) {
+                if (show == Show.ALWAYS
+                        || show == Show.FOCUS_GAINED)
+                    setVisible(true);
+                else
+                    setVisible(false);
+            } else {
+                if (show == Show.ALWAYS
+                        || show == Show.FOCUS_LOST)
+                    setVisible(true);
+                else
+                    setVisible(false);
+            }
+        }
+
+        // Implement FocusListener
+
+        public void focusGained(FocusEvent e) {
+            checkForPrompt();
+        }
+
+        public void focusLost(FocusEvent e) {
+            focusLost++;
+            checkForPrompt();
+        }
+
+        // Implement DocumentListener
+
+        public void insertUpdate(DocumentEvent e) {
+            checkForPrompt();
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+            checkForPrompt();
+        }
+
+        public void changedUpdate(DocumentEvent e) {
+        }
     }
 }
