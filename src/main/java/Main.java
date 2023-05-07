@@ -69,8 +69,8 @@ public class Main {
 
         private static final String ibuprofen = "./assets/products/ibuprofen.png";
         private static final String acetaminophen = "./assets/products/acetaminophen.png";
-        private static final String naproxen_sodium = "./assets/products/naproxen_sodium.png";
-        
+        private static final String naproxenSodium = "./assets/products/naproxen_sodium.png";
+
         private static final String cephalexin = "./assets/products/cephalexin.png";
         private static final String amoxicillin = "./assets/products/amoxicillin.png";
         private static final String azithromycin = "./assets/products/azithromycin.png";
@@ -82,43 +82,95 @@ public class Main {
         private static final String salbutamol = "./assets/products/salbutamol.png";
         private static final String methylprednisolone = "./assets/products/methylprednisolone.png";
         private static final String paracetamol = "./assets/products/paracetamol.png";
-        private static final String phenylephrine_chlorphenamine = "./assets/products/phenylephrine_chlorphenamine_maleate.png";
-        private static final String dextromethorphan_phenylpropanolamine = "./assets/products/dextromethorphan_phenylpropanolamine.png";
-        private static final String mutlivitamins_effervescent_tablets = "./assets/products/multivitamin_effervescent_tablets.png";
-        private static final String ascorbic_acid = "./assets/products/ascorbic_acid.png";
-        private static final String vitamin_b_complex = "./assets/products/vitramin_b_complex.png";
-        private static final String astaxathin_lycopene_vitamin_e = "./assets/products/astaxanthin_lycopene_vitamin_e.png";
-        private static final String spiruline_tablets = ".assets/products/spiruline_tablets.png";
-        private static final String garcinia_mangostana_capsule = "./assets/products/garcinia_mangostana_capsule.png";
-        private static final String cholecalciferol_minerals = "./assets/products/cholecalciferol_minerals.png";
-        private static final String calcium_carbonate = "./assets/products/calcium_carbonate.png";
-        private static final String multivitamin_iron_calcium = "./assets/products/multivitamins_iron_calcium.png";
-        private static final String gauze_bandage = "./assets/products/gauze_bandage.png";
-        private static final String elastic_bandage = "./assets/products/elastic_bandage.png";
-        private static final String tubular_bandage = "./assets/products/tubular_bandage.png";
-        private static final String cotton_buds = "./assets/products/cotton_buds.png";
-        private static final String cotton_balls = "./assets/products/cotton_balls.png";
-        private static final String cotton_pads = "./assets/products/cotton_pads.png";
-        private static final String povidone_iodine = "./assets/products/povidone_iodine.png";
+        private static final String phenylephrineChlorphenamine = "./assets/products/phenylephrine_chlorphenamine_maleate.png";
+        private static final String dextromethorphanPhenylpropanolamine = "./assets/products/dextromethorphan_phenylpropanolamine.png";
+        private static final String mutlivitaminsEffervescentTablets = "./assets/products/multivitamin_effervescent_tablets.png";
+        private static final String ascorbicAcid = "./assets/products/ascorbic_acid.png";
+        private static final String vitaminBComplex = "./assets/products/vitramin_b_complex.png";
+        private static final String astaxathinLycopeneVitaminE = "./assets/products/astaxanthin_lycopene_vitamin_e.png";
+        private static final String spirulineTablets = ".assets/products/spiruline_tablets.png";
+        private static final String garciniaMangostanaCapsule = "./assets/products/garcinia_mangostana_capsule.png";
+        private static final String cholecalciferolMinerals = "./assets/products/cholecalciferol_minerals.png";
+        private static final String calciumCarbonate = "./assets/products/calcium_carbonate.png";
+        private static final String multivitaminIronCalcium = "./assets/products/multivitamins_iron_calcium.png";
+        private static final String gauzeBandage = "./assets/products/gauze_bandage.png";
+        private static final String elasticBandage = "./assets/products/elastic_bandage.png";
+        private static final String tubularBandage = "./assets/products/tubular_bandage.png";
+        private static final String cottonBuds = "./assets/products/cotton_buds.png";
+        private static final String cottonBalls = "./assets/products/cotton_balls.png";
+        private static final String cottonPads = "./assets/products/cotton_pads.png";
+        private static final String povidoneIodine = "./assets/products/povidone_iodine.png";
         private static final String hexitidine = "./assets/products/hexetidine.png";
-        private static final String hydrogen_peroxide = "./assets/products/hydrogen_peroxide.png";
-        private static final String body_soap = "./assets/products/body_soap.png";
+        private static final String hydrogenPeroxide = "./assets/products/hydrogen_peroxide.png";
+        private static final String bodySoap = "./assets/products/body_soap.png";
         private static final String shampoo = "./assets/products/shampoo.png";
         private static final String toothpaste = "./assets/products/toothpaste.png";
-        private static final String surgical_gloves = "./assets/products/surgical_gloves.png";
-        private static final String disposable_syringe = "./assets/products/disposable_syringe.png";
-        private static final String surgical_scissors = "./assets/products/surgical_scissors.png";
-        private static final String assistive_cane = "./assets/products/assistive_cane.png";
-        private static final String assistive_walker = "./assets/products/assistive_walker.png";
+        private static final String surgicalGloves = "./assets/products/surgical_gloves.png";
+        private static final String disposableSyringe = "./assets/products/disposable_syringe.png";
+        private static final String surgicalScissors = "./assets/products/surgical_scissors.png";
+        private static final String assistiveCane = "./assets/products/assistive_cane.png";
+        private static final String assistiveWalker = "./assets/products/assistive_walker.png";
         private static final String wheelchair = "./assets/products/wheelchair.png";
 
-
-
-
-
-        private static final String[] paths = {
-                icon, painRelievers,
-        };
+        // private static final String[] paths = {
+        //         icon,
+        //         painRelievers,
+        //         antibiotics,
+        //         antiAllergy,
+        //         respiratoryMedicine,
+        //         feverMedicine,
+        //         vitamins,
+        //         dietarySupplements,
+        //         mineralSupplements,
+        //         bandages,
+        //         cottonItems,
+        //         antiseptics,
+        //         personalHygiene,
+        //         surgicalEquipment,
+        //         assistiveDevices,
+        //         ibuprofen,
+        //         acetaminophen,
+        //         naproxenSodium,
+        //         cephalexin,
+        //         amoxicillin,
+        //         azithromycin,
+        //         loratidine,
+        //         cetirizine,
+        //         levocetirizine,
+        //         pirbuterol,
+        //         salbutamol,
+        //         methylprednisolone,
+        //         paracetamol,
+        //         phenylephrineChlorphenamine,
+        //         dextromethorphanPhenylpropanolamine,
+        //         mutlivitaminsEffervescentTablets,
+        //         ascorbicAcid,
+        //         vitaminBComplex,
+        //         astaxathinLycopeneVitaminE,
+        //         spirulineTablets,
+        //         garciniaMangostanaCapsule,
+        //         cholecalciferolMinerals,
+        //         calciumCarbonate,
+        //         multivitaminIronCalcium,
+        //         gauzeBandage,
+        //         elasticBandage,
+        //         tubularBandage,
+        //         cottonBuds,
+        //         cottonBalls,
+        //         cottonPads,
+        //         povidoneIodine,
+        //         hexitidine,
+        //         hydrogenPeroxide,
+        //         bodySoap,
+        //         shampoo,
+        //         toothpaste,
+        //         surgicalGloves,
+        //         disposableSyringe,
+        //         surgicalScissors,
+        //         assistiveCane,
+        //         assistiveWalker,
+        //         wheelchair
+        // };
     }
 
     private static final Category[] categories = new Category[] {
@@ -140,7 +192,7 @@ public class Main {
                                     9.25),
                             new Product(
                                     "Naproxen Sodium Tablet (275 mg)",
-                                    ImagePath.naproxen_sodium,
+                                    ImagePath.naproxenSodium,
                                     "Used in the relief of inflammation, swelling, stiffness, and pain due to musculoskeletal and joint disorders such as arthritis and gout. Also used for mild to moderate pain caused by dysmenorrhea (menstrual pain), migraine, and after dental or other surgical procedures.",
                                     11.50),
                     }),
@@ -223,12 +275,12 @@ public class Main {
                                     45.00),
                             new Product(
                                     "Phenylephrine, Chlorophenamine Maleate, Paracetamol",
-                                    ImagePath.phenylephrine_chlorphenamine,
+                                    ImagePath.phenylephrineChlorphenamine,
                                     " Treatment of colds and related symptoms. Phenylephrine HCl, Chlorphenamine Maleate and Paracetamol makes breathing easier, relieves allergies and related symptoms, and reduces fever.",
                                     110.00),
                             new Product(
                                     "Dextromethorphan, Phenylpropanolamine, Paracetamol",
-                                    ImagePath.dextromethorphan_phenylpropanolamine,
+                                    ImagePath.dextromethorphanPhenylpropanolamine,
                                     "Completed with Dextromethorphan, Phenylpropanolamine, and Paracetamo to stop coughs, clear obstructed air passages and nasal sinuses, and reduce fever and body pain.",
                                     210.00)
                     }),
@@ -240,17 +292,17 @@ public class Main {
                     new Product[] {
                             new Product(
                                     "Multivitamin Effervescent Tablets",
-                                    ImagePath.mutlivitamins_effervescent_tablets,
+                                    ImagePath.mutlivitaminsEffervescentTablets,
                                     "The formula of magnesium, zinc, calcium, vitamin C and eight B vitamins helps release energy from your food, reduces tiredness and fatigue and also supports physical and mental stamina",
                                     285.00),
                             new Product(
                                     "Ascorbic Acid 500mg",
-                                    ImagePath.ascorbic_acid,
+                                    ImagePath.ascorbicAcid,
                                     "Contains ASCORBIC ACID 500Mg. This medicine is used in the treatment and prevention of Vitamin C deficiency.",
                                     2.25),
                             new Product(
                                     "Vitamin B-Complex",
-                                    ImagePath.vitamin_b_complex,
+                                    ImagePath.vitaminBComplex,
                                     "Treat Vitamin B deficiency and illnesses along with it such as muscle pain, loss of reflexes in the hands, knees, ankles, calves and feet and abnormal touch sensation (burning and pricking).",
                                     14.25)
                     }),
@@ -262,17 +314,17 @@ public class Main {
                     new Product[] {
                             new Product(
                                     "Astaxanthin, Lycopene, and Vitamin E",
-                                    ImagePath.astaxathin_lycopene_vitamin_e,
+                                    ImagePath.astaxathinLycopeneVitaminE,
                                     "Astaxanthin, lycopene, and vitamin E supplement serves as a powerful antioxidant that helps remove harmful free radicals and promote cell and tissue renewal of the skin, lungs, muscles, and liver. It also helps maintain and improve stamina",
                                     195.00),
                             new Product(
                                     "Spirulina Tablets",
-                                    ImagePath.spiruline_tablets,
+                                    ImagePath.spirulineTablets,
                                     "Contains high amounts of amino acids, carbohydrates, fats, vitamins, minerals and trace elements, phyto-nutrients and dietary fibers that addresses nutritional diseases resulting in anemia, poor weight gain and other nutrition-related health conditions",
                                     1),
                             new Product(
                                     "Garcinia Mangostana L. Food Supplement",
-                                    ImagePath.garcinia_mangostana_capsule,
+                                    ImagePath.garciniaMangostanaCapsule,
                                     "Contains natural Pure Xanthone, with antioxidant and anti-inflammatory properties that may help protect against free radicals causing diseases",
                                     1)
                     }),
@@ -284,17 +336,17 @@ public class Main {
                     new Product[] {
                             new Product(
                                     "Cholecalciferol + Minerals",
-                                    ImagePath.cholecalciferol_minerals,
+                                    ImagePath.cholecalciferolMinerals,
                                     "Calcium and Vitamin D and other musculoskeletal strengthening nutrients, which keeps the physical body strong and healthy.",
                                     230.00),
                             new Product(
                                     "Calcium Carbonate",
-                                    ImagePath.calcium_carbonate,
+                                    ImagePath.calciumCarbonate,
                                     "Mineral-calcium supplements help prevent and treat osteoporosis, calcium malabsorption, and deficiency conditions",
                                     14.00),
                             new Product(
                                     "Ferrous Gluconate, Multivitamins and Minerals",
-                                    ImagePath.multivitamin_iron_calcium,
+                                    ImagePath.multivitaminIronCalcium,
                                     "Replenishes Iron stores and increases hemoglobin levels in the body. Supports optimum blood health",
                                     545.00)
                     }),
@@ -306,17 +358,17 @@ public class Main {
                     new Product[] {
                             new Product(
                                     "Gauze Bandage",
-                                    ImagePath.gauze_bandage,
+                                    ImagePath.gauzeBandage,
                                     "Gauze Bandage is used to hold a dressing in place on a wound, maintain pressure over a bulky pad to control bleeding, support an injured limb or joint, and apply pressure to a limb.",
                                     110.00),
                             new Product(
                                     "Roller Bandage",
-                                    ImagePath.elastic_bandage,
+                                    ImagePath.elasticBandage,
                                     "Roller Bandage is used to treat muscle sprains and strains by reducing the flow of blood to a particular area by the application of even stable pressure which can restrict swelling at the place of injury.",
                                     149.00),
                             new Product(
                                     "Tubular Bandage",
-                                    ImagePath.tubular_bandage,
+                                    ImagePath.tubularBandage,
                                     "Tubular elastic bandages are used to provide 360 degree uniform compression and support, and are commonly used to help treat lymphedema, prevent edema, and reduce post-burn scarring.",
                                     568.00)
                     }),
@@ -328,17 +380,17 @@ public class Main {
                     new Product[] {
                             new Product(
                                     "Cotton Swabs",
-                                    ImagePath.cotton_buds,
+                                    ImagePath.cottonBuds,
                                     "Cotton Swabs are used to clean the ear canal by removing earwax and other dirt patches. Cotton swabs are also used for disinfection of patients' skin, treatment of wounds, and application of medical liquids.",
                                     195.00),
                             new Product(
                                     "Cotton balls",
-                                    ImagePath.cotton_balls,
+                                    ImagePath.cottonBalls,
                                     "Cotton balls have multiple uses including cleaning out larger wounds with hydrogen peroxide or iodine, applying antiseptics or topical ointments, cleaning minor cuts and skin irritations, and stopping blood after an injection is given or blood withdrawn.",
                                     80.00),
                             new Product(
                                     "Cotton Pads",
-                                    ImagePath.cotton_pads,
+                                    ImagePath.cottonPads,
                                     "Cotton pads are particularly useful in stopping or preventing bleeding from minor punctures, such as injections or venipuncture. Cotton pads are also often used for cleaning and disinfecting wounds, as well as applying medication or topical treatments.",
                                     128.00)
                     }),
@@ -346,11 +398,14 @@ public class Main {
                     "Antiseptics",
                     "Antiseptics",
                     ImagePath.antiseptics,
-                    "Antiseptics are a type of medicine used to prevent infections by killing germs and bacteria on the skin or \n inside the body. They are typically used to clean wounds or prepare the skin before surgery to reduce the \n risk of infection. Antiseptics can also be used for everyday cuts and scrapes to prevent infection and \n promote healing.",
+                    "Antiseptics are a type of medicine used to prevent infections by killing germs and bacteria on the \n"
+                            + " skin or inside the body. They are typically used to clean wounds or prepare the skin \n"
+                            + "before surgery to reduce the \n risk of infection. Antiseptics can also be used for \n"
+                            + " everyday cuts and scrapes to prevent infection and promote healing.",
                     new Product[] {
                             new Product(
                                     "Povidone Iodine  15Ml",
-                                    ImagePath.povidone_iodine,
+                                    ImagePath.povidoneIodine,
                                     "Microbicide for topical use in minor wounds, cuts, abrasions, burns & post-op wounds. Eliminates all 5 major classes of harmful organisms: bacteria, fungi, virus, protozoa and spores, to stop infection and for faster wound healing",
                                     65.00),
                             new Product(
@@ -360,7 +415,7 @@ public class Main {
                                     114.00),
                             new Product(
                                     "Hydrogen Peroxide 120ml",
-                                    ImagePath.hydrogen_peroxide,
+                                    ImagePath.hydrogenPeroxide,
                                     "Hydrogen peroxide is used for the treatment and cleansing of wounds. It can also be used as a bleaching agent. Its strong oxidizing properties make it a powerful disinfectant and cleaning solution",
                                     80.00)
                     }),
@@ -368,11 +423,15 @@ public class Main {
                     "Personal\nHygiene",
                     "Personal Hygiene",
                     ImagePath.personalHygiene,
-                    " Personal hygiene is a category of products that are used to maintain cleanliness and promote good health. They are typically used to prevent the spread of germs, bacteria, and viruses, as well as to keep the body clean and fresh. Personal hygiene products can help prevent ailments such as infections, skin irritations, and bad odors. They are an essential part of a healthy lifestyle and should be used regularly to maintain good hygiene.",
+                    "Personal hygiene is a category of products that are used to maintain cleanliness and promote \n"
+                            + "good health. They are typically used to prevent the spread of germs, bacteria, and viruses, \n"
+                            + "as well as to keep the body clean and fresh. Personal hygiene products can help prevent \n"
+                            + " ailments such as infections, skin irritations, and bad odors. They are an essential part \n"
+                            + "of a healthy lifestyle and should be used regularly to maintain good hygiene.",
                     new Product[] {
                             new Product(
                                     "Body Soap",
-                                    ImagePath.body_soap,
+                                    ImagePath.bodySoap,
                                     "Hand bar soap cleans skin to wash away bacteria, providing essential cleansing to care for your family and prevent the spread of bacteria.",
                                     405.00),
                             new Product(
@@ -390,21 +449,25 @@ public class Main {
                     "Surgical\nEquipment",
                     "Surgical Equipment",
                     ImagePath.surgicalEquipment,
-                    " Surgical equipment is a type of medical equipment that is used by doctors during surgical procedures to help \n them operate on patients. This equipment is used in a variety of medical conditions that require surgery,such as broken bones, organ transplants, and tumor removal. It plays an essential role in helping medical \n professionals perform surgeries safely and effectively.",
+                    " Surgical equipment is a type of medical equipment that is used by doctors during surgical \n"
+                            + "procedures to help them operate on patients. This equipment is used in a variety of \n"
+                            + "medical conditions that require surgery,such as broken bones, organ transplants, and tumor \n"
+                            + " removal. It plays an essential role in helping medical professionals perform surgeries safely \n"
+                            + " and effectively.",
                     new Product[] {
                             new Product(
                                     "Medical Gloves",
-                                    ImagePath.surgical_gloves,
+                                    ImagePath.surgicalGloves,
                                     "Disposable gloves are a type of protective handwear that are typically used once and then discarded. It provides a barrier between the skin of the healthcare worker and the patient, reducing the risk of transmitting infectious agents during medical procedures or examinations.",
                                     158),
                             new Product(
                                     "Syringe and Needle",
-                                    ImagePath.disposable_syringe,
+                                    ImagePath.disposableSyringe,
                                     "Syringe with Needle is used to administer medication or withdraw fluids from the body. They allow the fluids to be siphoned carefully and properly through veins. ",
                                     440.00),
                             new Product(
                                     "Medical Scissor",
-                                    ImagePath.surgical_scissors,
+                                    ImagePath.surgicalScissors,
                                     "Surgical scissors are used to cut soft tissue in order to perform various procedures, such as skin grafting, dental surgery, and other delicate surgical procedures. It has the ability to cut through soft tissues without causing excessive trauma or bleeding.",
                                     174.00),
                     }),
@@ -412,16 +475,19 @@ public class Main {
                     "Assistive\n Devices",
                     "Assistive Devices",
                     ImagePath.assistiveDevices,
-                    "Assistive devices are tools or equipment that are designed to help individuals with physical or cognitive \n impairments to perform daily tasks and activities with greater ease and independence. They are used to \nassist people who have difficulty with mobility, vision, hearing, communication, or other areas of physical \n or cognitive functioning.",
+                    "Assistive devices are tools or equipment that are designed to help individuals with \n"
+                            + "physical or cognitive impairments to perform daily tasks and activities with greater \n"
+                            + "ease and independence. They are used to assist people who have difficulty with mobility, \n"
+                            + "vision, hearing, communication, or other areas of physical \n or cognitive functioning.",
                     new Product[] {
                             new Product(
                                     "Assistive cane",
-                                    ImagePath.assistive_cane,
+                                    ImagePath.assistiveCane,
                                     "Assistive cane, used as a crutch or mobility aid. A cane can help redistribute weight from a lower leg that is weak or painful, improve stability by increasing the base of support, and provide tactile information about the ground to improve balance.",
                                     998.00),
                             new Product(
                                     "Walker",
-                                    ImagePath.assistive_walker,
+                                    ImagePath.assistiveWalker,
                                     "A walker is a type of mobility aid used to help people who are still able to walk but need assistance. It is a four-legged frame that allows a person to lean on it for balance, support, and rest.",
                                     2100.00),
                             new Product(
@@ -889,7 +955,7 @@ public class Main {
                 return button;
             }
 
-            private JButton createConfirmPurchaseButton(){
+            private JButton createConfirmPurchaseButton() {
                 JButton button = new JButton("Confirm Purchases");
                 button.addActionListener(e -> {
                     openExitPanel();
@@ -1042,10 +1108,8 @@ public class Main {
         private static final String[] columnNames = { "Name", "Category" };
 
         private final DefaultTableModel model;
-        private final JFrame frame;
 
         private SearchPanel(JFrame frame) {
-            this.frame = frame;
             this.model = new DefaultTableModel(columnNames, 0);
 
             this.setBackground(Color.RED);
@@ -1281,6 +1345,56 @@ public class Main {
             return panel;
         }
 
+        private Component createProductButton(Product product) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridBagLayout());
+            panel.setBackground(Colors.transparent);
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.insets = new Insets(0, 0, 0, 0);
+
+            ImageIcon icon = getScaledImage(product.iconPath, 42, 42);
+            JButton button = new JButton(icon);
+            button.setBorderPainted(false);
+            button.setPreferredSize(new Dimension(92, 92));
+            button.addActionListener(e -> {
+                int chosen = -1;
+                do {
+                    try {
+                        String rawInput = JOptionPane.showInputDialog(null, "Quantity: ");
+                        if (rawInput == null) {
+                            /// The user clicked on 'Cancel'.
+                            return;
+                        }
+                        int input = Integer.parseInt(rawInput);
+                        if (input <= 0) {
+                            continue;
+                        }
+                        chosen = input;
+                        break;
+                    } catch (NumberFormatException exception) {
+                        JOptionPane.showMessageDialog(null, "Please enter a valid number.");
+                        continue;
+                    }
+                } while (chosen == -1);
+
+                mainPanel.addProduct(product, chosen);
+            });
+
+            panel.add(button, constraints);
+
+            ++constraints.gridy;
+
+            for (String line : category.title.split("\n")) {
+                JLabel jLabel = new JLabel(line);
+                panel.add(jLabel, constraints);
+
+                ++constraints.gridy;
+            }
+
+            return panel;
+        }
+
         private Component createProductList() {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
@@ -1290,31 +1404,11 @@ public class Main {
 
             for (int i = 0; i < category.getProducts().length; i++) {
                 Product product = category.products[i];
-                JButton button = new JButton("Product " + (i + 1));
-                button.addActionListener(e -> {
-                    int chosen = -1;
-                    do {
-                        try {
-                            int input = Integer.parseInt(JOptionPane.showInputDialog(null, "Quantity: "));
-                            if (input <= 0) {
-                                continue;
-                            }
-                            chosen = input;
-                            break;
-                        } catch (NumberFormatException exception) {
-                            JOptionPane.showMessageDialog(null, "Please enter a valid number.");
-                            continue;
-                        }
-                    } while (chosen == -1);
-
-                    mainPanel.addProduct(product, chosen);
-                });
+                Component button = createProductButton(product);
 
                 constraints.gridy = 0;
                 constraints.weightx = 1.0;
                 constraints.weighty = 1.0;
-                // constraints.ipadx = 200;
-                // constraints.ipady = 200;
                 panel.add(button, constraints);
 
                 constraints.gridy++;
@@ -1325,7 +1419,7 @@ public class Main {
                 panel.add(name, constraints);
 
                 constraints.gridy++;
-                JLabel price = new JLabel(Double.toString(product.getPrice()));
+                JLabel price = new JLabel("P -" + Double.toString(product.getPrice()));
                 panel.add(price, constraints);
 
                 constraints.gridx++;
@@ -1378,6 +1472,7 @@ public class Main {
         private static String[][] data = {};
         private DefaultTableModel model;
         private JTable table;
+
         @Override
         public Insets getInsets() {
             return new Insets(12, 12, 12, 12);
@@ -1386,40 +1481,38 @@ public class Main {
         private ExitPanel(JFrame frame) {
             this.setLayout(new GridBagLayout());
             this.setBackground(Color.RED);
-            
+
             GridBagConstraints constraints = generateConstraints();
             constraints.weightx = 1;
             constraints.weighty = 1;
             constraints.anchor = GridBagConstraints.NORTHWEST;
             constraints.fill = GridBagConstraints.BOTH;
 
-
-
-            this.add(createSummaryPanel(),constraints);
+            this.add(createSummaryPanel(), constraints);
             constraints.insets = new Insets(0, 8, 0, 0);
             ++constraints.gridx;
-            this.add(createPaymentPanel(),constraints);
+            this.add(createPaymentPanel(), constraints);
 
-            constraints.insets = new Insets(0, 0,0,0);
+            constraints.insets = new Insets(0, 0, 0, 0);
 
         }
+
         private void setupTableModels() {
             final String[] columnNames = { "Code", "Item", "Price", "Quantity", "Total" };
             model = new DefaultTableModel(columnNames, 0);
             for (String[] row : data) {
                 model.addRow(row);
             }
-            model.addRow(new String[] { ""," ", " ", "Total:", "P"+"00.00"});
+            model.addRow(new String[] { "", " ", " ", "Total:", "P" + "00.00" });
             model.addTableModelListener(e -> table.revalidate());
         }
 
-        
-        private Component createSummaryPanel(){
+        private Component createSummaryPanel() {
             JPanel panel = new JPanel();
             panel.setBorder(
-                new CompoundBorder(
-                    new TitledBorder("Summary of Purchases"),
-                    new EmptyBorder(8,0,0,0)));
+                    new CompoundBorder(
+                            new TitledBorder("Summary of Purchases"),
+                            new EmptyBorder(8, 0, 0, 0)));
             panel.setLayout(new GridBagLayout());
             panel.setBackground(Colors.background);
 
@@ -1455,33 +1548,32 @@ public class Main {
 
             return panel;
         }
-        private Component createPaymentPanel(){
+
+        private Component createPaymentPanel() {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
             panel.setBorder(
-                new CompoundBorder(
-                    new TitledBorder("Payment Information"),
-                    new EmptyBorder(8,0,0,0)));
-            
+                    new CompoundBorder(
+                            new TitledBorder("Payment Information"),
+                            new EmptyBorder(8, 0, 0, 0)));
+
             GridBagConstraints constraints = generateConstraints();
             constraints.anchor = GridBagConstraints.NORTH;
             constraints.fill = GridBagConstraints.BOTH;
             constraints.weightx = 1.0;
             constraints.weighty = 1.0;
 
-            panel.add(new JLabel("Total Price:..."),constraints);
+            panel.add(new JLabel("Total Price:..."), constraints);
             ++constraints.gridy;
-            panel.add(new JLabel("Enter Price:"),constraints);
+            panel.add(new JLabel("Enter Price:"), constraints);
             ++constraints.gridy;
-            panel.add(new JTextField("..."),constraints);
+            panel.add(new JTextField("..."), constraints);
             ++constraints.gridy;
-            panel.add(new JRadioButton("Request for Senior Discount"),constraints);
+            panel.add(new JRadioButton("Request for Senior Discount"), constraints);
             ++constraints.gridy;
-            panel.add(new JLabel("Change:"),constraints);
+            panel.add(new JLabel("Change:"), constraints);
             ++constraints.gridy;
-            panel.add(new JButton("Close"),constraints);
-
-
+            panel.add(new JButton("Close"), constraints);
 
             return panel;
         }
