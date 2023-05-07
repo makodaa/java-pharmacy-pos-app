@@ -1224,6 +1224,7 @@ public class Main {
                             chosen = input;
                             break;
                         } catch (NumberFormatException exception) {
+                            JOptionPane.showMessageDialog(null, "Please enter a valid number.");
                             continue;
                         }
                     } while (chosen == -1);
