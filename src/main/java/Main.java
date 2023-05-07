@@ -437,6 +437,7 @@ public class Main {
         openGreeting();
         openMainPanel();
         // openSearchPanel();
+        // openExitPanel();
     }
 
     /**
@@ -530,6 +531,13 @@ public class Main {
         final String panelName = "Product Search ";
 
         spawnPanel(panelCode, panelName, (frame) -> new SearchPanel(frame));
+    }
+
+    public static void openExitPanel() {
+        final String panelCode = "EXIT_PANEL";
+        final String panelName = "Exit";
+
+        spawnPanel(panelCode, panelName, (frame) -> new ExitPanel(frame));
     }
 
     /**
@@ -881,6 +889,14 @@ public class Main {
                 return button;
             }
 
+            private JButton createConfirmPurchaseButton(){
+                JButton button = new JButton("Confirm Purchases");
+                button.addActionListener(e -> {
+                    openExitPanel();
+                });
+                return button;
+            }
+
             private JButton createClearCartButton() {
                 JButton button = new JButton("Clear Cart");
                 button.addActionListener(e -> {
@@ -927,7 +943,7 @@ public class Main {
                 constraints.weightx = 1;
 
                 JButton search = createSearchButton();
-                JButton confirm = new JButton("Confirm Purchases");
+                JButton confirm = createConfirmPurchaseButton();
                 JButton voidItem = new JButton("Void Item");
                 JButton clear = createClearCartButton();
                 JButton exit = createExitButton();
@@ -1355,6 +1371,119 @@ public class Main {
             return panel;
         }
 
+    }
+
+    private static class ExitPanel extends JPanel {
+        private static String[][] data = {};
+        private DefaultTableModel model;
+        private JTable table;
+        @Override
+        public Insets getInsets() {
+            return new Insets(12, 12, 12, 12);
+        }
+
+        private ExitPanel(JFrame frame) {
+            this.setLayout(new GridBagLayout());
+            this.setBackground(Color.RED);
+            
+            GridBagConstraints constraints = generateConstraints();
+            constraints.weightx = 1;
+            constraints.weighty = 1;
+            constraints.anchor = GridBagConstraints.NORTHWEST;
+            constraints.fill = GridBagConstraints.BOTH;
+
+
+
+            this.add(createSummaryPanel(),constraints);
+            constraints.insets = new Insets(0, 8, 0, 0);
+            ++constraints.gridx;
+            this.add(createPaymentPanel(),constraints);
+
+            constraints.insets = new Insets(0, 0,0,0);
+
+        }
+        private void setupTableModels() {
+            final String[] columnNames = { "Code", "Item", "Price", "Quantity", "Total" };
+            model = new DefaultTableModel(columnNames, 0);
+            for (String[] row : data) {
+                model.addRow(row);
+            }
+            model.addRow(new String[] { ""," ", " ", "Total:", "P"+"00.00"});
+            model.addTableModelListener(e -> table.revalidate());
+        }
+
+        
+        private Component createSummaryPanel(){
+            JPanel panel = new JPanel();
+            panel.setBorder(
+                new CompoundBorder(
+                    new TitledBorder("Summary of Purchases"),
+                    new EmptyBorder(8,0,0,0)));
+            panel.setLayout(new GridBagLayout());
+            panel.setBackground(Colors.background);
+
+            setupTableModels();
+
+            table = new JTable(model);
+            table.setEnabled(false);
+            table.getTableHeader().setResizingAllowed(false);
+            table.getTableHeader().setReorderingAllowed(false);
+            table.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+            table.setFont(new Font("Segoe UI", Font.BOLD, 12));
+            table.setRowHeight((int) Math.floor(table.getFont().getSize() * 2.5));
+
+            TableColumnModel tcm = table.getColumnModel();
+            tcm.removeColumn(tcm.getColumn(0));
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+            Enumeration<TableColumn> enumeration = tcm.getColumns();
+            while (enumeration.hasMoreElements()) {
+                enumeration.nextElement().setCellRenderer(centerRenderer);
+            }
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 1;
+            constraints.weighty = 1;
+
+            JScrollPane scrollPane = new JScrollPane(table);
+            panel.add(scrollPane, constraints);
+
+            return panel;
+        }
+        private Component createPaymentPanel(){
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridBagLayout());
+            panel.setBorder(
+                new CompoundBorder(
+                    new TitledBorder("Payment Information"),
+                    new EmptyBorder(8,0,0,0)));
+            
+            GridBagConstraints constraints = generateConstraints();
+            constraints.anchor = GridBagConstraints.NORTH;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 1.0;
+            constraints.weighty = 1.0;
+
+            panel.add(new JLabel("Total Price:..."),constraints);
+            ++constraints.gridy;
+            panel.add(new JLabel("Enter Price:"),constraints);
+            ++constraints.gridy;
+            panel.add(new JTextField("..."),constraints);
+            ++constraints.gridy;
+            panel.add(new JRadioButton("Request for Senior Discount"),constraints);
+            ++constraints.gridy;
+            panel.add(new JLabel("Change:"),constraints);
+            ++constraints.gridy;
+            panel.add(new JButton("Close"),constraints);
+
+
+
+            return panel;
+        }
     }
 
     /// Data classes
