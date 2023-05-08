@@ -7,7 +7,7 @@
  * Confirm Purchases [x]
  *  1. Open summary of purchase
  *
- * Void Item [ ]
+ * Void Item [x]
  * 1. window na pwede mag select ng shit na tapos may delete button aanhd bavkc hthoanubno
  *
  * Clear Cart [x]
@@ -22,14 +22,11 @@ package main.java;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -113,66 +110,6 @@ public class Main {
         private static final String assistiveCane = "./assets/products/assistive_cane.png";
         private static final String assistiveWalker = "./assets/products/assistive_walker.png";
         private static final String wheelchair = "./assets/products/wheelchair.png";
-
-        // private static final String[] paths = {
-        // icon,
-        // painRelievers,
-        // antibiotics,
-        // antiAllergy,
-        // respiratoryMedicine,
-        // feverMedicine,
-        // vitamins,
-        // dietarySupplements,
-        // mineralSupplements,
-        // bandages,
-        // cottonItems,
-        // antiseptics,
-        // personalHygiene,
-        // surgicalEquipment,
-        // assistiveDevices,
-        // ibuprofen,
-        // acetaminophen,
-        // naproxenSodium,
-        // cephalexin,
-        // amoxicillin,
-        // azithromycin,
-        // loratidine,
-        // cetirizine,
-        // levocetirizine,
-        // pirbuterol,
-        // salbutamol,
-        // methylprednisolone,
-        // paracetamol,
-        // phenylephrineChlorphenamine,
-        // dextromethorphanPhenylpropanolamine,
-        // mutlivitaminsEffervescentTablets,
-        // ascorbicAcid,
-        // vitaminBComplex,
-        // astaxathinLycopeneVitaminE,
-        // spirulineTablets,
-        // garciniaMangostanaCapsule,
-        // cholecalciferolMinerals,
-        // calciumCarbonate,
-        // multivitaminIronCalcium,
-        // gauzeBandage,
-        // elasticBandage,
-        // tubularBandage,
-        // cottonBuds,
-        // cottonBalls,
-        // cottonPads,
-        // povidoneIodine,
-        // hexitidine,
-        // hydrogenPeroxide,
-        // bodySoap,
-        // shampoo,
-        // toothpaste,
-        // surgicalGloves,
-        // disposableSyringe,
-        // surgicalScissors,
-        // assistiveCane,
-        // assistiveWalker,
-        // wheelchair
-        // };
     }
 
     private static final Category[] categories = new Category[] {
@@ -180,7 +117,7 @@ public class Main {
                     "Pain\nRelievers",
                     "Pain Relievers",
                     ImagePath.painRelievers,
-                    "Analgesics, also called painkillers are medications that relieve different types of pain — from headaches to injuries to arthritis. Anti-inflammatory analgesics reduce inflammation, and opioid analgesics change the way the brain perceives pain. Some analgesics can be bought over the counter, others require a prescription.",
+                    "Analgesics, also called painkillers are medications that relieve different types of pain — \nfrom headaches to injuries to arthritis. Anti-inflammatory analgesics reduce inflammation, and opioid\n analgesics change the way the brain perceives pain. Some analgesics can be bought over the counter,\n others require a prescription.",
                     new Product[] {
                             new Product(
                                     "Ibuprofen+Paracetamol (325mg)",
@@ -202,7 +139,7 @@ public class Main {
                     "Antibiotics",
                     "Antibiotics",
                     ImagePath.antibiotics,
-                    "Antibiotics are medicines that fight infections caused by bacteria in humans and animals by either killing the bacteria or making it difficult for the bacteria to grow and multiply.",
+                    "Antibiotics are medicines that fight infections caused by bacteria in humans and animals by either\n killing the bacteria or making it difficult for the bacteria to grow and multiply.",
                     new Product[] {
                             new Product(
                                     "Cephalexin",
@@ -224,7 +161,7 @@ public class Main {
                     "Anti\nAllergy",
                     "Anti Allergy",
                     ImagePath.antiAllergy,
-                    "A category of medicine that is most commonly used by people who have allergic reactions to pollen and other allergens. \nThese medicines help ease a runny nose, itchy or watery eyes, hives, swelling, and other signs or symptoms of allergies.",
+                    "A category of medicine that is most commonly used by people who have allergic reactions to pollen \n and other allergens. These medicines help ease a runny nose, itchy or watery eyes, hives, swelling,\nand other signs or symptoms of allergies.",
                     new Product[] {
                             new Product(
                                     "Loratadine",
@@ -246,7 +183,7 @@ public class Main {
                     "Respiratory\nMedicine",
                     "Respiratory Medicine",
                     ImagePath.respiratoryMedicine,
-                    "Respiratory agents is a term used to describe a wide variety of medicines used to relieve, treat, or prevent respiratory diseases such as asthma, chronic bronchitis, chronic obstructive pulmonary disease (COPD), or pneumonia. Respiratory agents are available in many different forms, such as oral tablets, oral liquids, injections or inhalations.",
+                    "Respiratory agents is a term used to describe a wide variety of medicines used to relieve, treat, or\n prevent respiratory diseases such as asthma, chronic bronchitis, chronic obstructive pulmonary disease\n (COPD), or pneumonia. Respiratory agents are available in many different forms, such as oral\n tablets, oral liquids, injections or inhalations.",
                     new Product[] {
                             new Product(
                                     "Pirbuterol",
@@ -268,7 +205,7 @@ public class Main {
                     "Fever\nMedicine",
                     "Fever Medicine",
                     ImagePath.feverMedicine,
-                    "Fever medicines are a group of medications taken individually or in combination as a treatment for the symptoms of the common cold and similar conditions of the upper respiratory tract.",
+                    "Fever medicines are a group of medications taken individually or in combination as a treatment for the\n symptoms of the common cold and similar conditions of the upper respiratory tract.",
                     new Product[] {
                             new Product(
                                     "Paracetamol",
@@ -290,7 +227,7 @@ public class Main {
                     "Vitamins",
                     "Vitamins",
                     ImagePath.vitamins,
-                    "Vitamins have different jobs to help keep the body working properly. Some vitamins help resist infections and keep nerves healthy, while others may help the body get energy from food or also help blood clot properly.",
+                    "Vitamins have different jobs to help keep the body working properly. Some vitamins help resist infections\n and keep nerves healthy, while others may help the body get energy from food or also help\n blood clot properly.",
                     new Product[] {
                             new Product(
                                     "Multivitamin Effervescent Tablets",
@@ -312,7 +249,7 @@ public class Main {
                     "Dietary\nSupp.",
                     "Dietary Supplements",
                     ImagePath.dietarySupplements,
-                    "Dietary supplements are intended to add to or supplement nutrients that might be missing from a person's diet.",
+                    "Dietary supplements are intended to add to or supplement nutrients that might be\n missing from a person's diet.",
                     new Product[] {
                             new Product(
                                     "Astaxanthin, Lycopene, and Vitamin E",
@@ -378,7 +315,7 @@ public class Main {
                     "Cotton\nItems",
                     "Cotton Items",
                     ImagePath.cottonItems,
-                    "Cotton Items is a category of medical supplies that are used for various purposes such as cleaning wounds, \n applying ointments or creams, and absorbing bodily fluids. They can be used in treating a wide range of \nconditions, including cuts, bruises, burns, and other injuries that require gentle care.",
+                    "Cotton Items is a category of medical supplies that are used for various purposes such as cleaning wounds, \n applying ointments or creams, and absorbing bodily fluids. They can be used in treating a wide\n range of conditions, including cuts, bruises, burns, and other injuries that require gentle care.",
                     new Product[] {
                             new Product(
                                     "Cotton Swabs",
@@ -400,10 +337,7 @@ public class Main {
                     "Antiseptics",
                     "Antiseptics",
                     ImagePath.antiseptics,
-                    "Antiseptics are a type of medicine used to prevent infections by killing germs and bacteria on the \n"
-                            + " skin or inside the body. They are typically used to clean wounds or prepare the skin \n"
-                            + "before surgery to reduce the \n risk of infection. Antiseptics can also be used for \n"
-                            + " everyday cuts and scrapes to prevent infection and promote healing.",
+                    "Antiseptics are a type of medicine used to prevent infections by killing germs and bacteria on the \n skin or inside the body. They are typically used to clean wounds or prepare the skin \n before surgery to reduce the \n risk of infection. Antiseptics can also be used for \n everyday cuts and scrapes to prevent infection and promote healing.",
                     new Product[] {
                             new Product(
                                     "Povidone Iodine  15Ml",
@@ -588,10 +522,9 @@ public class Main {
      * Opens the product navigation panel
      */
     public static void openNavigationPanel(MainPanel mainPanel, Category category) {
-        final String panelCode = "PRODUCT_NAVIGATION_PANEL;" + category.title;
         final String panelName = "Product Navigation - " + category.title;
 
-        spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(mainPanel, category, frame));
+        spawnPanel(null, panelName, (frame) -> new NavigationPanel(mainPanel, category, frame));
     }
 
     public static void openSearchPanel() {
@@ -917,7 +850,6 @@ public class Main {
                 this.mainPanel = mainPanel;
                 this.frame = frame;
                 this.setLayout(new GridBagLayout());
-                this.setBackground(Color.RED);
 
                 GridBagConstraints constraints = generateConstraints();
                 constraints.weightx = 1;
@@ -1150,7 +1082,6 @@ public class Main {
         private SearchPanel(JFrame frame) {
             this.model = new DefaultTableModel(columnNames, 0);
 
-            this.setBackground(Color.RED);
             this.setLayout(new GridBagLayout());
 
             GridBagConstraints constraints = generateConstraints();
@@ -1423,13 +1354,6 @@ public class Main {
 
             ++constraints.gridy;
 
-            for (String line : category.title.split("\n")) {
-                JLabel jLabel = new JLabel(line);
-                panel.add(jLabel, constraints);
-
-                ++constraints.gridy;
-            }
-
             return panel;
         }
 
@@ -1457,7 +1381,7 @@ public class Main {
                 panel.add(name, constraints);
 
                 constraints.gridy++;
-                JLabel price = new JLabel("P -" + Double.toString(product.getPrice()));
+                JLabel price = new JLabel("P " + Double.toString(product.getPrice()));
                 panel.add(price, constraints);
 
                 constraints.gridx++;
@@ -1580,8 +1504,9 @@ public class Main {
                 openMainPanel();
             });
 
-            JButton saveButton = new JButton("Save");
+            JButton saveButton = new JButton("Void Selections");
             saveButton.addActionListener(e -> {
+
                 mainPanel.removeRows(activated);
                 openMainPanel();
             });
@@ -1628,7 +1553,6 @@ public class Main {
 
         private ExitPanel(MainPanel mainPanel, JFrame frame) {
             this.setLayout(new GridBagLayout());
-            this.setBackground(Color.RED);
             this.mainPanel = mainPanel;
 
             System.out.println(mainPanel);
