@@ -1515,7 +1515,6 @@ public class Main {
             this.activated = new boolean[mainPanel.entrySubmenuPanel.getCartItems().length];
 
             this.setLayout(new GridBagLayout());
-            this.setBackground(Color.GREEN);
 
             GridBagConstraints constraints = generateConstraints();
             constraints.fill = GridBagConstraints.BOTH;
@@ -1570,7 +1569,6 @@ public class Main {
 
         private Component createButtonBar() {
             JPanel panel = new JPanel();
-            panel.setBackground(Color.GREEN);
             panel.setLayout(new GridBagLayout());
 
             GridBagConstraints constraints = generateConstraints();
