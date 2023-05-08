@@ -1518,11 +1518,16 @@ public class Main {
 
         private void setupTableModels() {
             final String[] columnNames = { "Code", "Item", "Price", "Quantity", "Total" };
+
+            double totalPrice = 0;
+
             model = new DefaultTableModel(columnNames, 0);
             for (String[] row : mainPanel.entrySubmenuPanel.getCartItems()) {
                 model.addRow(row);
+                totalPrice += Double.parseDouble(row[4]);
             }
-            model.addRow(new String[] { "", " ", " ", "Total:", "P" + "00.00" });
+
+            model.addRow(new String[] { "", " ", " ", "Total:", "P" + totalPrice });
             model.addTableModelListener(e -> table.revalidate());
         }
 
