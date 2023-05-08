@@ -1381,7 +1381,7 @@ public class Main {
                 panel.add(name, constraints);
 
                 constraints.gridy++;
-                JLabel price = new JLabel("P " + Double.toString(product.getPrice()));
+                JLabel price = new JLabel("₱ " + Double.toString(product.getPrice()));
                 panel.add(price, constraints);
 
                 constraints.gridx++;
@@ -1545,6 +1545,10 @@ public class Main {
         private MainPanel mainPanel;
         private DefaultTableModel model;
         private JTable table;
+        private JLabel changeLabel;
+        private JButton closeButton;
+        private static double total;
+        private static double change;
 
         @Override
         public Insets getInsets() {
@@ -1572,6 +1576,10 @@ public class Main {
 
         }
 
+        public static double getTotal() {
+            return total;
+        }
+
         private void setupTableModels() {
             final String[] columnNames = { "Code", "Item", "Price", "Quantity", "Total" };
 
@@ -1579,6 +1587,7 @@ public class Main {
 
             model = new DefaultTableModel(columnNames, 0);
             for (String[] row : mainPanel.entrySubmenuPanel.getCartItems()) {
+                total = Double.parseDouble(row[4]);
                 model.addRow(row);
                 totalPrice += Double.parseDouble(row[4]);
             }
@@ -1633,28 +1642,84 @@ public class Main {
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
             panel.setBorder(
-                    new CompoundBorder(
-                            new TitledBorder("Payment Information"),
-                            new EmptyBorder(8, 0, 0, 0)));
-
+                new CompoundBorder(
+                    new TitledBorder("Payment Information"),
+                    new EmptyBorder(8,0,0,0)));
+            
             GridBagConstraints constraints = generateConstraints();
             constraints.anchor = GridBagConstraints.NORTH;
             constraints.fill = GridBagConstraints.BOTH;
-            constraints.weightx = 1.0;
+            constraints.weightx = 2.0;
             constraints.weighty = 1.0;
 
-            panel.add(new JLabel("Total Price:..."), constraints);
-            ++constraints.gridy;
-            panel.add(new JLabel("Enter Price:"), constraints);
-            ++constraints.gridy;
-            panel.add(new JTextField("..."), constraints);
-            ++constraints.gridy;
-            panel.add(new JRadioButton("Request for Senior Discount"), constraints);
-            ++constraints.gridy;
-            panel.add(new JLabel("Change:"), constraints);
-            ++constraints.gridy;
 
-            JButton closeButton = new JButton("Close");
+            JLabel totalLabel = new JLabel("Total Price: "+ExitPanel.getTotal());
+            Font boldFont = new Font(totalLabel.getFont().getName(), Font.BOLD, 14);
+
+            totalLabel.setFont(boldFont);
+            panel.add(totalLabel,constraints);
+            constraints.weighty = 0.0;
+            ++constraints.gridy;
+            panel.add(new JLabel("Available Balance:"),constraints);
+            
+            ++constraints.gridy;
+            JTextField textField = new JTextField("");
+            panel.add(textField,constraints);
+
+            ++constraints.gridy;
+            JRadioButton radioButton = new JRadioButton("Request for Senior Discount");
+            panel.add(radioButton,constraints);
+
+            ++constraints.gridy;
+            constraints.weightx = 1.0;
+            constraints.fill = GridBagConstraints.NONE;
+            constraints.anchor = GridBagConstraints.EAST;
+            JButton enterButton = new JButton("Enter");
+            enterButton.addActionListener(e -> {
+                double payment = -1;
+                while (payment == -1) {
+                    try {
+                        payment = Double.parseDouble(textField.getText());
+                        if (total-payment > 0.0){
+                            JOptionPane.showMessageDialog(null,"Ammount inputted is insufficient. Enter a valid amount");
+                            break;
+                        } else {
+                            if (radioButton.isSelected()) {
+                                total *= .80;
+                                change = payment - total;
+                            }
+                            else{
+                            change = payment - total;
+                            }
+                        }
+                        System.out.println(change);
+                        changeLabel.setText("Change: "+change);
+                        totalLabel.setText("Total: "+total);
+                        closeButton.setEnabled(true);
+                        enterButton.setEnabled(false);
+
+                    } catch (NumberFormatException exception) {
+                        JOptionPane.showMessageDialog(null, "Please enter a number value.");
+                        break;
+                    }
+                }
+            });
+
+
+            panel.add(enterButton,constraints);
+
+            constraints.weightx = 2.0;
+            constraints.weighty = 1.0;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.anchor = GridBagConstraints.NORTH;
+            ++constraints.gridy;
+            changeLabel = new JLabel("Change: ");
+            panel.add(changeLabel,constraints);
+
+            constraints.weighty = 0.0;
+            ++constraints.gridy;
+            closeButton = new JButton("Close");
+            closeButton.setEnabled(false);
             closeButton.addActionListener(e -> {
                 openMainPanel();
             });
