@@ -4,13 +4,13 @@
  *  2. Text Field tas pwedes mag search
  *  3. text field na may table tapos pinapakita lang saan category
  *
- * Confirm Purchases [ ]
+ * Confirm Purchases [x]
  *  1. Open summary of purchase
  *
  * Void Item [ ]
  * 1. window na pwede mag select ng shit na tapos may delete button aanhd bavkc hthoanubno
  *
- * Clear Cart [ ]
+ * Clear Cart [x]
  * 1. clear cart2
  *
  * exit [x]
@@ -22,11 +22,14 @@ package main.java;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -43,7 +46,6 @@ public class Main {
 
     private static final HashMap<String, JFrame> openedFrames = new HashMap<>();
     private static final HashMap<String, ImageIcon> cachedIcons = new HashMap<>();
-    private static final ImageIcon originalIcon = new ImageIcon(ImagePath.icon);
 
     private static class Colors {
         private static final Color background = new Color(230, 230, 230);
@@ -606,6 +608,12 @@ public class Main {
         spawnPanel(null, panelName, (frame) -> new ExitPanel(mainPanel, frame));
     }
 
+    public static void openVoidPanel(MainPanel mainPanel) {
+        final String panelName = "Void Item";
+
+        spawnPanel(null, panelName, (frame) -> new VoidPanel(mainPanel));
+    }
+
     /**
      * Sets the theme of the program to match the current operating system.
      */
@@ -807,10 +815,8 @@ public class Main {
         }
 
         private Component createSmallLogo() {
-            Image unscaledImage = originalIcon.getImage();
-            Image newImage = unscaledImage.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(newImage);
-            JLabel picLabel = new JLabel(scaledIcon);
+            ImageIcon icon = getScaledImage(ImagePath.icon, 64, 64);
+            JLabel picLabel = new JLabel(icon);
 
             return picLabel;
         }
@@ -965,6 +971,14 @@ public class Main {
                 return button;
             }
 
+            private JButton createVoidButton() {
+                JButton button = new JButton("Void Item");
+                button.addActionListener(e -> {
+                    openVoidPanel(mainPanel);
+                });
+                return button;
+            }
+
             private JButton createClearCartButton() {
                 JButton button = new JButton("Clear Cart");
                 button.addActionListener(e -> {
@@ -1012,7 +1026,7 @@ public class Main {
 
                 JButton search = createSearchButton();
                 JButton confirm = createConfirmPurchaseButton();
-                JButton voidItem = new JButton("Void Item");
+                JButton voidItem = createVoidButton();
                 JButton clear = createClearCartButton();
                 JButton exit = createExitButton();
 
@@ -1117,6 +1131,14 @@ public class Main {
                     product.getPrice(),
                     count,
                     totalPrice);
+        }
+
+        private void removeRows(boolean[] activations) {
+            for (int i = activations.length - 1; i >= 0; --i) {
+                if (activations[i]) {
+                    entrySubmenuPanel.cartModel.removeRow(i);
+                }
+            }
         }
     }
 
@@ -1482,6 +1504,119 @@ public class Main {
             return panel;
         }
 
+    }
+
+    private static class VoidPanel extends JPanel {
+        private final boolean[] activated;
+        private final MainPanel mainPanel;
+
+        private VoidPanel(MainPanel mainPanel) {
+            this.mainPanel = mainPanel;
+            this.activated = new boolean[mainPanel.entrySubmenuPanel.getCartItems().length];
+
+            this.setLayout(new GridBagLayout());
+            this.setBackground(Color.GREEN);
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.anchor = GridBagConstraints.NORTHWEST;
+
+            constraints.weightx = 1;
+            this.add(createTitleBar(), constraints);
+            ++constraints.gridy;
+
+            constraints.weighty = 1;
+            this.add(createSelectionBar(), constraints);
+            ++constraints.gridy;
+
+            constraints.weighty = 0;
+            this.add(createButtonBar(), constraints);
+        }
+
+        private Component createSelectionBar() {
+            JPanel columnPanel = new JPanel();
+            columnPanel.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.anchor = GridBagConstraints.NORTHWEST;
+
+            String[][] cart = mainPanel.entrySubmenuPanel.getCartItems();
+            for (int i = 0; i < cart.length; ++i) {
+                final int index = i;
+                activated[index] = false;
+
+                JPanel rowPanel = new JPanel();
+                rowPanel.setLayout(new GridBagLayout());
+
+                GridBagConstraints rowConstraints = generateConstraints();
+                rowConstraints.fill = GridBagConstraints.BOTH;
+
+                rowPanel.add(new JLabel(cart[i][1]), rowConstraints);
+                ++rowConstraints.gridx;
+
+                JRadioButton radio = new JRadioButton();
+                rowPanel.add(radio, rowConstraints);
+                radio.addActionListener(e -> {
+                    activated[index] = radio.isSelected();
+                });
+
+                columnPanel.add(rowPanel, constraints);
+                ++constraints.gridy;
+            }
+
+            return columnPanel;
+        }
+
+        private Component createButtonBar() {
+            JPanel panel = new JPanel();
+            panel.setBackground(Color.GREEN);
+            panel.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.insets = new Insets(0, 12, 0, 12);
+
+            JButton cancelButton = new JButton("Cancel");
+            cancelButton.addActionListener(e -> {
+                /// Just cancel it.
+                openMainPanel();
+            });
+
+            JButton saveButton = new JButton("Save");
+            saveButton.addActionListener(e -> {
+                mainPanel.removeRows(activated);
+                openMainPanel();
+            });
+
+            panel.add(cancelButton, constraints);
+            ++constraints.gridx;
+            panel.add(saveButton, constraints);
+
+            return panel;
+        }
+
+        private Component createTitleBar() {
+            JPanel panel = new JPanel();
+            panel.setBackground(Color.BLUE);
+            panel.setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = generateConstraints();
+            constraints.insets = new Insets(0, 8, 0, 0);
+
+            panel.add(new JLabel(getScaledImage(ImagePath.icon, 64, 64)), constraints);
+
+            ++constraints.gridx;
+
+            JLabel title = new JLabel("Void Item");
+            title.setFont(new Font(title.getFont().getName(), Font.BOLD, 20));
+            panel.add(title, constraints);
+
+            ++constraints.gridx;
+            constraints.weightx = 1.0;
+            panel.add(new JLabel(""), constraints);
+
+            return panel;
+        }
     }
 
     private static class ExitPanel extends JPanel {
