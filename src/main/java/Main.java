@@ -1,6 +1,5 @@
 
 package main.java;
-
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -89,66 +88,6 @@ public class Main {
         private static final String assistiveCane = "./assets/products/assistive_cane.png";
         private static final String assistiveWalker = "./assets/products/assistive_walker.png";
         private static final String wheelchair = "./assets/products/wheelchair.png";
-
-        // private static final String[] paths = {
-        // icon,
-        // painRelievers,
-        // antibiotics,
-        // antiAllergy,
-        // respiratoryMedicine,
-        // feverMedicine,
-        // vitamins,
-        // dietarySupplements,
-        // mineralSupplements,
-        // bandages,
-        // cottonItems,
-        // antiseptics,
-        // personalHygiene,
-        // surgicalEquipment,
-        // assistiveDevices,
-        // ibuprofen,
-        // acetaminophen,
-        // naproxenSodium,
-        // cephalexin,
-        // amoxicillin,
-        // azithromycin,
-        // loratidine,
-        // cetirizine,
-        // levocetirizine,
-        // pirbuterol,
-        // salbutamol,
-        // methylprednisolone,
-        // paracetamol,
-        // phenylephrineChlorphenamine,
-        // dextromethorphanPhenylpropanolamine,
-        // mutlivitaminsEffervescentTablets,
-        // ascorbicAcid,
-        // vitaminBComplex,
-        // astaxathinLycopeneVitaminE,
-        // spirulineTablets,
-        // garciniaMangostanaCapsule,
-        // cholecalciferolMinerals,
-        // calciumCarbonate,
-        // multivitaminIronCalcium,
-        // gauzeBandage,
-        // elasticBandage,
-        // tubularBandage,
-        // cottonBuds,
-        // cottonBalls,
-        // cottonPads,
-        // povidoneIodine,
-        // hexitidine,
-        // hydrogenPeroxide,
-        // bodySoap,
-        // shampoo,
-        // toothpaste,
-        // surgicalGloves,
-        // disposableSyringe,
-        // surgicalScissors,
-        // assistiveCane,
-        // assistiveWalker,
-        // wheelchair
-        // };
     }
 
     private static final Category[] categories = new Category[] {
@@ -200,7 +139,7 @@ public class Main {
                     "Anti\nAllergy",
                     "Anti Allergy",
                     ImagePath.antiAllergy,
-                    "A category of medicine that is most commonly used by people who have allergic reactions to pollen and other allergens. \nThese medicines help ease a runny nose, itchy or watery eyes, hives, swelling, and other signs or symptoms of allergies.",
+                    "A category of medicine that is most commonly used by people who have allergic reactions to pollen \n and other allergens. These medicines help ease a runny nose, itchy or watery eyes, hives, swelling,\nand other signs or symptoms of allergies.",
                     new Product[] {
                             new Product(
                                     "Loratadine",
@@ -288,7 +227,7 @@ public class Main {
                     "Dietary\nSupp.",
                     "Dietary Supplements",
                     ImagePath.dietarySupplements,
-                    "Dietary supplements are intended to add to or supplement nutrients that might be missing from a person's diet.",
+                    "Dietary supplements are intended to add to or supplement nutrients that might be\n missing from a person's diet.",
                     new Product[] {
                             new Product(
                                     "Astaxanthin, Lycopene, and Vitamin E",
@@ -354,7 +293,7 @@ public class Main {
                     "Cotton\nItems",
                     "Cotton Items",
                     ImagePath.cottonItems,
-                    "Cotton Items is a category of medical supplies that are used for various purposes such as cleaning wounds, \n applying ointments or creams, and absorbing bodily fluids. They can be used in treating a wide range of \nconditions, including cuts, bruises, burns, and other injuries that require gentle care.",
+                    "Cotton Items is a category of medical supplies that are used for various purposes such as cleaning wounds, \n applying ointments or creams, and absorbing bodily fluids. They can be used in treating a wide\n range of conditions, including cuts, bruises, burns, and other injuries that require gentle care.",
                     new Product[] {
                             new Product(
                                     "Cotton Swabs",
@@ -565,10 +504,9 @@ public class Main {
      * Opens the product navigation panel
      */
     public static void openNavigationPanel(MainPanel mainPanel, Category category) {
-        final String panelCode = "PRODUCT_NAVIGATION_PANEL;" + category.title;
         final String panelName = "Product Navigation - " + category.title;
 
-        spawnPanel(panelCode, panelName, (frame) -> new NavigationPanel(mainPanel, category, frame));
+        spawnPanel(null, panelName, (frame) -> new NavigationPanel(mainPanel, category, frame));
     }
 
     public static void openSearchPanel() {
@@ -894,7 +832,6 @@ public class Main {
                 this.mainPanel = mainPanel;
                 this.frame = frame;
                 this.setLayout(new GridBagLayout());
-                this.setBackground(Color.RED);
 
                 GridBagConstraints constraints = generateConstraints();
                 constraints.weightx = 1;
@@ -1127,7 +1064,6 @@ public class Main {
         private SearchPanel(JFrame frame) {
             this.model = new DefaultTableModel(columnNames, 0);
 
-            this.setBackground(Color.RED);
             this.setLayout(new GridBagLayout());
 
             GridBagConstraints constraints = generateConstraints();
@@ -1400,13 +1336,6 @@ public class Main {
 
             ++constraints.gridy;
 
-            for (String line : category.title.split("\n")) {
-                JLabel jLabel = new JLabel(line);
-                panel.add(jLabel, constraints);
-
-                ++constraints.gridy;
-            }
-
             return panel;
         }
 
@@ -1557,8 +1486,9 @@ public class Main {
                 openMainPanel();
             });
 
-            JButton saveButton = new JButton("Save");
+            JButton saveButton = new JButton("Void Selections");
             saveButton.addActionListener(e -> {
+
                 mainPanel.removeRows(activated);
                 openMainPanel();
             });
@@ -1609,7 +1539,6 @@ public class Main {
 
         private ExitPanel(MainPanel mainPanel, JFrame frame) {
             this.setLayout(new GridBagLayout());
-            this.setBackground(Color.RED);
             this.mainPanel = mainPanel;
 
             System.out.println(mainPanel);
