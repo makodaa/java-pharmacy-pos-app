@@ -1,35 +1,14 @@
-/**
- * Search Product [x]
- *  1. Click
- *  2. Text Field tas pwedes mag search
- *  3. text field na may table tapos pinapakita lang saan category
- *
- * Confirm Purchases [x]
- *  1. Open summary of purchase
- *
- * Void Item [ ]
- * 1. window na pwede mag select ng shit na tapos may delete button aanhd bavkc hthoanubno
- *
- * Clear Cart [x]
- * 1. clear cart2
- *
- * exit [x]
- * 1. papatyin
- */
 
 package main.java;
 
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -68,15 +47,12 @@ public class Main {
         private static final String personalHygiene = "./assets/personalHygiene.png";
         private static final String surgicalEquipment = "./assets/surgicalEquipment.png";
         private static final String assistiveDevices = "./assets/assistiveDevices.png";
-
         private static final String ibuprofen = "./assets/products/ibuprofen.png";
         private static final String acetaminophen = "./assets/products/acetaminophen.png";
         private static final String naproxenSodium = "./assets/products/naproxen_sodium.png";
-
         private static final String cephalexin = "./assets/products/cephalexin.png";
         private static final String amoxicillin = "./assets/products/amoxicillin.png";
         private static final String azithromycin = "./assets/products/azithromycin.png";
-
         private static final String loratidine = "./assets/products/loratadine.png";
         private static final String cetirizine = "./assets/products/cetirizine.png";
         private static final String levocetirizine = "./assets/products/levocetirizine_dihydrochloride.png";
@@ -180,7 +156,7 @@ public class Main {
                     "Pain\nRelievers",
                     "Pain Relievers",
                     ImagePath.painRelievers,
-                    "Analgesics, also called painkillers are medications that relieve different types of pain — from headaches to injuries to arthritis. Anti-inflammatory analgesics reduce inflammation, and opioid analgesics change the way the brain perceives pain. Some analgesics can be bought over the counter, others require a prescription.",
+                    "Analgesics, also called painkillers are medications that relieve different types of pain — from headaches to injuries to arthritis.\nAnti-inflammatory analgesics reduce inflammation, and opioid analgesics change the way the brain perceives pain.\nSome analgesics can be bought over the counter, others require a prescription.",
                     new Product[] {
                             new Product(
                                     "Ibuprofen+Paracetamol (325mg)",
@@ -202,7 +178,7 @@ public class Main {
                     "Antibiotics",
                     "Antibiotics",
                     ImagePath.antibiotics,
-                    "Antibiotics are medicines that fight infections caused by bacteria in humans and animals by either killing the bacteria or making it difficult for the bacteria to grow and multiply.",
+                    "Antibiotics are medicines that fight infections caused by bacteria in humans and animals.\nEither by killing the bacteria or making it difficult for the bacteria to grow and multiply.",
                     new Product[] {
                             new Product(
                                     "Cephalexin",
@@ -246,7 +222,7 @@ public class Main {
                     "Respiratory\nMedicine",
                     "Respiratory Medicine",
                     ImagePath.respiratoryMedicine,
-                    "Respiratory agents is a term used to describe a wide variety of medicines used to relieve, treat, or prevent respiratory diseases such as asthma, chronic bronchitis, chronic obstructive pulmonary disease (COPD), or pneumonia. Respiratory agents are available in many different forms, such as oral tablets, oral liquids, injections or inhalations.",
+                    "Respiratory agents is a term used to describe a wide variety of medicines used to relieve, treat, or prevent respiratory diseases.\n Included in that classification are asthma, chronic bronchitis, chronic obstructive pulmonary disease (COPD), or pneumonia.\n Respiratory agents are available in many different forms, such as oral tablets, oral liquids, injections or inhalations.",
                     new Product[] {
                             new Product(
                                     "Pirbuterol",
@@ -268,7 +244,7 @@ public class Main {
                     "Fever\nMedicine",
                     "Fever Medicine",
                     ImagePath.feverMedicine,
-                    "Fever medicines are a group of medications taken individually or in combination as a treatment for the symptoms of the common cold and similar conditions of the upper respiratory tract.",
+                    "Fever medicines are a group of medications taken as treatment for the symptoms of the common cold\n and similar conditions of the upper respiratory tract.",
                     new Product[] {
                             new Product(
                                     "Paracetamol",
@@ -290,7 +266,7 @@ public class Main {
                     "Vitamins",
                     "Vitamins",
                     ImagePath.vitamins,
-                    "Vitamins have different jobs to help keep the body working properly. Some vitamins help resist infections and keep nerves healthy, while others may help the body get energy from food or also help blood clot properly.",
+                    "Vitamins have different jobs to help keep the body working properly.\nSome vitamins help resist infections and keep nerves healthy, some may help the body get energy from food.\n Some are also used to help blood clot properly.",
                     new Product[] {
                             new Product(
                                     "Multivitamin Effervescent Tablets",
@@ -402,7 +378,7 @@ public class Main {
                     ImagePath.antiseptics,
                     "Antiseptics are a type of medicine used to prevent infections by killing germs and bacteria on the \n"
                             + " skin or inside the body. They are typically used to clean wounds or prepare the skin \n"
-                            + "before surgery to reduce the \n risk of infection. Antiseptics can also be used for \n"
+                            + "before surgery to reduce the risk of infection. Antiseptics can also be used for \n"
                             + " everyday cuts and scrapes to prevent infection and promote healing.",
                     new Product[] {
                             new Product(
@@ -503,7 +479,7 @@ public class Main {
     public static void main(String[] args) {
         setLookAndFeel();
         openGreeting();
-        openMainPanel();
+        // openMainPanel();
         // openSearchPanel();
         // openExitPanel();
     }
@@ -554,6 +530,7 @@ public class Main {
             JPanel panel = builder.run(frame);
 
             frame.setMinimumSize(new Dimension(640, 500));
+            frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(panel);
             frame.setVisible(true);
@@ -1045,13 +1022,13 @@ public class Main {
                 panel.add(exit, constraints);
                 ++constraints.gridy;
 
-                JButton last = new JButton("Add dummy row");
-                last.addActionListener(e -> {
-                    /// Add item to table
-                    addRowToTable(cartModel.getRowCount(), "Name", 0, 1, 0);
-                });
-                panel.add(last, constraints);
-                ++constraints.gridy;
+                // JButton last = new JButton("Add dummy row");
+                // last.addActionListener(e -> {
+                //     /// Add item to table
+                //     addRowToTable(cartModel.getRowCount(), "Name", 0, 1, 0);
+                // });
+                // panel.add(last, constraints);
+                // ++constraints.gridy;
 
                 return panel;
             }
