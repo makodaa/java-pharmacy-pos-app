@@ -568,10 +568,10 @@ public class Main {
      * Opens the greeting panel.
      */
     public static void openGreeting() {
-        final String panelCode = "GREETING_PANEL";
+        // final String panelCode = "GREETING_PANEL";
         final String panelName = "Greeting";
 
-        spawnPanel(panelCode, panelName, (frame) -> new GreetingPanel(frame));
+        spawnPanel(null, panelName, (frame) -> new GreetingPanel(frame));
     }
 
     /**
@@ -595,10 +595,10 @@ public class Main {
     }
 
     public static void openSearchPanel() {
-        final String panelCode = "PRODUCT_SEARCH_PANEL";
+        // final String panelCode = "PRODUCT_SEARCH_PANEL";
         final String panelName = "Product Search ";
 
-        spawnPanel(panelCode, panelName, (frame) -> new SearchPanel(frame));
+        spawnPanel(null, panelName, (frame) -> new SearchPanel(frame));
     }
 
     public static void openExitPanel(MainPanel mainPanel) {
