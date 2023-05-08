@@ -113,63 +113,63 @@ public class Main {
         private static final String wheelchair = "./assets/products/wheelchair.png";
 
         // private static final String[] paths = {
-        //         icon,
-        //         painRelievers,
-        //         antibiotics,
-        //         antiAllergy,
-        //         respiratoryMedicine,
-        //         feverMedicine,
-        //         vitamins,
-        //         dietarySupplements,
-        //         mineralSupplements,
-        //         bandages,
-        //         cottonItems,
-        //         antiseptics,
-        //         personalHygiene,
-        //         surgicalEquipment,
-        //         assistiveDevices,
-        //         ibuprofen,
-        //         acetaminophen,
-        //         naproxenSodium,
-        //         cephalexin,
-        //         amoxicillin,
-        //         azithromycin,
-        //         loratidine,
-        //         cetirizine,
-        //         levocetirizine,
-        //         pirbuterol,
-        //         salbutamol,
-        //         methylprednisolone,
-        //         paracetamol,
-        //         phenylephrineChlorphenamine,
-        //         dextromethorphanPhenylpropanolamine,
-        //         mutlivitaminsEffervescentTablets,
-        //         ascorbicAcid,
-        //         vitaminBComplex,
-        //         astaxathinLycopeneVitaminE,
-        //         spirulineTablets,
-        //         garciniaMangostanaCapsule,
-        //         cholecalciferolMinerals,
-        //         calciumCarbonate,
-        //         multivitaminIronCalcium,
-        //         gauzeBandage,
-        //         elasticBandage,
-        //         tubularBandage,
-        //         cottonBuds,
-        //         cottonBalls,
-        //         cottonPads,
-        //         povidoneIodine,
-        //         hexitidine,
-        //         hydrogenPeroxide,
-        //         bodySoap,
-        //         shampoo,
-        //         toothpaste,
-        //         surgicalGloves,
-        //         disposableSyringe,
-        //         surgicalScissors,
-        //         assistiveCane,
-        //         assistiveWalker,
-        //         wheelchair
+        // icon,
+        // painRelievers,
+        // antibiotics,
+        // antiAllergy,
+        // respiratoryMedicine,
+        // feverMedicine,
+        // vitamins,
+        // dietarySupplements,
+        // mineralSupplements,
+        // bandages,
+        // cottonItems,
+        // antiseptics,
+        // personalHygiene,
+        // surgicalEquipment,
+        // assistiveDevices,
+        // ibuprofen,
+        // acetaminophen,
+        // naproxenSodium,
+        // cephalexin,
+        // amoxicillin,
+        // azithromycin,
+        // loratidine,
+        // cetirizine,
+        // levocetirizine,
+        // pirbuterol,
+        // salbutamol,
+        // methylprednisolone,
+        // paracetamol,
+        // phenylephrineChlorphenamine,
+        // dextromethorphanPhenylpropanolamine,
+        // mutlivitaminsEffervescentTablets,
+        // ascorbicAcid,
+        // vitaminBComplex,
+        // astaxathinLycopeneVitaminE,
+        // spirulineTablets,
+        // garciniaMangostanaCapsule,
+        // cholecalciferolMinerals,
+        // calciumCarbonate,
+        // multivitaminIronCalcium,
+        // gauzeBandage,
+        // elasticBandage,
+        // tubularBandage,
+        // cottonBuds,
+        // cottonBalls,
+        // cottonPads,
+        // povidoneIodine,
+        // hexitidine,
+        // hydrogenPeroxide,
+        // bodySoap,
+        // shampoo,
+        // toothpaste,
+        // surgicalGloves,
+        // disposableSyringe,
+        // surgicalScissors,
+        // assistiveCane,
+        // assistiveWalker,
+        // wheelchair
         // };
     }
 
@@ -526,7 +526,7 @@ public class Main {
     public static void spawnPanel(String panelCode, String panelName, PanelBuilder builder) {
         /// If we have created a `panelCode` before,
         /// then we should just reveal that.
-        if (openedFrames.containsKey(panelCode)) {
+        if (panelCode != null && openedFrames.containsKey(panelCode)) {
             /// If the panel is found, then just hide the others.
             /// and reveal this one.
 
@@ -534,7 +534,7 @@ public class Main {
                 String key = openedFrameEntry.getKey();
                 JFrame frame = openedFrameEntry.getValue();
 
-                if (!key.equals(panelCode)) {
+                if (key == null || !key.equals(panelCode)) {
                     frame.setVisible(false);
                 } else {
                     frame.setVisible(true);
@@ -599,11 +599,11 @@ public class Main {
         spawnPanel(panelCode, panelName, (frame) -> new SearchPanel(frame));
     }
 
-    public static void openExitPanel() {
-        final String panelCode = "EXIT_PANEL";
+    public static void openExitPanel(MainPanel mainPanel) {
+        // final String panelCode = "EXIT_PANEL";
         final String panelName = "Exit";
 
-        spawnPanel(panelCode, panelName, (frame) -> new ExitPanel(frame));
+        spawnPanel(null, panelName, (frame) -> new ExitPanel(mainPanel, frame));
     }
 
     /**
@@ -789,7 +789,7 @@ public class Main {
             ++constraints.gridy;
             constraints.gridheight = GridBagConstraints.REMAINDER;
 
-            this.add(entrySubmenuPanel = new EntrySubmenuPanel(frame), constraints);
+            this.add(entrySubmenuPanel = new EntrySubmenuPanel(this, frame), constraints);
         }
 
         private Component createTopBar() {
@@ -902,11 +902,13 @@ public class Main {
         }
 
         private static class EntrySubmenuPanel extends JPanel {
-            private DefaultTableModel model;
+            private DefaultTableModel cartModel;
+            private MainPanel mainPanel;
             private JFrame frame;
             private JTable table;
 
-            private EntrySubmenuPanel(JFrame frame) {
+            private EntrySubmenuPanel(MainPanel mainPanel, JFrame frame) {
+                this.mainPanel = mainPanel;
                 this.frame = frame;
                 this.setLayout(new GridBagLayout());
                 this.setBackground(Color.RED);
@@ -937,12 +939,12 @@ public class Main {
                         Integer.toString(quantity),
                         Double.toString(total),
                 };
-                model.addRow(newRow);
+                cartModel.addRow(newRow);
             }
 
             private void clearCart() {
-                for (int y = model.getRowCount() - 1; y >= 0; --y) {
-                    model.removeRow(y);
+                for (int y = cartModel.getRowCount() - 1; y >= 0; --y) {
+                    cartModel.removeRow(y);
                 }
             }
 
@@ -958,7 +960,7 @@ public class Main {
             private JButton createConfirmPurchaseButton() {
                 JButton button = new JButton("Confirm Purchases");
                 button.addActionListener(e -> {
-                    openExitPanel();
+                    openExitPanel(mainPanel);
                 });
                 return button;
             }
@@ -972,7 +974,7 @@ public class Main {
                             "Are you sure you want to clear the selected products?");
                     switch (answer) {
                         case JOptionPane.YES_OPTION:
-                            int itemCount = model.getRowCount();
+                            int itemCount = cartModel.getRowCount();
 
                             clearCart();
 
@@ -1032,7 +1034,7 @@ public class Main {
                 JButton last = new JButton("Add dummy row");
                 last.addActionListener(e -> {
                     /// Add item to table
-                    addRowToTable(model.getRowCount(), "Name", 0, 1, 0);
+                    addRowToTable(cartModel.getRowCount(), "Name", 0, 1, 0);
                 });
                 panel.add(last, constraints);
                 ++constraints.gridy;
@@ -1042,11 +1044,11 @@ public class Main {
 
             private void setupTableModels() {
                 final String[] columnNames = { "Code", "Item", "Price", "Quantity", "Total" };
-                model = new DefaultTableModel(columnNames, 0);
+                cartModel = new DefaultTableModel(columnNames, 0);
                 for (String[] row : data) {
-                    model.addRow(row);
+                    cartModel.addRow(row);
                 }
-                model.addTableModelListener(e -> table.revalidate());
+                cartModel.addTableModelListener(e -> table.revalidate());
             }
 
             private Component createSummaryArea() {
@@ -1060,7 +1062,7 @@ public class Main {
 
                 setupTableModels();
 
-                table = new JTable(model);
+                table = new JTable(cartModel);
                 table.setEnabled(false);
                 table.getTableHeader().setResizingAllowed(false);
                 table.getTableHeader().setReorderingAllowed(false);
@@ -1090,13 +1092,27 @@ public class Main {
 
                 return panel;
             }
+
+            private String[][] getCartItems() {
+                int height = cartModel.getRowCount();
+                int width = cartModel.getColumnCount();
+
+                String[][] result = new String[height][width];
+                for (int y = 0; y < height; ++y) {
+                    for (int x = 0; x < width; ++x) {
+                        result[y][x] = (String) cartModel.getValueAt(y, x);
+                    }
+                }
+
+                return result;
+            }
         }
 
         private void addProduct(Product product, int count) {
             double totalPrice = product.getPrice() * count;
 
             entrySubmenuPanel.addRowToTable(
-                    entrySubmenuPanel.model.getRowCount(),
+                    entrySubmenuPanel.cartModel.getRowCount(),
                     product.getTitle(),
                     product.getPrice(),
                     count,
@@ -1469,7 +1485,7 @@ public class Main {
     }
 
     private static class ExitPanel extends JPanel {
-        private static String[][] data = {};
+        private MainPanel mainPanel;
         private DefaultTableModel model;
         private JTable table;
 
@@ -1478,9 +1494,12 @@ public class Main {
             return new Insets(12, 12, 12, 12);
         }
 
-        private ExitPanel(JFrame frame) {
+        private ExitPanel(MainPanel mainPanel, JFrame frame) {
             this.setLayout(new GridBagLayout());
             this.setBackground(Color.RED);
+            this.mainPanel = mainPanel;
+
+            System.out.println(mainPanel);
 
             GridBagConstraints constraints = generateConstraints();
             constraints.weightx = 1;
@@ -1500,7 +1519,7 @@ public class Main {
         private void setupTableModels() {
             final String[] columnNames = { "Code", "Item", "Price", "Quantity", "Total" };
             model = new DefaultTableModel(columnNames, 0);
-            for (String[] row : data) {
+            for (String[] row : mainPanel.entrySubmenuPanel.getCartItems()) {
                 model.addRow(row);
             }
             model.addRow(new String[] { "", " ", " ", "Total:", "P" + "00.00" });
@@ -1573,7 +1592,13 @@ public class Main {
             ++constraints.gridy;
             panel.add(new JLabel("Change:"), constraints);
             ++constraints.gridy;
-            panel.add(new JButton("Close"), constraints);
+
+            JButton closeButton = new JButton("Close");
+            closeButton.addActionListener(e -> {
+                openMainPanel();
+            });
+
+            panel.add(closeButton, constraints);
 
             return panel;
         }
