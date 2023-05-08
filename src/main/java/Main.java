@@ -1595,7 +1595,6 @@ public class Main {
 
         private Component createTitleBar() {
             JPanel panel = new JPanel();
-            panel.setBackground(Color.BLUE);
             panel.setLayout(new GridBagLayout());
 
             GridBagConstraints constraints = generateConstraints();
